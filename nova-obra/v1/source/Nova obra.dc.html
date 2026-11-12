@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel="stylesheet" href="styles.css">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<x-dc>
+<helmet>
+  
+  
+  <style>
+    html,body{margin:0;height:100%}
+    a{color:var(--primary)}
+    .es-back{display:inline-flex;align-items:center;gap:var(--space-1);min-height:var(--tap-min);padding-right:var(--space-2);margin-left:-6px;font-size:var(--text-sm);font-weight:500;color:var(--muted-foreground);text-decoration:none;background:none;border:0;cursor:pointer;font-family:inherit}
+    .es-back:hover{color:var(--foreground)}
+    .es-row{display:flex;align-items:center;gap:var(--space-2);min-height:56px;padding:0 var(--space-2) 0 var(--space-4);border-top:1px solid var(--border)}
+    .es-row:first-child{border-top:0}
+    .es-row__link{flex:1;min-width:0;display:grid;gap:2px;padding:var(--space-2) 0;text-align:left;background:none;border:0;color:inherit;font:inherit;cursor:pointer}
+    .es-row__link:disabled{cursor:default}
+    .es-row__name{font-size:var(--text-base);font-weight:500;overflow-wrap:anywhere}
+    .es-row__name--mono{font-family:var(--font-mono)}
+    .es-row__meta{font-size:var(--text-sm);color:var(--muted-foreground)}
+    .es-chip{display:inline-flex;align-items:center;justify-content:center;min-height:var(--tap-min);padding:0 var(--space-2);border-radius:var(--radius-md);border:1px solid var(--input);background:var(--card);color:var(--foreground);font-family:var(--font-mono);font-size:var(--text-sm);font-weight:500;cursor:pointer;min-width:0;flex:1 1 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background var(--dur-fast,120ms)}
+    .es-chip:hover{background:var(--muted)}
+    .es-chip--area{font-family:var(--font-sans);font-size:var(--text-xs);color:var(--muted-foreground);background:var(--muted);border-color:transparent}
+    .es-chip--new{border-style:dashed;border-color:var(--primary);color:var(--primary)}
+    .es-floor{display:inline-flex;align-items:center;min-height:var(--tap-min);padding:0 var(--space-2);border-radius:var(--radius-md);border:0;background:none;color:var(--muted-foreground);font:inherit;font-size:var(--text-sm);font-weight:600;cursor:pointer;text-align:left;white-space:nowrap}
+    .es-floor:hover{background:var(--muted);color:var(--foreground)}
+    .es-floor--num{font-family:var(--font-mono)}
+    .es-tower{display:grid;align-content:start;gap:var(--space-4);text-align:left;padding:var(--space-5);border-radius:var(--radius-xl);background:var(--card);box-shadow:var(--ring-hairline);border:0;color:inherit;font:inherit;cursor:pointer;min-width:0}
+    .es-tower:hover{box-shadow:var(--ring-hairline),var(--shadow-sm)}
+    .es-tag{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 6px 0 12px;border-radius:999px;background:var(--muted);font-size:var(--text-sm);max-width:100%}
+    .es-tag button{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:999px;border:0;background:none;color:var(--muted-foreground);cursor:pointer}
+    .es-tag button:hover{background:var(--secondary);color:var(--foreground)}
+    .es-select{height:var(--tap-min);border-radius:var(--radius-lg);border:1px solid var(--input);background:var(--background);color:var(--foreground);font:inherit;font-size:var(--text-base);padding:0 var(--space-3);min-width:0;width:100%}
+    .es-step{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:var(--accent);color:var(--accent-foreground);font-size:var(--text-xs);font-weight:700;flex:none}
+    .es-radio{display:grid;grid-template-columns:20px minmax(0,1fr);gap:var(--space-3);align-items:start;min-height:var(--tap-min);padding:var(--space-2) 0;cursor:pointer}
+    .es-radio input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--primary)}
+    .es-link{display:inline-flex;align-items:center;min-height:var(--tap-min);margin-block:-12px;font-weight:500;color:inherit;text-decoration:underline;text-underline-offset:3px}
+    .es-link:hover{text-decoration-thickness:2px}
+    .es-link--primary{color:var(--primary)}
+    .es-nav{display:flex;align-items:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-3);border-radius:var(--radius-lg);font-size:var(--text-sm);font-weight:500;text-decoration:none}
+    .no-chip{position:relative}
+    .no-chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-foreground);border-color:var(--primary)}
+    .no-chip--marked{box-shadow:inset 0 0 0 2px var(--primary)}
+    .no-chip--open{background:var(--accent);color:var(--accent-foreground);box-shadow:inset 0 0 0 2px var(--primary)}
+    .no-toggle{display:inline-flex;align-items:center;gap:6px;min-height:var(--tap-min);padding:0 var(--space-3);border-radius:999px;border:1px solid var(--input);background:var(--background);color:var(--foreground);font:inherit;font-size:var(--text-sm);font-weight:500;cursor:pointer}
+    .no-toggle:hover{background:var(--muted)}
+    .no-toggle[aria-pressed="true"]{background:var(--accent);color:var(--accent-foreground);border-color:var(--primary)}
+    .no-cell{min-width:0;display:grid;place-items:center;border:1px solid var(--input);background:var(--card);color:var(--foreground);font-family:var(--font-mono);overflow:hidden;cursor:pointer;padding:0;white-space:nowrap;text-overflow:ellipsis}
+    .no-cell:hover{background:var(--muted)}
+    .no-cell:focus-visible,.no-chip:focus-visible,.no-toggle:focus-visible,.no-opt:focus-visible{outline:none;box-shadow:0 0 0 3px color-mix(in oklch,var(--ring) 35%,transparent)}
+    .no-cell--area{font-family:var(--font-sans);border-color:transparent;background:var(--muted);color:var(--muted-foreground)}
+    .no-cell--new{border-style:dashed;border-color:var(--primary)}
+    .no-cell--marked{box-shadow:inset 0 0 0 2px var(--primary);background:var(--accent);color:var(--accent-foreground)}
+    .no-cell--open{box-shadow:inset 0 0 0 2px var(--primary);background:var(--accent);color:var(--accent-foreground)}
+    .no-cell--conflict{border-color:var(--destructive);border-style:solid;box-shadow:inset 0 0 0 1px var(--destructive)}
+    .no-combo{position:relative;flex:1;min-width:0}
+    .no-list{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:25;margin:0;padding:4px;list-style:none;border-radius:var(--radius-lg);background:var(--popover);color:var(--popover-foreground);box-shadow:var(--ring-hairline),var(--shadow-md);display:grid;gap:2px;max-height:264px;overflow:auto}
+    .no-opt{display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);width:100%;min-height:var(--tap-min);padding:0 var(--space-3);border:0;border-radius:var(--radius-md);background:none;color:inherit;font:inherit;font-size:var(--text-base);text-align:left;cursor:pointer}
+    .no-opt:hover,.no-opt[aria-selected="true"]{background:var(--muted)}
+    .no-opt__hint{font-size:var(--text-sm);color:var(--muted-foreground)}
+    .no-field-label{font-size:var(--text-sm);font-weight:500}
+    .no-kv{display:grid;gap:var(--space-1);padding:var(--space-3) 0;border-top:1px solid var(--border)}
+    .no-kv:first-child{border-top:0;padding-top:0}
+    .no-kv__k{font-size:var(--text-sm);color:var(--muted-foreground)}
+    .no-kv__v{font-size:var(--text-base);overflow-wrap:anywhere;text-wrap:pretty}
+    .no-steplink{justify-self:start;display:inline-flex;align-items:center;gap:6px;min-height:var(--tap-min);margin-block:-8px -10px;padding:0;border:0;background:none;color:var(--primary);font:inherit;font-size:var(--text-sm);font-weight:500;cursor:pointer;text-align:left}
+    .no-steplink:hover{text-decoration:underline;text-underline-offset:3px}
+    .no-disc{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--space-2);min-height:56px;padding:0 var(--space-4);border-top:1px solid var(--border)}
+    .no-disc:first-child{border-top:0}
+    .no-disc .bp-checkbox{min-height:var(--tap-min)}
+    .no-err{display:flex;gap:var(--space-2);align-items:flex-start;font-size:var(--text-sm);color:var(--destructive);line-height:var(--leading-normal);text-wrap:pretty}
+    .no-ring-danger{box-shadow:inset 0 0 0 1px var(--destructive),var(--ring-hairline)!important}
+    .no-highlight{animation:no-flash 1.6s var(--ease-out,ease-out) 1}
+    @keyframes no-flash{0%{box-shadow:0 0 0 3px color-mix(in oklch,var(--primary) 45%,transparent),var(--ring-hairline)}100%{box-shadow:var(--ring-hairline)}}
+    .no-m .bp-alert-dialog-root{justify-content:flex-end;align-items:stretch;padding:0}
+    .no-m .bp-alert-dialog{width:auto;max-width:none;gap:var(--space-4);padding:var(--space-5) var(--page-pad) calc(var(--space-4) + env(safe-area-inset-bottom));border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+    .no-m .bp-alert-dialog__footer{flex-direction:column-reverse;justify-content:flex-start}
+    .no-m .bp-alert-dialog__footer .bp-btn{width:100%;height:var(--control-h-lg)}
+    .no-pick{display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);width:100%;height:var(--tap-min);padding:0 var(--space-2) 0 var(--space-3);border-radius:var(--radius-lg);border:1px solid var(--input);background:var(--background);color:var(--foreground);font:inherit;font-size:var(--text-base);text-align:left;cursor:pointer;min-width:0}
+    .no-pick:hover{background:var(--muted)}
+    .no-pick:focus-visible{outline:none;border-color:var(--ring);box-shadow:var(--shadow-focus)}
+    .no-pick--invalid{border-color:var(--destructive);box-shadow:0 0 0 3px color-mix(in oklch,var(--destructive) 25%,transparent)}
+    .no-list__head{padding:var(--space-2) var(--space-3) var(--space-1);font-size:var(--text-xs);font-weight:600;color:var(--muted-foreground);white-space:nowrap}
+    .no-list__sep{height:1px;margin:var(--space-1) 0;background:var(--border)}
+    .no-opt--off{color:var(--muted-foreground);cursor:default}
+    .no-opt--off:hover{background:none}
+    .no-rooms{margin:0;padding:0;list-style:none;border-radius:var(--radius-lg);box-shadow:var(--ring-hairline);background:var(--card)}
+    .no-rooms li{display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);min-height:var(--tap-min);padding:0 var(--space-1) 0 var(--space-3);border-top:1px solid var(--border);font-size:var(--text-base)}
+    .no-rooms li:first-child{border-top:0}
+    .no-rooms--read li{padding:0 var(--space-3)}
+    .no-aside-note{display:flex;gap:var(--space-2);align-items:flex-start;padding:var(--space-3) var(--space-4);border-radius:var(--radius-lg);background:var(--muted);font-size:var(--text-sm);color:var(--muted-foreground);line-height:var(--leading-normal);text-wrap:pretty}
+    .no-aside > *{flex:none}
+    .no-aside > .no-aside__grow{flex:1 1 auto;min-height:0}
+    .no-scroll{scrollbar-width:thin;scrollbar-color:var(--input) transparent}
+    .no-scroll::-webkit-scrollbar{width:8px}
+    .no-scroll::-webkit-scrollbar-thumb{background:var(--input);border-radius:999px}
+    .no-scroll::-webkit-scrollbar-track{background:transparent}
+    .no-scrim{position:absolute;inset:-12px;z-index:5;border-radius:var(--radius-xl);background:var(--overlay);cursor:pointer}
+    .no-panel{position:absolute;top:0;right:calc(100% + 24px);width:380px;max-height:var(--no-panel-max,calc(100dvh - 104px));display:flex;flex-direction:column;border-radius:var(--radius-xl);background:var(--popover);color:var(--popover-foreground);box-shadow:var(--ring-hairline),var(--shadow-lg);z-index:7}
+    .no-disc-ro{display:grid;grid-template-columns:24px minmax(0,1fr);gap:var(--space-3);align-items:start;padding:var(--space-3) var(--space-4);border-top:1px solid var(--border)}
+    .no-disc-ro:first-child{border-top:0}
+    .no-roomgrid{margin:0;padding:0;list-style:none;display:grid;gap:1px;border-radius:var(--radius-lg);background:var(--border);box-shadow:var(--ring-hairline);overflow:hidden}
+    .no-roomgrid li{display:flex;align-items:center;min-height:var(--tap-min);padding:var(--space-2) var(--space-3);background:var(--card);font-size:var(--text-base);overflow-wrap:anywhere}
+  </style>
+</helmet>
+<div ref="{{ rootRef }}" class="{{ themeClass }}" style="position:relative; display:flex; flex-direction:column; height:{{ rootH }}; overflow:hidden; background:var(--background); color:var(--foreground); font-family:var(--font-sans)">
+  <div ref="{{ scrollRef }}" style="flex:1; min-height:0; display:flex; flex-direction:column; overflow-y:auto; overflow-x:hidden; scrollbar-width:{{ scrollbarWidth }}">
+
+    <header data-pin="h" style="position:{{ headerPos }}; top:0; z-index:30; background:var(--background); border-bottom:1px solid var(--border); padding-top:env(safe-area-inset-top)">
+      <div style="max-width:var(--content-max-wide); margin:0 auto; height:{{ headerH }}; padding:0 {{ pad }}; display:flex; align-items:center; justify-content:space-between; gap:var(--space-3)">
+        <a href="#" onClick="{{ goObras }}" aria-label="BluPrint, obras" style="display:flex; align-items:center; min-height:var(--tap-min)">
+          <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Logo" wordmark="{{ true }}" tone="{{ logoTone }}" size="{{ logoSize }}" hint-size="102px,28px"></x-import>
+        </a>
+        <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.DropdownMenu" trigger="{{ menuTrigger }}" open="{{ accountOpen }}" onOpenChange="{{ onMenuOpenChange }}" locked="{{ signingOut }}" align="end" width="{{ 312 }}" label="Conta" hint-size="44px,44px">
+          <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.DropdownMenuLabel" hint-size="100%,64px">
+            <div style="display:flex; align-items:center; gap:var(--space-3); padding-block:var(--space-1)">
+              <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Avatar" name="{{ user.name }}" size="lg" hint-size="48px,48px"></x-import>
+              <div style="display:grid; gap:2px; min-width:0">
+                <span style="font-size:var(--text-base); font-weight:600; line-height:var(--leading-snug)">{{ user.name }}</span>
+                <span style="font-size:var(--text-sm); color:var(--muted-foreground); overflow:hidden; text-overflow:ellipsis; white-space:nowrap">{{ user.email }}</span>
+                <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:var(--text-sm); color:var(--muted-foreground)">Admin da construtora</span>
+                </sc-if>
+              </div>
+            </div>
+          </x-import>
+          <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.DropdownMenuSeparator" hint-size="100%,9px"></x-import>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--space-3); min-height:var(--tap-min); padding-left:var(--space-3)">
+            <span>Tema</span>
+            <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.SegmentedControl" size="sm" label="Tema" options="{{ themeOptions }}" value="{{ themeValue }}" onChange="{{ onTheme }}" hint-size="90px,36px"></x-import>
+          </div>
+          <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.DropdownMenuSeparator" hint-size="100%,9px"></x-import>
+          <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.DropdownMenuItem" icon="{{ logoutIcon }}" loading="{{ signingOut }}" keepOpen="{{ true }}" onSelect="{{ signOut }}" hint-size="100%,44px">Sair</x-import>
+        </x-import>
+      </div>
+    </header>
+
+    <sc-if value="{{ showBand }}" hint-placeholder-val="{{ true }}">
+    <div data-pin="b" style="border-bottom:1px solid var(--border)">
+      <div style="max-width:var(--content-max-wide); margin:0 auto; padding:{{ bandPad }}; display:grid; gap:var(--space-2)">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--space-3); min-height:var(--tap-min)">
+          <button type="button" class="es-back" onClick="{{ goBack }}">
+            <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Icon" name="chevron-left" size="{{ 20 }}" hint-size="20px,20px"></x-import>{{ backLabel }}
+          </button>
+          <sc-if value="{{ mobileAction }}" hint-placeholder-val="{{ false }}">
+            <div>{{ mobileAction }}</div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ bandLoading }}" hint-placeholder-val="{{ false }}">
+          <div aria-busy="true" aria-label="Carregando" style="display:grid; gap:var(--space-3); padding-block:4px">
+            <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Skeleton" width="{{ headSkW }}" height="{{ headSkH }}" radius="md" hint-size="60%,28px"></x-import>
+            <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Skeleton" width="{{ 180 }}" height="{{ 18 }}" radius="sm" hint-size="180px,18px"></x-import>
+          </div>
+        </sc-if>
+        <sc-if value="{{ bandReady }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap">
+            <div style="display:grid; gap:var(--space-2); min-width:0; flex:1 1 18rem">
+              <h1 style="margin:0; font-size:{{ titleSize }}; font-weight:600; letter-spacing:var(--tracking-tight); line-height:var(--leading-tight); text-wrap:balance; overflow-wrap:anywhere; font-family:{{ titleFont }}">{{ title }}</h1>
+              <div style="display:flex; align-items:center; gap:var(--space-3); flex-wrap:wrap; font-size:var(--text-sm); color:var(--muted-foreground)">{{ meta }}</div>
+            </div>
+            <sc-if value="{{ deskActions }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; gap:var(--space-2); align-items:center">{{ deskActions }}</div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ lockLine }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; align-items:center; gap:var(--space-2); font-size:var(--text-sm); color:var(--muted-foreground)">
+              <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Icon" name="lock" size="{{ 16 }}" hint-size="16px,16px"></x-import>{{ lockLine }}
+            </div>
+          </sc-if>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <main data-pin="m" style="width:100%; max-width:{{ mainMax }}; margin:0 auto; padding:{{ mainPad }}; display:grid; gap:{{ mainGap }}">
+      {{ body }}
+    </main>
+    <sc-if value="{{ bottomBar }}" hint-placeholder-val="{{ false }}">
+      <div style="position:sticky; bottom:0; z-index:20; margin-top:auto; background:var(--background); border-top:1px solid var(--border); padding:var(--space-3) var(--page-pad) calc(var(--space-3) + env(safe-area-inset-bottom))">{{ bottomBar }}</div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ overlay }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; inset:0; z-index:45; display:flex; flex-direction:column; background:var(--background)">{{ overlay }}</div>
+  </sc-if>
+  <sc-if value="{{ dialogOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="bp-alert-dialog-root bp-alert-dialog-root--contained">
+      <div class="bp-alert-dialog__scrim" onClick="{{ closeDialog }}"></div>
+      <div role="{{ dialogRole }}" aria-modal="true" aria-label="{{ dialogTitle }}" class="bp-alert-dialog" style="max-width:{{ dialogMax }}">
+        <h2 class="bp-alert-dialog__title">{{ dialogTitle }}</h2>
+        <div class="bp-alert-dialog__body">{{ dialogBody }}</div>
+        <footer class="bp-alert-dialog__footer">{{ dialogFooter }}</footer>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Toaster" contained="{{ true }}" position="{{ toastPos }}" offset="{{ toastOffset }}" hint-size="0px,0px">
+      <x-import component-from-global-scope="BluPrintDesignSystem_d4fa62.Toast" tone="{{ toastTone }}" action="{{ toastAction }}" onDismiss="{{ dismissToast }}" hint-size="100%,64px">{{ toast }}</x-import>
+    </x-import>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;], &quot;default&quot;: &quot;light&quot;, &quot;tsType&quot;: &quot;&#x27;light&#x27;|&#x27;dark&#x27;&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;viewport&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;auto&quot;, &quot;mobile&quot;, &quot;desktop&quot;], &quot;default&quot;: &quot;auto&quot;, &quot;tsType&quot;: &quot;&#x27;auto&#x27;|&#x27;mobile&#x27;|&#x27;desktop&#x27;&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;role&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;admin&quot;, &quot;manager&quot;, &quot;assistant&quot;], &quot;default&quot;: &quot;admin&quot;, &quot;tsType&quot;: &quot;&#x27;admin&#x27;|&#x27;manager&#x27;|&#x27;assistant&#x27;&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;screen&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;new&quot;, &quot;wizard&quot;, &quot;extend&quot;, &quot;home&quot;, &quot;tower&quot;, &quot;floor&quot;, &quot;unit&quot;, &quot;area&quot;, &quot;configuration&quot;], &quot;default&quot;: &quot;new&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;structure&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;built&quot;, &quot;empty&quot;], &quot;default&quot;: &quot;built&quot;, &quot;tsType&quot;: &quot;&#x27;built&#x27;|&#x27;empty&#x27;&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;state&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;live&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;delivered&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;createResult&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;success&quot;, &quot;fail&quot;, &quot;no-units&quot;], &quot;default&quot;: &quot;success&quot;, &quot;tsType&quot;: &quot;&#x27;success&#x27;|&#x27;fail&#x27;|&#x27;no-units&#x27;&quot;, &quot;section&quot;: &quot;Simulação&quot;}, &quot;unitsLeft&quot;: {&quot;editor&quot;: &quot;string&quot;, &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Simulação&quot;}, &quot;framed&quot;: {&quot;editor&quot;: null, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}}">
+const USERS = {
+  admin: { name: "Carla Mendes", email: "carla@construtoraatlas.com.br" },
+  manager: { name: "Rafael Souza", email: "rafael.souza@construtoraatlas.com.br" },
+  assistant: { name: "Paula Rocha", email: "paula.rocha@construtoraatlas.com.br" },
+};
+const OBRA = "Casa Moinhos";
+const RESERVED = 400;
+const FREE_ORG = 500;
+const ERR_NET = "Confira sua conexão e tente de novo.";
+const DELIVERED_LOCK = "A obra foi entregue: a estrutura não pode mais ser alterada.";
+const NO_UNITS_ASK = "Fale com o admin da construtora.";
+const DISC = ["Hidráulica", "Elétrica", "Pintura", "Impermeabilização"];
+const DEFAULT_DISC = ["Hidráulica", "Elétrica"];
+const SUGGEST = ["Cozinha", "Sala", "Suíte", "Quarto", "Banheiro", "Lavabo", "Sacada", "Varanda"];
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const ordinal = n => n + "º";
+const floorName = n => n + "º andar";
+const pad2 = n => (n < 10 ? "0" : "") + n;
+const plural = (n, one, many) => n + " " + (n === 1 ? one : many);
+const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const listText = arr => arr.length <= 1 ? arr.join("") : arr.slice(0, -1).join(", ") + " e " + arr[arr.length - 1];
+const clone = x => JSON.parse(JSON.stringify(x));
+const num = v => { const n = parseInt(String(v).trim(), 10); return Number.isFinite(n) ? n : NaN; };
+
+const UNIT_TYPES0 = [
+  { id: "ta", name: "Tipologia A", rooms: ["Sala", "Cozinha", "Lavanderia", "Quarto", "Quarto 2", "Banheiro", "Sacada"] },
+  { id: "tb", name: "Tipologia B", rooms: ["Sala", "Cozinha", "Lavanderia", "Suíte", "Quarto", "Quarto 2", "Banheiro", "Sacada"] },
+  { id: "tc", name: "Tipologia C", rooms: ["Sala", "Cozinha", "Quarto", "Banheiro", "Varanda"] },
+  { id: "td", name: "Cobertura", rooms: ["Sala", "Cozinha", "Suíte", "Quarto", "Banheiro", "Lavabo", "Terraço"] },
+];
+const AREA_TYPES0 = [
+  { id: "hp", name: "Hall padrão", rooms: ["Circulação", "Escada", "Elevadores"] },
+  { id: "he", name: "Hall de entrada", rooms: ["Recepção", "Circulação", "Elevadores"] },
+  { id: "sf", name: "Salão de festas", rooms: ["Salão", "Cozinha", "Banheiro"] },
+  { id: "co", name: "Corredor", rooms: ["Circulação"] },
+];
+
+// Finals: a list of tokens separated by comma and space; the range between the lowest and the highest is filled.
+function parseFinals(text, numbering) {
+  const t = String(text || "").trim();
+  if (!t) return { empty: true, list: [] };
+  const toks = t.split(/\s*,\s*|\s+/).filter(Boolean);
+  let idx;
+  if (numbering === "letter") {
+    if (toks.some(x => x.length !== 1 || letters.indexOf(x.toUpperCase()) < 0)) return { bad: true, list: [] };
+    idx = toks.map(x => letters.indexOf(x.toUpperCase()) + 1);
+  } else {
+    if (toks.some(x => !/^\d{1,2}$/.test(x) || parseInt(x, 10) < 1)) return { bad: true, list: [] };
+    idx = toks.map(x => parseInt(x, 10));
+  }
+  const lo = Math.min(...idx), hi = Math.max(...idx);
+  const list = [];
+  for (let k = lo; k <= hi; k++) list.push(k);
+  return { list };
+}
+const finalLabel = (k, numbering) => numbering === "letter" ? letters[k - 1] : pad2(k);
+const unitName = (floor, k, numbering) => String(floor) + finalLabel(k, numbering);
+const finalsText = (list, numbering) => listText(list.map(k => finalLabel(k, numbering)));
+
+function makeTypes() { return { unit: clone(UNIT_TYPES0), area: clone(AREA_TYPES0) }; }
+
+function wizardFresh() {
+  return { extend: false, step: 0, numbering: "number", count: 1,
+    towers: [{ name: "Torre A", ranges: [{ from: "", to: "", finals: "" }], ground: true, groundType: "", hall: false, hallType: "" }],
+    obraAreas: [], towerAreas: [], floorAreas: [],
+    types: { unit: [{ id: "ta", name: "Tipologia A", rooms: [] }], area: [] },
+    rules: [{ towers: [0], finals: "*", from: "", to: "", type: "ta" }],
+    discs: DEFAULT_DISC.slice(), disc: [], marking: false, marked: [], errors: {}, sending: false, error: null, restored: false, dirty: false };
+}
+
+function wizardFilled() {
+  return { extend: false, step: 0, numbering: "number", count: 2,
+    towers: [
+      { name: "Torre A", ranges: [{ from: "2", to: "10", finals: "01, 02" }, { from: "11", to: "17", finals: "01" }], ground: true, groundType: "he", hall: true, hallType: "hp" },
+      { name: "Torre B", ranges: [{ from: "2", to: "10", finals: "01, 04" }], ground: true, groundType: "he", hall: false, hallType: "" },
+    ],
+    obraAreas: [{ name: "Garagem", type: "" }, { name: "Salão de festas", type: "sf" }], towerAreas: [], floorAreas: [],
+    types: makeTypes(),
+    rules: [
+      { towers: [0, 1], finals: [1], from: "2", to: "10", type: "ta" },
+      { towers: [0, 1], finals: [2], from: "2", to: "10", type: "tb" },
+      { towers: [0], finals: "*", from: "11", to: "17", type: "tc" },
+      { towers: [1], finals: [3, 4], from: "2", to: "10", type: "ta" },
+    ],
+    discs: DISC.slice(), discScope: { "Impermeabilização": false }, disc: [{ scope: "locs", label: "Garagem e Salão de festas", keys: ["o:Garagem", "o:Salão de festas"], list: ["Hidráulica", "Elétrica"] }],
+    marking: false, marked: [], errors: {}, sending: false, error: null, restored: false, dirty: true };
+}
+
+function wizardExtend() {
+  return { extend: true, step: 0, numbering: "number", count: 1,
+    towers: [{ name: "Torre A", ranges: [{ from: "18", to: "19", finals: "01" }], ground: false, groundType: "", hall: true, hallType: "hp" }],
+    obraAreas: [], towerAreas: [], floorAreas: [],
+    types: makeTypes(),
+    rules: [{ towers: [0], finals: "*", from: "18", to: "19", type: "tc" }],
+    discs: DISC.slice(), discScope: { "Impermeabilização": false }, disc: [], marking: false, marked: [], errors: {}, sending: false, error: null, restored: false, dirty: true };
+}
+const EXTEND_EXISTING = { from: 2, to: 17, units: 25 };
+
+// Turns the draft into the locations it would create: one row per floor, top first.
+function planFrom(w) {
+  const towers = [];
+  const out = { towers, units: 0, floors: 0, floorHalls: 0, entranceHalls: 0, otherAreas: 0, untyped: 0, typeCount: {}, conflicts: {}, conflictUnits: [], pairs: {}, invalid: false };
+  const n = w.extend ? 1 : w.count;
+  const ruleSets = w.rules.map(r => ({ r, finals: r.finals === "*" ? null : r.finals, from: num(r.from), to: num(r.to) }));
+  w.towers.slice(0, n).forEach((t, ti) => {
+    const rows = [];
+    const floors = {};
+    let bad = false;
+    t.ranges.forEach(rg => {
+      const a = num(rg.from), b = num(rg.to), f = parseFinals(rg.finals, w.numbering);
+      if (!(a >= 1) || !(b >= a) || !f.list.length || f.list.length > 30) { bad = true; return; }
+      if (w.extend && a <= EXTEND_EXISTING.to && b >= EXTEND_EXISTING.from) { bad = true; return; }
+      for (let x = a; x <= b; x++) { if (floors[x]) bad = true; floors[x] = f.list; }
+    });
+    const name = n > 1 || w.extend ? t.name : "Torre única";
+    if (t.ranges.every(rg => !String(rg.from).trim() && !String(rg.to).trim() && !String(rg.finals).trim())) { towers.push({ name, rows: [], empty: true }); out.invalid = true; return; }
+    if (bad) { towers.push({ name, rows: [], invalid: true }); out.invalid = true; return; }
+    const key = (kind, label) => (w.extend ? "A" : ti) + ":" + kind + ":" + label;
+    if (t.ground) {
+      rows.push({ label: "Térreo", units: [], areas: [{ key: key("a", "Térreo/Hall de entrada"), name: "Hall de entrada", type: t.groundType, kind: "entrance", floor: "Térreo" }] });
+      out.floors++; out.entranceHalls++;
+    }
+    Object.keys(floors).map(Number).sort((a, b) => a - b).forEach(fl => {
+      const us = floors[fl].map(k => {
+        const hits = [];
+        ruleSets.forEach((rs, ri) => {
+          const inTower = w.extend || rs.r.towers.includes(ti);
+          const inFinal = !rs.finals || rs.finals.includes(k);
+          const lo = Number.isFinite(rs.from) ? rs.from : -Infinity, hi = Number.isFinite(rs.to) ? rs.to : Infinity;
+          if (inTower && inFinal && fl >= lo && fl <= hi) hits.push(ri);
+        });
+        const nm = unitName(fl, k, w.numbering);
+        if (hits.length > 1) {
+          hits.forEach(ri => { out.conflicts[ri] = (out.conflicts[ri] || []).concat(hits.filter(x => x !== ri)); });
+          out.conflictUnits.push(name + ": " + nm);
+          const pk = hits.slice(0, 2).join("-");
+          const pr = out.pairs[pk] || (out.pairs[pk] = { a: hits[0], b: hits[1], tower: name, finals: [], lo: fl, hi: fl, first: nm, last: nm });
+          if (!pr.finals.includes(k)) pr.finals.push(k);
+          pr.lo = Math.min(pr.lo, fl); if (fl >= pr.hi) { pr.hi = fl; pr.last = nm; }
+        }
+        const type = hits.length ? w.rules[hits[0]].type : "";
+        if (hits.length === 1) out.typeCount[type] = (out.typeCount[type] || 0) + 1;
+        if (!hits.length) out.untyped++;
+        return { key: key("u", nm), name: nm, type, conflict: hits.length > 1, floor: floorName(fl), fl, rule: hits.length === 1 ? hits[0] : -1 };
+      });
+      const areas = [];
+      if (t.hall) { areas.push({ key: key("a", fl + "/Hall"), name: "Hall", type: t.hallType, kind: "hall", floor: floorName(fl) }); out.floorHalls++; }
+      w.floorAreas.filter(a => a.tower === ti && num(a.floor) === fl).forEach(a => { areas.push({ key: key("a", fl + "/" + a.name), name: a.name, type: a.type, kind: "area", floor: floorName(fl) }); out.otherAreas++; });
+      rows.push({ label: ordinal(fl), units: us, areas, isNew: w.extend });
+      out.floors++; out.units += us.length;
+    });
+    w.towerAreas.forEach(() => out.otherAreas++);
+    towers.push({ name, rows: rows.reverse(), ti });
+  });
+  out.obraAreas = w.extend ? [] : w.obraAreas.map(a => ({ key: "o:" + a.name, name: a.name, type: a.type, kind: "area", floor: null }));
+  out.otherAreas += out.obraAreas.length;
+  out.areas = out.floorHalls + out.entranceHalls + out.otherAreas;
+  out.spend = out.units + out.areas;
+  out.count = w.extend ? 0 : n;
+  Object.keys(out.conflicts).forEach(k => { out.conflicts[k] = [...new Set(out.conflicts[k])]; });
+  return out;
+}
+
+function discFor(w, key) {
+  let list = w.discs.filter(d => !w.discScope || w.discScope[d] !== false);
+  w.disc.forEach(b => { if (b.keys.includes(key)) list = b.list.slice(); });
+  return list;
+}
+
+function batchKeys(w, plan, scope, tower, floor, marked) {
+  if (scope === "marked") return marked.slice();
+  const keys = [];
+  plan.towers.forEach((t, i) => {
+    if (i !== tower) return;
+    t.rows.forEach(r => {
+      if (scope === "floor" && r.label !== floor) return;
+      r.units.forEach(u => keys.push(u.key)); r.areas.forEach(a => keys.push(a.key));
+    });
+  });
+  return keys;
+}
+
+function validateWizard(w) {
+  const errors = {};
+  const n = w.extend ? 1 : w.count;
+  w.towers.slice(0, n).forEach((t, i) => {
+    if (n > 1 && !t.name.trim()) errors["name" + i] = "Informe o nome da torre.";
+    const seen = {};
+    t.ranges.forEach((rg, j) => {
+      const id = i + "-" + j;
+      const a = num(rg.from), b = num(rg.to);
+      if (!String(rg.from).trim()) errors["from" + id] = "Informe o primeiro andar.";
+      else if (!(a >= 1)) errors["from" + id] = "Use um andar a partir do 1º.";
+      if (!String(rg.to).trim()) errors["to" + id] = "Informe o último andar.";
+      else if (String(rg.from).trim() && !(b >= a)) errors["to" + id] = "O último andar precisa ser igual ou maior que o primeiro.";
+      const f = parseFinals(rg.finals, w.numbering);
+      if (f.empty) errors["finals" + id] = "Informe os finais desta faixa.";
+      else if (f.bad) errors["finals" + id] = w.numbering === "letter" ? "Use letras, como A, B." : "Use números de 1 a 30, como 01, 02.";
+      else if (f.list.length > 30) errors["finals" + id] = "De 1 a 30 unidades por andar.";
+      if (w.extend && a >= 1 && b >= a && a <= EXTEND_EXISTING.to && b >= EXTEND_EXISTING.from)
+        errors["range" + id] = "A " + t.name + " já vai até o " + ordinal(EXTEND_EXISTING.to) + " andar. Comece no " + ordinal(EXTEND_EXISTING.to + 1) + ".";
+      if (a >= 1 && b >= a) {
+        let clash = null;
+        for (let x = a; x <= b; x++) if (seen[x] != null) { clash = x; break; }
+        if (clash != null && !errors["range" + id]) errors["range" + id] = "O " + ordinal(clash) + " andar já está na faixa " + (seen[clash] + 1) + ". Cada andar fica numa faixa só.";
+        for (let x = a; x <= b; x++) if (seen[x] == null) seen[x] = j;
+      }
+    });
+  });
+  w.rules.forEach((r, i) => { if (Array.isArray(r.finals) && !r.finals.length) errors["rulefinals" + i] = "Escolha ao menos um final."; });
+  return errors;
+}
+
+// Rule menus offer only the finals and floors the chosen towers really have.
+function towerShape(w, towers) {
+  const finals = new Set(), floors = new Set();
+  w.towers.slice(0, w.extend ? 1 : w.count).forEach((t, ti) => {
+    if (!w.extend && !towers.includes(ti)) return;
+    t.ranges.forEach(rg => { const a = num(rg.from), b = num(rg.to); const f = parseFinals(rg.finals, w.numbering); if (!(a >= 1 && b >= a) || !f.list.length) return; f.list.forEach(k => finals.add(k)); for (let x = a; x <= b; x++) floors.add(x); });
+  });
+  return { finals: [...finals].sort((a, b) => a - b), floors: [...floors].sort((a, b) => a - b) };
+}
+
+// Saved structure, after the wizard: Torre A is the team's request, Torre B a plain tower.
+let seq = 0;
+const nid = p => p + (++seq);
+function area(name, type, extra) { return Object.assign({ id: nid("a"), kind: "area", name, type: type || "", extra: [], dropped: [], disc: DISC.slice(), content: {} }, extra || {}); }
+function unit(name, type, extra) { return Object.assign({ id: nid("u"), kind: "unit", name, type, extra: [], dropped: [], disc: DISC.slice(), content: {} }, extra || {}); }
+function makeData(kind) {
+  seq = 0;
+  if (kind === "empty") return { towers: [], areas: [], types: { unit: [], area: [] }, discs: DEFAULT_DISC.slice() };
+  const a = { id: nid("t"), kind: "tower", name: "Torre A", floors: [], areas: [], disc: DEFAULT_DISC.slice(), content: {} };
+  a.floors.push({ id: nid("f"), kind: "floor", disc: DEFAULT_DISC.slice(), content: {}, name: "Térreo", short: "Térreo", units: [], areas: [area("Hall de entrada", "he")] });
+  for (let f = 2; f <= 17; f++) {
+    const fl = { id: nid("f"), kind: "floor", disc: DEFAULT_DISC.slice(), content: {}, name: floorName(f), short: ordinal(f), num: f, units: [], areas: [] };
+    if (f <= 10) { fl.units.push(unit(f + "01", "ta")); fl.units.push(unit(f + "02", "tb")); } else fl.units.push(unit(f + "01", "tc"));
+    fl.areas.push(area("Hall", "hp"));
+    a.floors.push(fl);
+  }
+  const b = { id: nid("t"), kind: "tower", name: "Torre B", floors: [], areas: [], disc: DEFAULT_DISC.slice(), content: {} };
+  b.floors.push({ id: nid("f"), kind: "floor", disc: DEFAULT_DISC.slice(), content: {}, name: "Térreo", short: "Térreo", units: [], areas: [area("Hall de entrada", "he")] });
+  for (let f = 2; f <= 10; f++) {
+    const fl = { id: nid("f"), kind: "floor", disc: DEFAULT_DISC.slice(), content: {}, name: floorName(f), short: ordinal(f), num: f, units: [], areas: [] };
+    for (let k = 1; k <= 4; k++) fl.units.push(unit(f + pad2(k), k === 2 ? "tb" : "ta"));
+    b.floors.push(fl);
+  }
+  const f2 = a.floors[1];
+  f2.units[0].content = { "Hidráulica": "1 planta e 3 pins" };
+  f2.areas[0].content = { "Elétrica": "2 pins" };
+  return { towers: [a, b], areas: [area("Garagem", ""), area("Salão de festas", "sf")], types: makeTypes(), discs: DISC.slice(), discScope: { "Impermeabilização": false } };
+}
+
+function index(data) {
+  const map = {};
+  data.areas.forEach(a => { map[a.id] = { node: a, parent: null, tower: null, floor: null }; });
+  data.towers.forEach(t => {
+    map[t.id] = { node: t, parent: null, tower: t };
+    t.areas.forEach(a => { map[a.id] = { node: a, parent: t, tower: t }; });
+    t.floors.forEach(f => {
+      map[f.id] = { node: f, parent: t, tower: t, floor: f };
+      f.units.forEach(u => { map[u.id] = { node: u, parent: f, tower: t, floor: f }; });
+      f.areas.forEach(a => { map[a.id] = { node: a, parent: f, tower: t, floor: f }; });
+    });
+  });
+  return map;
+}
+function counts(data) {
+  let floors = 0, units = 0, areas = data.areas.length;
+  data.towers.forEach(t => { areas += t.areas.length; t.floors.forEach(f => { floors++; units += f.units.length; areas += f.areas.length; }); });
+  return { towers: data.towers.length, floors, units, areas };
+}
+const countLine = c => [plural(c.towers, "torre", "torres"), plural(c.floors, "andar", "andares"), plural(c.units, "unidade", "unidades"), plural(c.areas, "área comum", "áreas comuns")].join(" · ");
+const locLabel = (node, e) => node.kind === "unit" ? node.name : node.name + (e && e.floor ? " do " + e.floor.name : "");
+function locsIn(data, scope, towerId, floorId, ids) {
+  const ix = index(data);
+  if (scope === "locs") return ids.map(id => ix[id]).filter(Boolean);
+  const out = [];
+  data.towers.forEach(t => {
+    if (t.id !== towerId) return;
+    if (scope === "tower") t.areas.forEach(a => out.push(ix[a.id]));
+    t.floors.forEach(f => { if (scope === "floor" && f.id !== floorId) return; f.units.forEach(u => out.push(ix[u.id])); f.areas.forEach(a => out.push(ix[a.id])); });
+  });
+  return out;
+}
+
+const DRAFT_KEY = "bluprint-nova-obra-draft";
+
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  scrollRef = React.createRef();
+  url = (() => { try { return new URLSearchParams(window.location.search); } catch (e) { return new URLSearchParams(); } })();
+  state = Object.assign({ w: 1280, dark: null }, this.base());
+
+  prop(k) { const u = this.url && this.url.get(k); if (u != null) return u === "true" ? true : u === "false" ? false : u; return this.props ? this.props[k] : undefined; }
+  frozen() { return this.prop("state") != null && this.prop("state") !== "live"; }
+  live() { return !this.frozen() && !this.props.framed; }
+  role() { return this.prop("role") ?? "admin"; }
+  isAdmin() { return this.role() === "admin"; }
+  isDark() { return this.state.dark ?? (this.prop("theme") === "dark"); }
+  isDesk() { const vp = this.prop("viewport") ?? "auto"; return vp === "desktop" || (vp !== "mobile" && this.state.w >= 768); }
+  DS() { return window.BluPrintDesignSystem_d4fa62 || {}; }
+
+  base() {
+    const screen = this.prop("screen") ?? "new";
+    const kind = ["new", "wizard"].includes(screen) || this.prop("structure") === "empty" ? "empty" : "built";
+    const data = makeData(kind);
+    const used = kind === "empty" ? 0 : 81;
+    const n = parseInt(this.prop("unitsLeft"), 10);
+    return {
+      screen, loc: null, phase: "ready", data, left: n >= 0 ? n : RESERVED - used, delivered: !!this.prop("delivered"),
+      menu: null, dialog: null, toast: null, adding: null, combo: null, inspect: null, discErr: null,
+      wizard: screen === "extend" ? wizardExtend() : wizardFresh(), typeEdit: null, typeOpen: {}, typeQuery: "", highlight: null,
+      newObra: { name: "", units: "", errors: {}, sending: false }, cfgSection: "dados-da-obra",
+    };
+  }
+
+  componentDidMount() {
+    const el = this.rootRef.current;
+    if (el && window.ResizeObserver) { this.ro = new ResizeObserver(([e]) => this.setState({ w: e.contentRect.width })); this.ro.observe(el); }
+    if (this.frozen()) return this.applyFrozen();
+    this.enter(this.state.screen, this.defaultLoc(this.state.screen, this.state.data));
+    if (this.live() && this.state.screen === "wizard") this.restoreDraft();
+  }
+  componentWillUnmount() { if (this.ro) this.ro.disconnect(); [this.t, this.t2, this.t3, this.t4].forEach(clearTimeout); }
+  componentDidUpdate(prev, prevState) {
+    const p = this.props;
+    if (["state", "screen", "role", "delivered", "unitsLeft", "structure"].some(k => prev[k] !== p[k])) {
+      if (this.frozen()) this.applyFrozen(); else this.setState(this.base(), () => this.enter(this.state.screen, this.defaultLoc(this.state.screen, this.state.data)));
+    }
+    if (prev.theme !== p.theme) this.setState({ dark: null });
+    if (this.live() && this.state.screen === "wizard" && prevState && prevState.wizard !== this.state.wizard && this.state.wizard.dirty && !this.state.wizard.extend) {
+      try { window.localStorage.setItem(DRAFT_KEY, JSON.stringify(Object.assign({}, this.state.wizard, { sending: false, error: null, restored: false, marking: false }))); } catch (e) { /* storage may be off */ }
+    }
+  }
+  restoreDraft() {
+    try {
+      const raw = window.localStorage.getItem(DRAFT_KEY);
+      if (raw) this.setState({ wizard: Object.assign(JSON.parse(raw), { restored: true }) });
+    } catch (e) { /* storage may be off */ }
+  }
+  dropDraft() { try { window.localStorage.removeItem(DRAFT_KEY); } catch (e) { /* storage may be off */ } }
+
+  defaultLoc(screen, data) {
+    const t = data.towers[0];
+    if (!t) return null;
+    const f2 = t.floors.find(f => f.num === 2);
+    if (screen === "tower") return t.id;
+    if (screen === "floor") return f2.id;
+    if (screen === "unit") return f2.units[0].id;
+    if (screen === "area") return f2.areas[0].id;
+    return null;
+  }
+
+  enter(screen, loc, extra) {
+    clearTimeout(this.t);
+    const sc = this.scrollRef.current; if (sc) sc.scrollTop = 0;
+    this.setState(Object.assign({ screen, loc, menu: null, adding: null, combo: null, inspect: null, discErr: null, phase: "ready" }, extra));
+  }
+  go = (screen, loc, extra) => e => { this.noop(e); if (this.frozen()) return; this.enter(screen, loc, extra); };
+  noop = e => { if (e && e.preventDefault) e.preventDefault(); };
+  goObras = e => { this.noop(e); };
+  signOut = () => {};
+
+  setData(fn) { this.setState(s => { const data = clone(s.data); fn(data, index(data)); return { data }; }); }
+  setW(patch) { this.setState(s => ({ wizard: Object.assign({}, s.wizard, typeof patch === "function" ? patch(s.wizard) : patch, { dirty: true }) })); }
+  toastFor(text, tone, action, ms) {
+    clearTimeout(this.t3);
+    this.setState({ toast: { text, tone: tone || "success", action } });
+    this.t3 = setTimeout(() => this.setState({ toast: null }), ms || 6000);
+  }
+  scrollTo(id, offset) {
+    setTimeout(() => {
+      const root = this.rootRef.current, sc = this.scrollRef.current;
+      const el = root && root.querySelector("#" + id);
+      if (el && sc) sc.scrollTop += el.getBoundingClientRect().top - sc.getBoundingClientRect().top - (offset == null ? (this.isDesk() ? 24 : 16) : offset);
+    }, 60);
+  }
+  revealFirstError(focus) {
+    setTimeout(() => {
+      const root = this.rootRef.current, sc = this.scrollRef.current;
+      const el = root && root.querySelector('[aria-invalid="true"]');
+      if (!el || !sc) return;
+      sc.scrollTop += el.getBoundingClientRect().top - sc.getBoundingClientRect().top - 120;
+      if (focus) el.focus({ preventScroll: true });
+    }, 80);
+  }
+
+  applyFrozen() {
+    const s = this.prop("state");
+    const p = this.base();
+    p.loc = this.defaultLoc(p.screen, p.data);
+    const F = extra => Object.assign(wizardFilled(), extra);
+    const E = extra => Object.assign(wizardExtend(), extra);
+    const ix = index(p.data);
+    const unit201 = p.loc && ix[p.loc] && ix[p.loc].floor ? ix[p.loc].floor.units[0] : null;
+    const f2 = p.data.towers[0] ? p.data.towers[0].floors.find(f => f.num === 2) : null;
+    const map = {
+      "n-filled": { newObra: { name: OBRA, units: "400", errors: {}, sending: false } },
+      "w-fresh": {},
+      "w-filled": { wizard: F({}) },
+      "w-letters": { wizard: (() => { const w = F({}); w.numbering = "letter"; w.towers[0].ranges = [{ from: "2", to: "10", finals: "A, B" }, { from: "11", to: "17", finals: "" }]; w.towers[1].ranges = [{ from: "2", to: "10", finals: "A, D" }]; w.rules = []; return w; })() },
+      "w-areas": { wizard: F({ step: 1 }), focus: "w-sec-1" },
+      "w-types": { wizard: F({ step: 2 }), focus: "w-sec-2" },
+      "w-suggest": { wizard: (() => { const w = F({ step: 2 }); w.types.unit.push({ id: "tn", name: "Tipologia D", rooms: ["Cozinha", "Banheiro"] }); return w; })(), combo: { key: "wt-unit-tn", value: "sa", active: -1, error: null }, focus: "wt-tn", anyView: true },
+      "w-suggest-in": { wizard: F({ step: 2 }), combo: { key: "wt-unit-ta", value: "sa", active: -1, error: null }, focus: "wt-ta", anyView: true },
+      "w-copy": { wizard: F({ step: 2 }), focus: "w-sec-2", dialog: { kind: "copy", ctx: "wizard", cat: "unit", from: "ta", value: "Tipologia A (cópia)", error: null } },
+      "w-rules": { wizard: F({ step: 2 }), focus: "w-rules" },
+      "w-conflict": { wizard: (() => { const w = F({ step: 2 }); w.rules[3].finals = [2, 3, 4]; return w; })(), focus: "w-rules" },
+      "w-finals": { wizard: F({ step: 2 }), focus: "w-rule-3", anyView: true, menu: "rf-3" },
+      "w-towers": { wizard: F({ step: 2 }), focus: "w-rule-0", anyView: true, menu: "rt-0" },
+      "w-newdisc": { wizard: F({ step: 3 }), focus: "w-sec-3", dialog: { kind: "newDisc", ctx: "wizard", value: "elétrica", error: "Elétrica já existe nesta obra." } },
+      "w-disc": { wizard: F({ step: 3 }), focus: "w-sec-3", dialog: { kind: "batch", ctx: "wizard", scope: "floor", tower: 0, floor: "Térreo", list: ["Hidráulica", "Elétrica"], ids: [], conflicts: null, draft: "" } },
+      "w-preview": { wizard: F({ step: 4 }), focus: "w-sec-4" },
+      "w-inspect": { wizard: F({ step: 4 }), inspect: "0:u:201", focus: "w-sec-4" },
+      "w-inspect-hall": { wizard: F({ step: 4 }), inspect: "0:a:3/Hall", focus: "w-sec-4" },
+      "w-mark": { wizard: F({ step: 4, marking: true, marked: ["o:Garagem", "o:Salão de festas", "0:a:Térreo/Hall de entrada"] }), focus: "w-sec-4" },
+      "w-invalid": { wizard: (() => { const w = F({ step: 0 }); w.towers[0].ranges[1] = { from: "10", to: "17", finals: "01" }; w.towers[1].ranges[0].finals = ""; w.errors = validateWizard(w); return w; })() },
+      "w-over": { wizard: F({ step: 4 }), left: 30, focus: "w-sec-4" },
+      "w-sending": { wizard: F({ step: 4, sending: true }), focus: "w-sec-4" },
+      "w-failed": { wizard: F({ step: 4, error: "fail" }), focus: "w-sec-4" },
+      "w-restored": { wizard: F({ restored: true }) },
+      "w-leave": { wizard: F({}), dialog: { kind: "leave" } },
+      "w-delivered": { delivered: true },
+      "w-created": { screen: "home", data: makeData("built"), left: RESERVED - 81, toast: { text: "Estrutura criada: 2 torres e 61 unidades.", tone: "success", action: "types" } },
+      "a-fresh": { wizard: E({ towers: [{ name: "Torre A", ranges: [{ from: "", to: "", finals: "" }], ground: false, groundType: "", hall: true, hallType: "hp" }] }) },
+      "a-filled": { wizard: E({}) },
+      "a-nohall": { wizard: (() => { const w = E({}); w.towers[0].hall = false; return w; })() },
+      "a-invalid": { wizard: (() => { const w = E({}); w.towers[0].ranges = [{ from: "16", to: "18", finals: "01" }]; w.errors = validateWizard(w); return w; })() },
+      "a-over": { wizard: E({ step: 3 }), left: 2, focus: "w-sec-4" },
+      "a-sending": { wizard: E({ step: 3, sending: true }), focus: "w-sec-4" },
+      "a-failed": { wizard: E({ step: 3, error: "fail" }), focus: "w-sec-4" },
+      "a-created": { screen: "tower", toast: { text: "2 andares adicionados à Torre A.", tone: "success" } },
+      "a-delivered": { screen: "tower", delivered: true },
+      "c-types": { cfgSection: "tipologias", focus: "tipologias", highlight: "tipologias" },
+      "c-open": { cfgSection: "tipologias", focus: "tipologias", typeOpen: { ta: true, tb: true } },
+      "c-copy": { cfgSection: "tipologias", focus: "tipologias", dialog: { kind: "copy", ctx: "config", cat: "unit", from: "ta", value: "Tipologia A (cópia)", error: null } },
+      "c-copy-taken": { cfgSection: "tipologias", focus: "tipologias", dialog: { kind: "copy", ctx: "config", cat: "unit", from: "ta", value: "tipologia  b", error: "Esse nome já existe nesta obra." } },
+      "c-edit": { cfgSection: "tipologias", focus: "cfg-tb", focusOffset: 400, anyView: true, typeEdit: { cat: "unit", id: "tb", rooms: UNIT_TYPES0[1].rooms.slice(), saving: false }, combo: { key: "cfg-tb", value: "lav", active: 0, error: null } },
+      "c-dup": { cfgSection: "tipologias", focus: "cfg-tb", focusOffset: 400, anyView: true, typeEdit: { cat: "unit", id: "tb", rooms: UNIT_TYPES0[1].rooms.slice(), saving: false }, combo: { key: "cfg-tb", value: "suite", active: -1, error: "Esse cômodo já está na tipologia." } },
+      "c-search": { cfgSection: "tipologias", focus: "tipologias", typeQuery: "hall" },
+      "c-saving": { cfgSection: "tipologias", focus: "tipologias", typeEdit: { cat: "unit", id: "tb", rooms: UNIT_TYPES0[1].rooms.concat(["Lavabo"]), saving: true } },
+      "c-failed": { cfgSection: "tipologias", focus: "tipologias", typeEdit: { cat: "unit", id: "tb", rooms: UNIT_TYPES0[1].rooms.concat(["Lavabo"]), saving: false, error: "A Tipologia B não mudou. Confira a conexão e tente de novo." } },
+      "c-empty": { data: makeData("empty"), left: RESERVED, cfgSection: "tipologias", focus: "tipologias" },
+      "c-delivered": { delivered: true, cfgSection: "tipologias", focus: "tipologias", typeOpen: { ta: true } },
+      "l-unit": {},
+      "l-paint-off": { data: !f2 ? p.data : (() => { const d = clone(p.data); d.towers[0].floors[1].units[0].disc = ["Hidráulica", "Elétrica", "Impermeabilização"]; return d; })() },
+      "l-conflict": { discErr: { loc: unit201 && unit201.id, d: "Hidráulica" } },
+      "l-none": { data: !f2 ? p.data : (() => { const d = clone(p.data); d.towers[0].floors[1].units[1].disc = []; return d; })(), loc: f2 && f2.units[1].id },
+      "l-suggest": { combo: { key: "loc-room", value: "sa", active: -1, error: null }, loc: p.data.areas[0] && p.data.areas[0].id, adding: { parent: p.data.areas[0] && p.data.areas[0].id, kind: "room" } },
+      "l-batch": { dialog: { kind: "batch", ctx: "saved", scope: "floor", tower: p.data.towers[0] && p.data.towers[0].id, floor: f2 && f2.id, list: ["Hidráulica", "Elétrica", "Impermeabilização"], ids: [], conflicts: null } },
+      "l-batch-conflict": { dialog: { kind: "batch", ctx: "saved", scope: "floor", tower: p.data.towers[0] && p.data.towers[0].id, floor: f2 && f2.id, list: ["Pintura", "Impermeabilização"], ids: [], conflicts: ["201: Hidráulica tem planta ou pin.", "Hall do 2º andar: Elétrica tem planta ou pin."] } },
+      "l-area": {},
+      "l-add-area": { adding: { parent: f2 && f2.id, kind: "area", value: "Depósito", type: "", error: null } },
+      "l-add-area-none": { left: 0 },
+      "l-failed": { toast: { text: "As disciplinas da 201 não mudaram. Confira a conexão e tente de novo.", tone: "danger" } },
+      "l-delivered": { delivered: true },
+      "l-area-delivered": { delivered: true },
+      "l-floor": {},
+      "l-tower": {},
+      "l-floor-empty": { data: !f2 ? p.data : (() => { const d=clone(p.data); d.towers[0].floors[1].disc=[]; return d; })() },
+      "l-floor-conflict": { data: !f2 ? p.data : (() => { const d=clone(p.data); d.towers[0].floors[1].content={ "Hidráulica": "1 planta" }; return d; })(), discErr: { loc: f2 && f2.id, d: "Hidráulica" } },
+      "l-floor-delivered": { delivered: true },
+      "l-tower-delivered": { delivered: true },
+      "l-newdisc": { dialog: { kind: "newDisc", ctx: "saved", value: "Gesso", applies: null, error: null } },
+      "l-newdisc-all": { dialog: { kind: "newDisc", ctx: "saved", value: "Gesso", applies: true, error: null } },
+      "l-newdisc-local": { dialog: { kind: "newDisc", ctx: "saved", value: "Piscina", applies: false, error: null } },
+      "l-newdisc-duplicate": { dialog: { kind: "newDisc", ctx: "saved", value: "pintura", applies: false, error: "Pintura já existe nesta obra." } },
+      "l-new-location": { data: !f2 ? p.data : (() => { const d=clone(p.data); const u=unit("203", "", { id: "new203", disc: ["Hidráulica", "Elétrica", "Pintura"] }); d.towers[0].floors[1].units.push(u); return d; })(), loc: "new203" },
+      "l-after-batch": { data: !f2 ? p.data : (() => { const d=clone(p.data); const f=d.towers[0].floors[1]; f.units.forEach(u=>{u.disc=["Elétrica"];u.content={}}); f.areas.forEach(a=>{a.disc=["Elétrica"];a.content={}}); return d; })() },
+      "w-newdisc-choice": { wizard: F({ step: 3 }), focus: "w-sec-3", dialog: { kind: "newDisc", ctx: "wizard", value: "Gesso", applies: null, error: null } },
+      "w-newdisc-all": { wizard: F({ step: 3 }), focus: "w-sec-3", dialog: { kind: "newDisc", ctx: "wizard", value: "Gesso", applies: true, error: null } },
+      "w-newdisc-local": { wizard: F({ step: 3 }), focus: "w-sec-3", dialog: { kind: "newDisc", ctx: "wizard", value: "Piscina", applies: false, error: null } },
+      "w-disc-list": { wizard: F({ step: 3 }), focus: "w-sec-3" },
+
+    };
+    Object.assign(p, map[s] || {});
+    this.setState(p, () => {
+      const sc = this.scrollRef.current; if (!sc) return;
+      clearTimeout(this.t4); this.t4 = setTimeout(() => this.freezeScroll(), 280);
+      sc.scrollTop = 0;
+      if (s === "w-invalid" || s === "a-invalid") return this.revealFirstError(false);
+      const desk = this.isDesk();
+      const f = p.focus;
+      if (!f) return;
+      if (p.inspect && desk) setTimeout(() => { const root = this.rootRef.current; const cell = root && root.querySelector(".no-cell--open"); const box = cell && cell.closest("[data-preview-box]"); if (cell && box) box.scrollTop += cell.getBoundingClientRect().top - box.getBoundingClientRect().top - 80; }, 120);
+      if (f.startsWith("w-sec") && !desk) return;
+      if (f === "w-rules" && !desk) return this.scrollTo("w-rules", 16);
+      this.scrollTo(f, p.focusOffset);
+    });
+  }
+
+  // Static QA exports drop scroll offsets, so a frozen state bakes its scroll into transforms.
+  freezeScroll() {
+    const root = this.rootRef.current, sc = this.scrollRef.current;
+    if (!root || !sc || !this.props.framed) return;
+    // Static exports keep attributes, not live properties: mark each chosen option so selects show their value.
+    root.querySelectorAll("select").forEach(sel => [...sel.options].forEach(o => { if (o.selected) o.setAttribute("selected", ""); else o.removeAttribute("selected"); }));
+    const boxes = [...root.querySelectorAll("[data-preview-box]")].filter(b => b.scrollTop > 0).map(b => [b, b.scrollTop]);
+    const S = sc.scrollTop;
+    if (!S && !boxes.length) return;
+    sc.scrollTop = 0;
+    const header = root.querySelector('[data-pin="h"]'), band = root.querySelector('[data-pin="b"]');
+    // Desktop frames start at the top of the page with the header, which scrolls away like in use while the preview sticks.
+    // Mobile frames keep the state's scroll, baked into a negative margin so the sticky bottom bar still works.
+    if (S && header && band && !this.isDesk()) header.style.marginTop = (-S) + "px";
+    boxes.forEach(([b, t]) => { b.scrollTop = 0; const first = b.firstElementChild; if (first) first.style.marginTop = (-t) + "px"; });
+  }
+
+  ic(name, size, style) { const DS = this.DS(); return DS.Icon ? React.createElement(DS.Icon, { name, size: size || 18, style }) : null; }
+  reserveLink(onText) { return React.createElement("a", { key: "reserve", href: "#", className: "es-link" + (onText ? " es-link--primary" : ""), onClick: this.noop }, "Alterar reserva"); }
+  typeOf(cat, id, types) { const list = (types || this.state.data.types)[cat] || []; return list.find(t => t.id === id) || null; }
+  allTypeNames(types) { return [...types.unit, ...types.area].map(t => t.name); }
+  projectRooms(types) { const out = []; [...types.unit, ...types.area].forEach(t => t.rooms.forEach(r => { if (!out.some(x => norm(x) === norm(r)) && !SUGGEST.some(x => norm(x) === norm(r))) out.push(r); })); return out; }
+
+  // Room field: suggestions filter as you type; nothing is added until a choice or Enter.
+  roomCombo({ key, existing, onAdd, types, label, dupMsg, desk }) {
+    const DS = this.DS(), h = React.createElement;
+    const c = this.state.combo && this.state.combo.key === key ? this.state.combo : { key, value: "", active: -1, error: null, closed: true };
+    const q = norm(c.value);
+    const hit = r => norm(r).split(" ").some(w => w.startsWith(q));
+    const taken = r => existing.some(x => norm(x) === norm(r));
+    const used = this.projectRooms(types);
+    const groups = q ? [
+      ["Sugestões", SUGGEST.filter(r => hit(r) && !taken(r)), false],
+      ["Usados nesta obra", used.filter(r => hit(r) && !taken(r)), false],
+      [dupMsg ? "Já está aqui" : "Já está nesta tipologia", existing.filter(r => hit(r)), true],
+    ].filter(g => g[1].length) : [];
+    const exact = SUGGEST.concat(used, existing).some(r => norm(r) === q);
+    const opts = [];
+    groups.forEach(([, list, off]) => list.slice(0, 6).forEach(r => { if (!off) opts.push(r); }));
+    if (q && !exact) opts.push(c.value.trim());
+    const open = !c.closed && !!q && (groups.length > 0 || opts.length > 0) && !c.error;
+    const set = patch => this.setState({ combo: Object.assign({}, c, { closed: false }, patch) });
+    const commit = v => {
+      const name = String(v || "").trim().replace(/\s+/g, " ");
+      if (!name) return;
+      if (taken(name)) return set({ error: dupMsg || "Esse cômodo já está na tipologia." });
+      if (this.frozen()) return;
+      onAdd(name);
+      this.setState({ combo: { key, value: "", active: -1, error: null } });
+    };
+    const listId = key + "-list";
+    const active = Math.min(c.active, opts.length - 1);
+    const optEl = (label, value, extra) => {
+      const i = opts.indexOf(value);
+      return h("li", { key: "o-" + label, role: "presentation" },
+        h("button", { id: listId + "-" + i, type: "button", role: "option", "aria-selected": i === active, className: "no-opt", onMouseDown: ev => ev.preventDefault(), onClick: () => commit(value) },
+          h("span", { style: Object.assign({ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, extra) }, label)));
+    };
+    const items = [];
+    groups.forEach(([title, list, off]) => {
+      items.push(h("li", { key: "g-" + title, role: "presentation", className: "no-list__head" }, title));
+      list.slice(0, 6).forEach(r => items.push(off
+        ? h("li", { key: "d-" + r, role: "option", "aria-disabled": "true", "aria-selected": false, className: "no-opt no-opt--off" }, h("span", { style: { minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, r), this.ic("check", 16))
+        : optEl(r, r)));
+    });
+    if (q && !exact) items.push(h("li", { key: "sep", role: "presentation", className: "no-list__sep" }), optEl("Adicionar “" + c.value.trim() + "”", c.value.trim(), { fontWeight: 500, color: "var(--primary)" }));
+    return h("div", { style: { display: "grid", gap: "var(--space-2)" } },
+      h("div", { style: { display: "flex", gap: "var(--space-2)", alignItems: "flex-start" } },
+        h("div", { className: "no-combo" },
+          h(DS.Input, { id: key, value: c.value, placeholder: "Novo cômodo", "aria-label": label || "Novo cômodo", autoComplete: "off", role: "combobox", "aria-expanded": open, "aria-controls": listId, "aria-autocomplete": "list", invalid: !!c.error, "aria-activedescendant": open && active >= 0 ? listId + "-" + active : undefined,
+            onChange: ev => set({ value: ev.target.value, active: -1, error: null }),
+            onBlur: () => setTimeout(() => { if (this.state.combo && this.state.combo.key === key) this.setState({ combo: Object.assign({}, this.state.combo, { closed: true }) }); }, 150),
+            onKeyDown: ev => {
+              if (ev.key === "ArrowDown") { ev.preventDefault(); set({ active: Math.min(opts.length - 1, active + 1) }); }
+              else if (ev.key === "ArrowUp") { ev.preventDefault(); set({ active: Math.max(-1, active - 1) }); }
+              else if (ev.key === "Escape") set({ closed: true });
+              else if (ev.key === "Enter") { ev.preventDefault(); commit(open && active >= 0 ? opts[active] : c.value); }
+            } }),
+          open ? h("ul", { id: listId, role: "listbox", "aria-label": "Sugestões de cômodo", className: "no-list" }, items) : null),
+        h(DS.Button, { type: "button", variant: "outline", disabled: !c.value.trim(), onClick: () => commit(c.value) }, "Adicionar")),
+      c.error ? h("div", { className: "no-err", role: "alert" }, this.ic("circle-alert", 16, { marginTop: "2px", flex: "none" }), c.error) : null);
+  }
+
+  // Read-only rooms as a grid: easy to scan on a phone and on a wide row.
+  roomGrid(list, cols) {
+    const h = React.createElement;
+    if (!list.length) return this.muted("Sem cômodo.");
+    const rest = (cols - (list.length % cols)) % cols;
+    return h("ul", { className: "no-roomgrid", style: { gridTemplateColumns: "repeat(" + cols + ", minmax(0,1fr))" } },
+      list.map((r, i) => h("li", { key: r + i }, r)).concat(Array.from({ length: rest }, (_, i) => h("li", { key: "f" + i, "aria-hidden": "true" }))));
+  }
+
+  // A type's rooms read as a list, one per row, so it is clear what belongs to it.
+  roomList(list, onRemove, fresh) {
+    const DS = this.DS(), h = React.createElement;
+    if (!list.length) return this.muted("Sem cômodo.");
+    return h("ul", { className: "no-rooms" + (onRemove ? "" : " no-rooms--read") }, list.map((r, i) => h("li", { key: r + i },
+      h("span", { style: { minWidth: 0, overflowWrap: "anywhere" } }, r, fresh && fresh(r) ? h(DS.Badge, { tone: "outline", style: { marginLeft: "var(--space-2)" } }, "Novo") : null),
+      onRemove ? h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Tirar " + r, onClick: () => onRemove(i) }, this.ic("x", 18)) : null)));
+  }
+
+  tags(list, onRemove, highlight) {
+    const h = React.createElement;
+    if (!list.length) return h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, "Sem cômodo.");
+    return h("div", { style: { display: "flex", flexWrap: "wrap", gap: "var(--space-2)" } },
+      list.map((n, i) => h("span", { key: n + i, className: "es-tag", style: Object.assign(onRemove ? {} : { paddingRight: "12px" }, highlight && highlight(n) ? { boxShadow: "inset 0 0 0 1px var(--primary)" } : {}) }, n,
+        onRemove ? h("button", { type: "button", "aria-label": "Tirar " + n, onClick: () => onRemove(i) }, this.ic("x", 16)) : null)));
+  }
+
+  sectionHead(title, action, id) {
+    const h = React.createElement;
+    return h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-3)", flexWrap: "wrap" } },
+      h("h2", { id, style: { margin: 0, fontSize: "var(--text-lg)", fontWeight: 600, letterSpacing: "var(--tracking-tight)" } }, title), action || null);
+  }
+  listCard(children, extra) { return React.createElement("div", { style: Object.assign({ background: "var(--card)", borderRadius: "var(--radius-xl)", boxShadow: "var(--ring-hairline)" }, extra) }, children); }
+  muted(text, extra) { return React.createElement("p", { style: Object.assign({ margin: 0, fontSize: "var(--text-sm)", color: "var(--muted-foreground)", lineHeight: "var(--leading-normal)", textWrap: "pretty" }, extra) }, text); }
+  row({ key, name, mono, meta, go, menu, chevron, badge }) {
+    const h = React.createElement;
+    return h("div", { key, className: "es-row" },
+      h("button", { type: "button", className: "es-row__link", onClick: go || this.noop, disabled: !go },
+        h("span", { style: { display: "flex", alignItems: "center", gap: "var(--space-2)", flexWrap: "wrap" } },
+          h("span", { className: "es-row__name" + (mono ? " es-row__name--mono" : "") }, name), badge || null),
+        meta ? h("span", { className: "es-row__meta" }, meta) : null),
+      menu || null,
+      chevron ? h("span", { style: { color: "var(--muted-foreground)", display: "inline-flex", paddingRight: "var(--space-2)" } }, this.ic("chevron-right", 20)) : null);
+  }
+  dotsButton(label, big) { const DS = this.DS(); return React.createElement(DS.Button, { variant: big ? "outline" : "ghost", size: "icon", "aria-label": label }, this.ic("ellipsis", 20)); }
+  menuEl(key, items, trigger, label) {
+    const DS = this.DS(), h = React.createElement;
+    if (!DS.DropdownMenu) return null;
+    return h(DS.DropdownMenu, { key, trigger, open: this.state.menu === key, onOpenChange: v => this.setState({ menu: v ? key : null }), align: "end", width: 240, label },
+      items.map((it, i) => it === "sep" ? h(DS.DropdownMenuSeparator, { key: "s" + i }) :
+        h(DS.DropdownMenuItem, { key: it.label, icon: this.ic(it.icon, 18), onSelect: it.go || (() => this.setState({ menu: null })), className: it.danger ? "bp-menu__item--destructive" : undefined }, it.label)));
+  }
+  stateBlock(icon, title, desc, action, role) {
+    const h = React.createElement;
+    return h("div", { role: role || "status", style: { display: "grid", justifyItems: "center", textAlign: "center", gap: "var(--space-4)", maxWidth: "var(--content-max)", margin: "0 auto", padding: "var(--space-12) 0" } },
+      h("span", { style: { display: "inline-grid", placeItems: "center", width: "48px", height: "48px", borderRadius: "999px", background: "var(--muted)", color: "var(--muted-foreground)" } }, this.ic(icon, 24)),
+      h("div", { style: { display: "grid", gap: "var(--space-1)" } },
+        h("h2", { style: { margin: 0, fontSize: "var(--text-lg)", fontWeight: 600 } }, title),
+        h("p", { style: { margin: 0, fontSize: "var(--text-sm)", color: "var(--muted-foreground)", textWrap: "pretty" } }, desc)),
+      action || null);
+  }
+
+  // Nova obra (#46, unchanged): name and reservation; success opens the configuration.
+  newBody(desk) {
+    const DS = this.DS(), h = React.createElement;
+    const f = this.state.newObra;
+    const n = num(f.units);
+    const help = n >= 1 && n <= FREE_ORG ? FREE_ORG + " livres na construtora. Depois de criar, sobram " + (FREE_ORG - n) + "." : FREE_ORG + " livres na construtora. Dá para ajustar depois.";
+    const set = k => ev => this.setState({ newObra: Object.assign({}, f, { [k]: k === "units" ? ev.target.value.replace(/\D/g, "") : ev.target.value, errors: Object.assign({}, f.errors, { [k]: null }) }) });
+    const submit = ev => {
+      this.noop(ev);
+      const errors = {};
+      if (!f.name.trim()) errors.name = "Informe o nome da obra.";
+      if (!f.units) errors.units = "Informe quantas unidades reservar.";
+      else if (!(n >= 1 && n <= FREE_ORG)) errors.units = "De 1 a " + FREE_ORG + " unidades.";
+      if (errors.name || errors.units) return this.setState({ newObra: Object.assign({}, f, { errors }) });
+      if (this.frozen()) return;
+      this.setState({ newObra: Object.assign({}, f, { sending: true }) });
+      this.t2 = setTimeout(() => {
+        this.enter("configuration", null, { data: makeData("empty"), left: n, cfgSection: "estrutura", newObra: { name: "", units: "", errors: {}, sending: false } });
+        this.toastFor("Obra “" + f.name.trim() + "” criada.");
+      }, 900);
+    };
+    const form = h("form", { onSubmit: submit, noValidate: true, style: { display: "grid", gap: desk ? "var(--space-5)" : "var(--space-4)", padding: desk ? "var(--space-6)" : 0, borderRadius: "var(--radius-xl)", background: desk ? "var(--card)" : "transparent", boxShadow: desk ? "var(--ring-hairline)" : "none" } },
+      h("h1", { style: { margin: 0, fontSize: "var(--text-2xl)", fontWeight: 600, letterSpacing: "var(--tracking-tight)", lineHeight: "var(--leading-tight)" } }, "Nova obra"),
+      h("div", { style: { display: "grid", gap: "var(--space-4)" } },
+        h(DS.Field, { label: "Nome da obra", htmlFor: "n-name", error: f.errors.name }, h(DS.Input, { id: "n-name", value: f.name, placeholder: "Ex.: Casa Moinhos", autoComplete: "off", disabled: f.sending, invalid: !!f.errors.name, onChange: set("name") })),
+        h(DS.Field, { label: "Unidades reservadas", htmlFor: "n-units", error: f.errors.units, hint: f.errors.units ? undefined : help }, h(DS.Input, { id: "n-units", value: f.units, inputMode: "numeric", autoComplete: "off", disabled: f.sending, invalid: !!f.errors.units, onChange: set("units") }))),
+      h(DS.Button, { type: "submit", size: "lg", block: true, loading: f.sending }, f.sending ? "Criando obra…" : "Criar obra"));
+    return h("div", { style: { width: "100%", maxWidth: "var(--content-max)", margin: "0 auto", display: "grid", gap: desk ? "var(--space-3)" : "var(--space-2)" } },
+      h("button", { type: "button", className: "es-back", style: { justifySelf: "start" }, onClick: this.noop }, this.ic("chevron-left", 20), "Obras"), form);
+  }
+
+  menuFor(node) {
+    const items = [];
+    const add = (label, icon, go, danger) => items.push({ label, icon, go, danger });
+    const discGo = () => this.openBatch(node);
+    if (node.kind === "tower") {
+      add("Renomear torre", "pencil"); add("Adicionar andares", "list-plus", () => this.openWizard(true)); add("Adicionar área comum", "plus");
+      add("Disciplinas em lote", "sliders-horizontal", discGo); add("Duplicar torre", "copy"); items.push("sep"); add("Remover torre", "trash-2", null, true);
+    } else if (node.kind === "floor") {
+      add("Renomear andar", "pencil"); add("Mover para cima", "arrow-up"); add("Mover para baixo", "arrow-down");
+      add("Disciplinas em lote", "sliders-horizontal", discGo); add("Duplicar andar", "copy"); items.push("sep"); add("Remover andar", "trash-2", null, true);
+    } else if (node.kind === "unit") {
+      add("Renomear", "pencil"); add("Mover para cima", "arrow-up"); add("Mover para baixo", "arrow-down"); add("Duplicar unidade", "copy"); items.push("sep"); add("Remover unidade", "trash-2", null, true);
+    } else {
+      add("Renomear", "pencil"); add("Duplicar área comum", "copy"); items.push("sep"); add("Remover área comum", "trash-2", null, true);
+    }
+    return items;
+  }
+
+  openWizard(extend) {
+    if (this.frozen()) return;
+    this.enter(extend ? "extend" : "wizard", null, { wizard: extend ? wizardExtend() : wizardFresh() });
+    if (!extend && this.live()) this.restoreDraft();
+  }
+
+  openBatch(node) {
+    const ix = index(this.state.data);
+    const e = ix[node.id] || {};
+    const tower = e.tower ? e.tower.id : this.state.data.towers[0].id;
+    const floor = e.floor ? e.floor.id : (e.tower ? e.tower.floors[0].id : null);
+    const scope = node.kind === "tower" ? "tower" : node.kind === "floor" ? "floor" : "locs";
+    const list = ["unit", "area"].includes(node.kind) ? node.disc.slice() : this.state.data.discs.filter(d => !this.state.data.discScope || this.state.data.discScope[d] !== false);
+    this.setState({ menu: null, dialog: { kind: "batch", ctx: "saved", scope, tower, floor, list, ids: ["unit", "area"].includes(node.kind) ? [node.id] : [], conflicts: null } });
+  }
+
+  facade(tower, desk) {
+    const h = React.createElement;
+    const rows = [...tower.floors].reverse();
+    const maxUnits = Math.max(1, ...rows.map(f => f.units.length));
+    const cols = (desk ? "88px" : "56px") + " repeat(" + maxUnits + ", " + (desk ? "minmax(0, 132px)" : "minmax(0, 1fr)") + ") " + (desk ? "120px" : "64px");
+    return h("div", { role: "list", "aria-label": "Fachada da " + tower.name, style: { display: "grid", gap: "6px", maxWidth: desk ? "calc(88px + " + maxUnits + " * 138px + 126px)" : "none" } },
+      rows.map(f => h("div", { key: f.id, role: "listitem", style: { display: "grid", gridTemplateColumns: cols, columnGap: "6px", alignItems: "start" } },
+        h("button", { type: "button", className: "es-floor" + (f.num ? " es-floor--num" : ""), onClick: this.go("floor", f.id), "aria-label": f.name }, f.short),
+        f.units.map(u => h("button", { key: u.id, type: "button", className: "es-chip", onClick: this.go("unit", u.id), "aria-label": "Unidade " + u.name, style: { flex: "none" } }, u.name)),
+        f.units.length ? h("span", { style: { gridColumn: (maxUnits + 2) + " / span 1", display: "grid", gap: "4px", minWidth: 0 } }, f.areas.map(a => h("button", { key: a.id, type: "button", className: "es-chip es-chip--area", onClick: this.go("area", a.id), style: { width: "100%", flex: "none" } }, a.name))) :
+          h("span", { style: { gridColumn: "2 / -1", display: "flex", gap: "4px", minWidth: 0 } }, f.areas.map(a => h("button", { key: a.id, type: "button", className: "es-chip es-chip--area", onClick: this.go("area", a.id), style: { flex: "1 1 0" } }, a.name))))));
+  }
+
+  homeBody(desk, canEdit) {
+    const DS = this.DS(), h = React.createElement;
+    const d = this.state.data;
+    if (!d.towers.length) return this.stateBlock("layers", "A obra ainda não tem estrutura", canEdit ? "Monte torres, andares, unidades e áreas comuns de uma vez. Depois, tudo se ajusta na fachada." : "A estrutura aparece aqui quando alguém da equipe montar a obra.",
+      canEdit ? h(DS.Button, { size: "lg", block: !desk, iconStart: this.ic("list-plus", 20), onClick: () => this.openWizard(false) }, "Montar estrutura") : null);
+    const cards = d.towers.map(t => {
+      const units = t.floors.reduce((n, f) => n + f.units.length, 0);
+      const nums = t.floors.filter(f => f.num).map(f => f.num);
+      const per = {}; t.floors.forEach(f => { if (f.units.length) per[f.units.length] = (per[f.units.length] || 0) + 1; });
+      const perText = Object.keys(per).length > 1 ? "por faixa" : Object.keys(per)[0] + " por andar";
+      const areas = t.areas.length + t.floors.reduce((n, f) => n + f.areas.length, 0);
+      const ids = []; t.floors.forEach(f => f.units.forEach(u => { if (u.type && !ids.includes(u.type)) ids.push(u.type); }));
+      const facts = [
+        ["Andares", (t.floors.some(f => !f.num) ? "Térreo e " : "") + ordinal(Math.min(...nums)) + " ao " + ordinal(Math.max(...nums))],
+        ["Unidades", units + " · " + perText],
+        ["Áreas comuns", String(areas)],
+        ["Tipologias", ids.map(id => (this.typeOf("unit", id) || {}).name).join(", ")],
+      ];
+      return h("button", { key: t.id, type: "button", className: "es-tower", onClick: this.go("tower", t.id) },
+        h("div", { style: { display: "flex", justifyContent: "space-between", gap: "var(--space-3)" } }, h("span", { style: { fontSize: "var(--text-lg)", fontWeight: 600 } }, t.name), h("span", { style: { color: "var(--muted-foreground)" } }, this.ic("chevron-right", 20))),
+        h("dl", { style: { margin: 0, display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "var(--space-2) var(--space-4)", padding: "var(--space-3) var(--space-4)", borderRadius: "var(--radius-lg)", background: "var(--muted)", fontSize: "var(--text-sm)" } },
+          facts.map(([k, v]) => h(React.Fragment, { key: k }, h("dt", { style: { color: "var(--muted-foreground)" } }, k), h("dd", { style: { margin: 0, overflowWrap: "anywhere" } }, v)))));
+    });
+    const addMenu = canEdit ? this.menuEl("home-add", [{ label: "Torre", icon: "building-2" }, { label: "Área comum da obra", icon: "plus" }, "sep", { label: "Montar com o assistente", icon: "list-plus", go: () => this.openWizard(false) }],
+      h(DS.Button, { variant: "outline", size: desk ? "md" : "sm", iconStart: this.ic("plus", 18) }, "Adicionar"), "Adicionar") : null;
+    return h("div", { style: { display: "grid", gap: desk ? "var(--space-8)" : "var(--space-6)" } },
+      h("section", { style: { display: "grid", gap: "var(--space-3)" } }, this.sectionHead("Torres", addMenu),
+        h("div", { style: { display: "grid", gridTemplateColumns: desk ? "repeat(3, minmax(0,1fr))" : "minmax(0,1fr)", gap: "var(--space-3)" } }, cards)),
+      this.areaList(null, d.areas, "Áreas comuns da obra", desk, canEdit));
+  }
+
+  areaMeta(a) { const t = this.typeOf("area", a.type); const n = (t ? t.rooms.filter(r => !a.dropped.includes(r)).length : 0) + a.extra.length; return (t ? t.name + " · " : "") + plural(n, "cômodo", "cômodos"); }
+  areaList(parentId, areas, title, desk, canEdit) {
+    const h = React.createElement;
+    const rows = areas.map(a => this.row({ key: a.id, name: a.name, meta: this.areaMeta(a), go: this.go("area", a.id), chevron: true, menu: canEdit ? this.menuEl(a.id, this.menuFor(a), this.dotsButton("Ações de " + a.name), "Ações de " + a.name) : null }));
+    if (canEdit) rows.push(this.addRow(parentId, "area", "Adicionar área comum", desk));
+    if (!rows.length) return null;
+    return h("section", { style: { display: "grid", gap: "var(--space-3)" } }, this.sectionHead(title), this.listCard(rows));
+  }
+
+  // Creating a common area spends 1 of the reservation at once, like a unit.
+  addRow(parent, kind, label, desk) {
+    const DS = this.DS(), h = React.createElement;
+    const a = this.state.adding;
+    const left = this.state.left;
+    if (a && a.parent === parent && a.kind === kind) {
+      const commit = ev => {
+        this.noop(ev);
+        if (!a.value.trim()) return this.setState({ adding: Object.assign({}, a, { error: "Informe o nome." }) });
+        if (this.frozen()) return;
+        this.setData((d, ix) => { const p = parent ? ix[parent].node : null; (p ? p.areas : d.areas).push(area(a.value.trim(), a.type, { disc: d.discs.filter(x => !d.discScope || d.discScope[x] !== false) })); });
+        this.setState(s => ({ adding: null, left: s.left - 1 }));
+        this.toastFor("Área comum " + a.value.trim() + " criada. Usou 1 da reserva.");
+      };
+      const types = this.state.data.types.area;
+      return h("form", { key: "add-" + kind, onSubmit: commit, noValidate: true, className: "es-row", style: { display: "grid", gap: "var(--space-3)", padding: "var(--space-3) var(--space-4) var(--space-4)", alignItems: "start" } },
+        h(DS.Field, { label, htmlFor: "add-" + kind, error: a.error, hint: a.error ? undefined : left === 1 ? "Usa 1 da única unidade que resta nesta obra." : "Usa 1 das " + left + " unidades que restam nesta obra." },
+          h(DS.Input, { id: "add-" + kind, value: a.value, invalid: !!a.error, autoComplete: "off", onChange: ev => this.setState({ adding: Object.assign({}, a, { value: ev.target.value, error: null }) }) })),
+        h(DS.Field, { label: "Tipologia", optional: true, htmlFor: "add-type" },
+          h("select", { id: "add-type", className: "es-select", value: a.type, onChange: ev => this.setState({ adding: Object.assign({}, a, { type: ev.target.value }) }) },
+            h("option", { value: "" }, "Sem tipologia"), types.map(t => h("option", { key: t.id, value: t.id }, t.name)))),
+        h("div", { style: { display: "flex", gap: "var(--space-2)" } },
+          h(DS.Button, { type: "submit", style: { flex: desk ? "none" : "1 1 0" } }, "Adicionar"),
+          h(DS.Button, { type: "button", variant: "outline", style: { flex: desk ? "none" : "1 1 0" }, onClick: () => this.setState({ adding: null }) }, "Cancelar")));
+    }
+    if (left <= 0) {
+      return h("div", { key: "add-" + kind, className: "es-row", style: { display: "grid", justifyItems: "start", gap: 0, padding: "6px var(--space-4) var(--space-3) var(--space-2)" } },
+        h(DS.Button, { variant: "ghost", disabled: true, "aria-describedby": "add-none-" + kind, iconStart: this.ic("plus", 18), style: { color: "var(--primary)" } }, label),
+        h("p", { id: "add-none-" + kind, style: { margin: 0, paddingLeft: "var(--space-4)", fontSize: "var(--text-sm)", lineHeight: "var(--leading-normal)", color: "var(--muted-foreground)", textWrap: "pretty" } },
+          "A reserva da obra acabou. ", this.isAdmin() ? this.reserveLink(true) : NO_UNITS_ASK));
+    }
+    return h("div", { key: "add-" + kind, className: "es-row", style: { paddingLeft: "var(--space-2)" } },
+      h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { color: "var(--primary)" }, onClick: () => this.setState({ adding: { parent, kind, value: "", type: "", error: null }, menu: null }) }, label));
+  }
+
+  towerBody(t, desk, canEdit) {
+    const h = React.createElement;
+    return h("div", { style: { display: "grid", gridTemplateColumns: desk ? "minmax(0,1fr) 320px" : "minmax(0,1fr)", gap: desk ? "var(--space-8)" : "var(--space-6)", alignItems: "start" } },
+      h("section", { "aria-label": "Fachada", style: { padding: desk ? "var(--space-5)" : "var(--space-3)", borderRadius: "var(--radius-xl)", background: "var(--card)", boxShadow: "var(--ring-hairline)" } }, this.facade(t, desk)),
+      h("div", { style: { display: "grid", gap: "var(--space-6)", minWidth: 0 } }, this.discCard(index(this.state.data)[t.id], desk, canEdit), this.areaList(t.id, t.areas, "Áreas comuns da torre", desk, canEdit)));
+  }
+
+  floorBody(f, desk, canEdit) {
+    const h = React.createElement;
+    const units = f.units.map(u => this.row({ key: u.id, name: u.name, mono: true, meta: this.unitMeta(u), go: this.go("unit", u.id), chevron: true, menu: canEdit ? this.menuEl(u.id, this.menuFor(u), this.dotsButton("Ações da unidade " + u.name), "Ações da unidade " + u.name) : null }));
+    return h("div", { style: { display: "grid", gridTemplateColumns: desk ? "minmax(0,1fr) minmax(0,1fr)" : "minmax(0,1fr)", gap: desk ? "var(--space-8)" : "var(--space-6)", alignItems: "start" } },
+      h("section", { style: { display: "grid", gap: "var(--space-3)" } }, this.sectionHead("Unidades"), this.listCard(units)),
+      h("div", { style: { display: "grid", gap: "var(--space-6)", minWidth: 0 } }, this.discCard(index(this.state.data)[f.id], desk, canEdit), this.areaList(f.id, f.areas, "Áreas comuns do andar", desk, canEdit)));
+  }
+
+  unitMeta(u) {
+    const t = this.typeOf("unit", u.type);
+    const ch = u.extra.length + u.dropped.length;
+    return (t ? t.name + (ch ? " · " + plural(ch, "alteração", "alterações") : "") : "Sem tipologia") + (u.disc.length < this.state.data.discs.length ? " · " + plural(u.disc.length, "disciplina", "disciplinas") : "");
+  }
+
+  // Unit or common area: type, rooms and where each discipline applies.
+  locBody(e, desk, canEdit) {
+    const DS = this.DS(), h = React.createElement;
+    const n = e.node;
+    const isUnit = n.kind === "unit";
+    const cat = isUnit ? "unit" : "area";
+    const type = this.typeOf(cat, n.type);
+    const ch = n.extra.length + n.dropped.length;
+    const typeCard = h("section", { style: { display: "grid", gap: "var(--space-3)" } },
+      this.sectionHead("Tipologia"),
+      h("div", { style: { display: "grid", gap: "var(--space-3)", padding: "var(--space-4)", borderRadius: "var(--radius-xl)", background: "var(--card)", boxShadow: "var(--ring-hairline)" } },
+        h("div", { style: { display: "flex", alignItems: "center", gap: "var(--space-2)", flexWrap: "wrap" } },
+          h("span", { style: { fontSize: "var(--text-base)", fontWeight: 600 } }, type ? type.name : "Sem tipologia"),
+          ch ? h(DS.Badge, { tone: "outline" }, plural(ch, "alteração", "alterações")) : null),
+        this.muted(type ? "Os cômodos acompanham a " + (/^tipologia /i.test(type.name) ? "" : "tipologia ") + type.name + ". O que foi mudado só " + (isUnit ? "nesta unidade" : "nesta área comum") + " continua assim quando a tipologia muda." : (isUnit ? "Os cômodos desta unidade são só dela." : "Os cômodos desta área comum são só dela.")),
+        canEdit ? h(DS.Button, { variant: "outline", style: { justifySelf: desk ? "start" : "stretch" }, iconStart: this.ic("layout-grid", 18) }, "Trocar tipologia") : null));
+
+    const typeRooms = type ? type.rooms.filter(r => !n.dropped.includes(r)) : [];
+    const rooms = typeRooms.map(r => this.row({ key: "t-" + r, name: r, menu: canEdit ? this.menuEl("room-" + r, [{ label: "Renomear", icon: "pencil" }, "sep", { label: isUnit ? "Remover desta unidade" : "Remover desta área comum", icon: "trash-2", danger: true }], this.dotsButton("Ações do cômodo " + r), "Ações do cômodo " + r) : null }))
+      .concat(n.extra.map(r => this.row({ key: "o-" + r, name: r, badge: type ? h(DS.Badge, { tone: "outline" }, isUnit ? "Só desta unidade" : "Só desta área comum") : null, menu: canEdit ? this.menuEl("room-" + r, [{ label: "Renomear", icon: "pencil" }, "sep", { label: "Remover cômodo", icon: "trash-2", danger: true }], this.dotsButton("Ações do cômodo " + r), "Ações do cômodo " + r) : null })));
+    const a = this.state.adding;
+    if (canEdit) {
+      if (a && a.kind === "room" && a.parent === n.id) {
+        rooms.push(h("div", { key: "add", className: "es-row", style: { display: "grid", gap: "var(--space-2)", padding: "var(--space-3) var(--space-4) var(--space-4)" } },
+          h("label", { htmlFor: "loc-room", className: "no-field-label" }, "Adicionar cômodo"),
+          this.roomCombo({ key: "loc-room", existing: typeRooms.concat(n.extra), types: this.state.data.types, dupMsg: "Esse cômodo já está " + (isUnit ? "na unidade." : "na área comum."), desk,
+            onAdd: name => { this.setData((d, ix) => { ix[n.id].node.extra.push(name); }); } }),
+          h(DS.Button, { variant: "ghost", style: { justifySelf: "start" }, onClick: () => this.setState({ adding: null, combo: null }) }, "Fechar")));
+      } else rooms.push(h("div", { key: "add", className: "es-row", style: { paddingLeft: "var(--space-2)" } }, h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { color: "var(--primary)" }, onClick: () => this.setState({ adding: { parent: n.id, kind: "room" }, combo: null }) }, "Adicionar cômodo")));
+    }
+    const roomsCard = h("section", { style: { display: "grid", gap: "var(--space-3)" } },
+      this.sectionHead("Cômodos", h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, plural(typeRooms.length + n.extra.length, "cômodo", "cômodos"))),
+      rooms.length ? this.listCard(rooms) : this.muted("Sem cômodo."));
+    return h("div", { style: { display: "grid", gridTemplateColumns: desk ? "320px minmax(0,1fr)" : "minmax(0,1fr)", gap: desk ? "var(--space-8)" : "var(--space-6)", alignItems: "start" } },
+      h("div", { style: { display: "grid", gap: desk ? "var(--space-8)" : "var(--space-6)" } }, typeCard, this.discCard(e, desk, canEdit)), roomsCard);
+  }
+
+  discCard(e, desk, canEdit) {
+    const DS = this.DS(), h = React.createElement;
+    const n = e.node;
+    const where = n.kind === "unit" ? n.name : locLabel(n, e);
+    const err = this.state.discErr && this.state.discErr.loc === n.id ? this.state.discErr.d : null;
+    const toggle = d => ev => {
+      const on = ev.target.checked;
+      if (!on && n.content[d]) return this.setState({ discErr: { loc: n.id, d } });
+      if (this.frozen()) return;
+      this.setState({ discErr: null });
+      this.setData((dd, ix) => { const x = ix[n.id].node; x.disc = on ? this.state.data.discs.filter(k => x.disc.includes(k) || k === d) : x.disc.filter(k => k !== d); });
+    };
+    const offered = n.disc;
+    const DL = this.state.data.discs;
+    const lines = DL.map(d => {
+      const content = n.content[d];
+      const on = n.disc.includes(d);
+      const desc = content ? "Tem " + content + " aqui." : on || !n.disc.length ? null : "Desligada neste local.";
+      if (!canEdit) return h("div", { key: d, className: "no-disc-ro" },
+        h("span", { "aria-hidden": "true", style: { display: "inline-grid", placeItems: "center", width: "24px", height: "24px", borderRadius: "var(--radius-sm)", background: on ? "var(--accent)" : "var(--muted)", color: on ? "var(--accent-foreground)" : "var(--muted-foreground)" } }, this.ic(on ? "check" : "x", 16)),
+        h("span", { style: { display: "grid", gap: "2px", minWidth: 0, paddingTop: "1px" } },
+          h("span", { style: { fontWeight: 500, color: on ? "var(--foreground)" : "var(--muted-foreground)" } }, d, h("span", { style: { fontWeight: 400, color: "var(--muted-foreground)" } }, on ? " · ligada" : " · desligada")),
+          content ? h("span", { className: "es-row__meta" }, "Tem " + content + " aqui.") : null));
+      return h("div", { key: d, style: { borderTop: d === DL[0] ? 0 : "1px solid var(--border)", padding: "var(--space-1) var(--space-4)" } },
+        h(DS.Checkbox, { label: d, description: desc, checked: on, onChange: toggle(d) }),
+        err === d ? h("div", { className: "no-err", role: "alert", style: { padding: "0 0 var(--space-3) 32px" } }, this.ic("circle-alert", 16, { marginTop: "2px", flex: "none" }), d + " tem planta ou pin " + (n.kind === "unit" ? "na " + where : "no " + where) + ", então continua ligada.") : null);
+    });
+    return h("section", { style: { display: "grid", gap: "var(--space-3)" } },
+      this.sectionHead("Disciplinas", h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, offered.length + " de " + DL.length)),
+      this.listCard(lines),
+      ["floor", "tower"].includes(n.kind) ? this.muted(n.kind === "floor" ? "Esta lista vale só para o andar. As unidades e áreas comuns têm suas próprias listas." : "Esta lista vale só para a torre. Os andares, unidades e áreas comuns têm suas próprias listas.") : null,
+      offered.length ? this.muted("Geral vale em todo local e não entra na lista. Pin novo aqui oferece " + listText(offered) + ".") :
+        h(DS.Alert, { tone: "info" }, "Nenhuma disciplina específica ligada. Pin novo aqui, nem na Geral, só depois de ligar uma."),
+      canEdit ? h(DS.Button, { variant: "ghost", style: { justifySelf: desk ? "start" : "stretch", color: "var(--primary)" }, iconStart: this.ic("plus", 18), onClick: () => this.setState({ dialog: { kind: "newDisc", ctx: "saved", value: "", applies: null, error: null } }) }, "Nova disciplina") : null,
+      canEdit ? h(DS.Button, { variant: "outline", style: { justifySelf: desk ? "start" : "stretch" }, iconStart: this.ic("sliders-horizontal", 18), onClick: () => this.openBatch(n) }, ["floor", "tower"].includes(n.kind) ? "Aplicar às unidades e áreas comuns" : "Aplicar a outros locais") : null);
+  }
+
+  typeSelect(id, cat, value, onChange, label, types) {
+    const h = React.createElement;
+    return h("select", { id, className: "es-select", value, "aria-label": label, onChange: ev => {
+      if (ev.target.value === "__new") return this.setState({ dialog: { kind: "newType", ctx: "wizard", cat, value: "", error: null, onCreate: onChange } });
+      onChange(ev.target.value);
+    } }, h("option", { value: "" }, "Sem tipologia"), types[cat].map(t => h("option", { key: t.id, value: t.id }, t.name)), h("option", { value: "__new" }, cat === "area" ? "Nova tipologia de área comum…" : "Nova tipologia…"));
+  }
+
+  wizardSteps(w) { return w.extend ? ["Novos andares", "Tipologias", "Disciplinas", "Prévia"] : ["Torres e andares", "Áreas comuns", "Tipologias", "Disciplinas", "Prévia"]; }
+  // Takes the person to the field that owns a value: the step on mobile, the exact card on desktop, which flashes once.
+  goStep(section, target) {
+    const w = this.state.wizard;
+    const order = w.extend ? ["w-sec-0", "w-sec-2", "w-sec-3", "w-sec-4"] : ["w-sec-0", "w-sec-1", "w-sec-2", "w-sec-3", "w-sec-4"];
+    const id = target || section;
+    this.setState({ inspect: null, highlight: target || null });
+    if (!this.isDesk()) { this.setState(s => ({ wizard: Object.assign({}, s.wizard, { step: Math.max(0, order.indexOf(section)) }) })); const sc = this.scrollRef.current; if (sc) sc.scrollTop = 0; }
+    this.scrollTo(id, this.isDesk() ? 32 : 16);
+  }
+  openInspect(key) {
+    const sc = this.scrollRef.current, root = this.rootRef.current;
+    const box = root && root.querySelector("[data-preview-box]");
+    this.inspectScroll = sc ? sc.scrollTop : 0;
+    this.inspectBox = box ? box.scrollTop : 0;
+    this.setState({ inspect: key });
+  }
+  // Closing returns to the same place: the page scroll and the preview's own scroll.
+  closeInspect() {
+    this.setState({ inspect: null }, () => {
+      const sc = this.scrollRef.current, root = this.rootRef.current;
+      if (sc && this.inspectScroll != null) sc.scrollTop = this.inspectScroll;
+      const box = root && root.querySelector("[data-preview-box]");
+      if (box && this.inspectBox != null) box.scrollTop = this.inspectBox;
+    });
+  }
+
+  wizardBody(desk) {
+    const DS = this.DS(), h = React.createElement;
+    const w = this.state.wizard;
+    const plan = planFrom(w);
+    const setW = p => this.setW(p);
+    const n = w.extend ? 1 : w.count;
+    const tName = i => w.extend ? w.towers[0].name : w.towers[i].name;
+    const setTower = (i, patch) => setW(ww => ({ towers: ww.towers.map((t, j) => j === i ? Object.assign({}, t, patch) : t) }));
+    const clearErr = keys => setW(ww => { const errors = Object.assign({}, ww.errors); keys.forEach(k => delete errors[k]); return { errors }; });
+    const card = (id, num_, title, desc, children) => h("section", { id, "aria-labelledby": id + "-t", style: { display: "grid", gap: "var(--space-4)", padding: desk ? "var(--space-6)" : "0", borderRadius: "var(--radius-xl)", background: desk ? "var(--card)" : "transparent", boxShadow: desk ? "var(--ring-hairline)" : "none", scrollMarginTop: "88px", minWidth: 0 } },
+      h("div", { style: { display: "grid", gap: "var(--space-1)" } },
+        h("div", { style: { display: "flex", alignItems: "center", gap: "var(--space-2)" } }, h("span", { className: "es-step" }, num_), h("h2", { id: id + "-t", style: { margin: 0, fontSize: "var(--text-lg)", fontWeight: 600 } }, title)),
+        desc ? this.muted(desc) : null), children);
+    const sub = (title, desc, extra) => h("div", { style: { display: "grid", gap: "2px" } }, h("span", { style: Object.assign({ fontWeight: 500 }, extra) }, title), desc ? this.muted(desc) : null);
+    const ph = w.numbering === "letter" ? "Ex.: A, B" : "Ex.: 01, 02";
+
+    // 1. Towers and floor ranges.
+    const rangeRow = (t, i, rg, j) => {
+      const id = i + "-" + j;
+      const set = k => ev => { const v = ev.target.value; setTower(i, { ranges: t.ranges.map((x, m) => m === j ? Object.assign({}, x, { [k]: v }) : x) }); clearErr([k + id, "range" + id]); };
+      const f = parseFinals(rg.finals, w.numbering);
+      const a = num(rg.from), b = num(rg.to);
+      const floors = a >= 1 && b >= a ? b - a + 1 : 0;
+      const total = floors && f.list.length && f.list.length <= 30 ? floors * f.list.length : 0;
+      const totalLine = total ? plural(total, "unidade", "unidades") + " · " + plural(floors, "andar", "andares") + " · " + (f.list.length === 1 ? "final " : "finais ") + finalsText(f.list, w.numbering) : "Preencha a faixa para ver as unidades.";
+      const inp = (k, label, extra) => h(DS.Field, { label, htmlFor: "r-" + k + "-" + id, error: w.errors[k + id], hint: k === "finals" && !w.errors[k + id] ? "Separe os finais com vírgula e espaço." : undefined },
+        h(DS.Input, Object.assign({ id: "r-" + k + "-" + id, value: rg[k], onChange: set(k), invalid: !!w.errors[k + id], autoComplete: "off" }, extra)));
+      const del = t.ranges.length > 1 ? h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Tirar a faixa " + (j + 1), onClick: () => setTower(i, { ranges: t.ranges.filter((_, m) => m !== j) }) }, this.ic("x", 18)) : null;
+      const rangeErr = w.errors["range" + id];
+      return h("div", { key: j, id: "w-range-" + id, className: this.state.highlight === "w-range-" + id ? "no-highlight" : undefined, style: { scrollMarginTop: "100px", display: "grid", gap: "var(--space-2)", padding: "var(--space-3)", borderRadius: "var(--radius-lg)", background: "var(--card)", boxShadow: rangeErr ? "inset 0 0 0 1px var(--destructive)" : "var(--ring-hairline)" } },
+        h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-2)", minHeight: del ? "var(--tap-min)" : "auto" } },
+          h("span", { style: { fontSize: "var(--text-sm)", fontWeight: 600 } }, "Faixa " + (j + 1)), del),
+        h("div", { style: { display: "grid", gridTemplateColumns: desk ? "minmax(0,0.7fr) minmax(0,0.7fr) minmax(0,1.6fr)" : "repeat(2, minmax(0,1fr))", gap: "var(--space-3)", alignItems: "start" } },
+          inp("from", w.extend ? "Do andar" : "Primeiro andar", { inputMode: "numeric" }), inp("to", "Último andar", { inputMode: "numeric" }),
+          h("div", { style: { gridColumn: desk ? "auto" : "1 / -1", minWidth: 0 } }, inp("finals", "Finais", { placeholder: ph }))),
+        rangeErr ? h("div", { className: "no-err", role: "alert" }, this.ic("circle-alert", 16, { marginTop: "2px", flex: "none" }), rangeErr) :
+          h("span", { style: { fontSize: "var(--text-sm)", color: total ? "var(--foreground)" : "var(--muted-foreground)", fontWeight: total ? 500 : 400 } }, totalLine));
+    };
+    const towerCards = w.towers.slice(0, n).map((t, i) => {
+      const tp = plan.towers[i];
+      const tUnits = tp && !tp.invalid ? tp.rows.reduce((k, r) => k + r.units.length, 0) : 0;
+      const tFloors = tp && !tp.invalid ? tp.rows.filter(r => r.units.length).length : 0;
+      const last = t.ranges[t.ranges.length - 1];
+      return h("div", { key: i, id: "w-tower-" + i, className: this.state.highlight === "w-tower-" + i ? "no-highlight" : undefined, style: { scrollMarginTop: "100px", display: "grid", gap: "var(--space-4)", padding: "var(--space-4)", borderRadius: "var(--radius-lg)", boxShadow: "var(--ring-hairline)", background: "var(--background)", minWidth: 0 } },
+        n > 1 ? h(DS.Field, { label: "Nome", htmlFor: "t-name-" + i, error: w.errors["name" + i] }, h(DS.Input, { id: "t-name-" + i, value: t.name, invalid: !!w.errors["name" + i], autoComplete: "off", onChange: ev => { setTower(i, { name: ev.target.value }); clearErr(["name" + i]); } })) : null,
+        sub(w.extend ? "Andares novos" : "Faixas de andares", w.extend ? "Acima do " + ordinal(EXTEND_EXISTING.to) + " andar, que é o último da " + t.name + " hoje." : "Cada faixa vai de um andar a outro, com os seus finais. Andar fora de uma faixa não existe."),
+        h("div", { style: { display: "grid", gap: "var(--space-2)" } }, t.ranges.map((rg, j) => rangeRow(t, i, rg, j))),
+        h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-3)", flexWrap: "wrap" } },
+          h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { color: "var(--primary)", marginLeft: "-8px" }, onClick: () => { const nb = num(last.to) >= 1 ? String(num(last.to) + 1) : ""; setTower(i, { ranges: t.ranges.concat([{ from: nb, to: "", finals: "" }]) }); } }, "Faixa"),
+          h("span", { style: { fontSize: "var(--text-sm)", fontWeight: 600 } }, (w.extend ? "Nesta adição: " : (n > 1 ? t.name + ": " : "Total: ")) + plural(tUnits, "unidade", "unidades") + " em " + plural(tFloors, "andar", "andares"))),
+        h("div", { style: { display: "grid", gap: "var(--space-2)", borderTop: "1px solid var(--border)", paddingTop: "var(--space-3)" } },
+          w.extend ? null : h(DS.Checkbox, { label: "Térreo sem unidades", description: "Com hall de entrada", checked: t.ground, onChange: ev => setTower(i, { ground: ev.target.checked }) }),
+          !w.extend && t.ground ? h("div", { style: { paddingLeft: "32px", display: "grid", gap: "var(--space-1)", maxWidth: "24rem" } },
+            h("label", { className: "no-field-label", htmlFor: "t-gtype-" + i }, "Tipologia do hall de entrada ", h("span", { style: { color: "var(--muted-foreground)", fontWeight: 400 } }, "(opcional)")),
+            this.typeSelect("t-gtype-" + i, "area", t.groundType, v => setTower(i, { groundType: v }), "Tipologia do hall de entrada", w.types)) : null,
+          h(DS.Checkbox, { label: "Hall em cada andar", description: w.extend ? "Repete a escolha da " + t.name + ". Desmarque para não criar os halls só nesta adição." : "Um Hall em cada andar da torre. Cada um usa 1 da reserva.", checked: t.hall, onChange: ev => setTower(i, { hall: ev.target.checked }) }),
+          t.hall ? h("div", { style: { paddingLeft: "32px", display: "grid", gap: "var(--space-1)", maxWidth: "24rem" } },
+            h("label", { className: "no-field-label", htmlFor: "t-htype-" + i }, "Tipologia dos halls ", h("span", { style: { color: "var(--muted-foreground)", fontWeight: 400 } }, "(opcional)")),
+            this.typeSelect("t-htype-" + i, "area", t.hallType, v => setTower(i, { hallType: v }), "Tipologia dos halls", w.types)) : null));
+    });
+    const stepper = h("div", { style: { display: "flex", alignItems: "center", gap: "var(--space-2)" } },
+      h(DS.Button, { variant: "outline", size: "icon", "aria-label": "Uma torre a menos", disabled: n <= 1, onClick: () => setW(ww => ({ count: Math.max(1, ww.count - 1) })) }, h("span", { style: { fontSize: "20px", lineHeight: 1 } }, "−")),
+      h("span", { "aria-live": "polite", style: { minWidth: "48px", textAlign: "center", fontSize: "var(--text-lg)", fontWeight: 600, fontFamily: "var(--font-mono)" } }, n),
+      h(DS.Button, { variant: "outline", size: "icon", "aria-label": "Uma torre a mais", onClick: () => setW(ww => { const towers = ww.towers.slice(0, ww.count); const prev = towers[ww.count - 1]; towers.push(Object.assign(clone(prev), { name: "Torre " + letters[ww.count], hall: false, hallType: "" })); return { count: ww.count + 1, towers }; }) }, this.ic("plus", 20)));
+    const step1 = card("w-sec-0", 1, w.extend ? "Novos andares" : "Torres e andares", w.extend ? "Os andares entram acima dos que a " + w.towers[0].name + " já tem, com as mesmas faixas e finais." : "Cada torre com as suas faixas de andares e os finais de cada faixa. Uma torre nova começa igual à anterior, sem o Hall em cada andar.",
+      h("div", { style: { display: "grid", gap: "var(--space-4)" } },
+        w.extend ? null : h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-3)", flexWrap: "wrap" } }, h("span", { style: { fontWeight: 500 } }, "Quantas torres?"), stepper),
+        towerCards,
+        w.extend ? null : h("div", { style: { display: "grid", gap: "var(--space-2)" } },
+          h("span", { style: { fontWeight: 500 } }, "Numeração das unidades"),
+          h("div", { style: { justifySelf: desk ? "start" : "stretch" } }, h(DS.SegmentedControl, { label: "Numeração das unidades", block: !desk, options: [{ value: "number", label: "101, 102" }, { value: "letter", label: "1A, 1B" }], value: w.numbering, onChange: v => setW({ numbering: v }) })),
+          this.muted("Vale para a obra toda. Depois, qualquer nome se troca na própria unidade."))));
+
+    // 2. Common areas, each with an optional common-area type.
+    const areaTag = (a, onRemove) => h("span", { key: a.name, className: "es-tag" }, a.name, a.type ? h("span", { style: { color: "var(--muted-foreground)" } }, "· " + (this.typeOf("area", a.type, w.types) || {}).name) : null, h("button", { type: "button", "aria-label": "Tirar " + a.name, onClick: onRemove }, this.ic("x", 16)));
+    const areaForm = (id, placeholder, onAdd) => {
+      const f = (this.state.areaDraft || {})[id] || { name: "", type: "" };
+      const setF = patch => this.setState(s => ({ areaDraft: Object.assign({}, s.areaDraft, { [id]: Object.assign({}, f, patch) }) }));
+      return h("form", { onSubmit: ev => { ev.preventDefault(); if (f.name.trim()) { onAdd({ name: f.name.trim(), type: f.type }); setF({ name: "", type: "" }); } }, style: { display: "grid", gridTemplateColumns: desk ? "minmax(0,1.2fr) minmax(0,1fr) auto" : "minmax(0,1fr) auto", gap: "var(--space-2)" } },
+        h(DS.Input, { id, placeholder, autoComplete: "off", "aria-label": placeholder, value: f.name, onChange: ev => setF({ name: ev.target.value }) }),
+        h("div", { style: { gridColumn: desk ? "auto" : "1 / 2", gridRow: desk ? "auto" : "2", minWidth: 0 } }, this.typeSelect(id + "-type", "area", f.type, v => setF({ type: v }), "Tipologia da área comum", w.types)),
+        h(DS.Button, { type: "submit", variant: "outline", style: { gridColumn: desk ? "auto" : "2", gridRow: desk ? "auto" : "1" } }, "Adicionar"));
+    };
+    const group = (title, desc, children) => h("div", { style: { display: "grid", gap: "var(--space-2)" } }, sub(title, desc), children);
+    const tagWrap = items => h("div", { style: { display: "flex", flexWrap: "wrap", gap: "var(--space-2)" } }, items);
+    const step2 = w.extend ? null : card("w-sec-1", 2, "Áreas comuns", "O hall de entrada e o Hall em cada andar estão no passo 1. Aqui entram as outras. Cada área comum criada usa 1 da reserva, como uma unidade.",
+      h("div", { style: { display: "grid", gap: "var(--space-5)" } },
+        group("Da obra", "Fora das torres: garagem, piscina, salão.", h("div", { style: { display: "grid", gap: "var(--space-2)" } },
+          w.obraAreas.length ? tagWrap(w.obraAreas.map((a, i) => areaTag(a, () => setW(ww => ({ obraAreas: ww.obraAreas.filter((_, j) => j !== i) }))))) : null,
+          areaForm("w-obra-area", "Ex.: Guarita", a => setW(ww => ({ obraAreas: ww.obraAreas.concat([a]) }))))),
+        n > 1 ? group("Em cada torre", "Criada uma vez em cada torre.", h("div", { style: { display: "grid", gap: "var(--space-2)" } },
+          w.towerAreas.length ? tagWrap(w.towerAreas.map((a, i) => areaTag(a, () => setW(ww => ({ towerAreas: ww.towerAreas.filter((_, j) => j !== i) }))))) : null,
+          areaForm("w-tower-area", "Ex.: Bicicletário", a => setW(ww => ({ towerAreas: ww.towerAreas.concat([a]) }))))) : null,
+        group("Num andar só", "Para o que só existe ali, como o terraço da cobertura.", w.floorAreas.length ? this.listCard(w.floorAreas.map((a, i) => h("div", { key: i, className: "es-row" }, h("span", { style: { flex: 1 } }, a.name + " · " + tName(a.tower) + ", " + a.floor + "º andar"), h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Tirar " + a.name, onClick: () => setW(ww => ({ floorAreas: ww.floorAreas.filter((_, j) => j !== i) })) }, this.ic("x", 18))))) : this.muted("Nenhuma.")),
+        h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { justifySelf: "start", color: "var(--primary)", marginLeft: "-8px" }, onClick: () => setW(ww => ({ floorAreas: ww.floorAreas.concat([{ tower: 0, floor: "17", name: "Terraço", type: "" }]) })) }, "Área comum num andar")));
+
+    // 3. Two type catalogs, then the rules that apply unit types.
+    const typeCard = (cat, t) => {
+      const setRooms = rooms => setW(ww => ({ types: Object.assign({}, ww.types, { [cat]: ww.types[cat].map(x => x.id === t.id ? Object.assign({}, x, { rooms }) : x) }) }));
+      const fresh = this.state.highlight === "wt-" + t.id;
+      return h("div", { key: t.id, id: "wt-" + t.id, className: fresh ? "no-highlight" : undefined, style: { display: "grid", alignContent: "start", gap: "var(--space-3)", padding: "var(--space-4)", borderRadius: "var(--radius-lg)", boxShadow: "var(--ring-hairline)", background: "var(--background)", minWidth: 0 } },
+        h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-2)" } },
+          h("div", { style: { display: "grid", gap: "2px", minWidth: 0 } }, h("span", { style: { fontWeight: 600, overflowWrap: "anywhere" } }, t.name), h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, plural(t.rooms.length, "cômodo", "cômodos"))),
+          h(DS.Button, { variant: "ghost", size: "sm", iconStart: this.ic("copy", 16), "aria-label": "Copiar " + t.name, onClick: () => this.setState({ dialog: { kind: "copy", ctx: "wizard", cat, from: t.id, value: t.name + " (cópia)", error: null } }) }, "Copiar")),
+        this.roomList(t.rooms, i => setRooms(t.rooms.filter((_, j) => j !== i))),
+        this.roomCombo({ key: "wt-" + cat + "-" + t.id, existing: t.rooms, types: w.types, label: "Novo cômodo da " + t.name, desk, onAdd: name => setRooms(t.rooms.concat([name])) }));
+    };
+    const catalog = (cat, title, desc) => h("div", { style: { display: "grid", gap: "var(--space-3)" } },
+      h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "var(--space-2)" } }, sub(title, desc), h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)", whiteSpace: "nowrap" } }, plural(w.types[cat].length, "tipologia", "tipologias"))),
+      h("div", { style: { display: "grid", gridTemplateColumns: desk ? "repeat(auto-fill, minmax(260px, 1fr))" : "minmax(0,1fr)", gap: "var(--space-3)" } },
+        w.types[cat].map(t => typeCard(cat, t)),
+        h(DS.Button, { variant: "outline", iconStart: this.ic("plus", 18), style: { alignSelf: "start", justifySelf: desk ? "stretch" : "start" }, onClick: () => this.setState({ dialog: { kind: "newType", ctx: "wizard", cat, value: "", error: null } }) }, cat === "unit" ? "Nova tipologia" : "Nova tipologia de área comum")));
+    const conflicts = plan.conflicts;
+    const hasConflict = Object.keys(conflicts).length > 0;
+    const typeName = id => (this.typeOf("unit", id, w.types) || { name: "Sem tipologia" }).name;
+    const pairs = Object.values(plan.pairs);
+    const floorSpan = (lo, hi) => lo === hi ? "no " + ordinal(lo) + " andar" : "do " + ordinal(lo) + " ao " + ordinal(hi) + " andar";
+    const pickMenu = (key, label, trigger, items, footer) => {
+      const DSx = this.DS();
+      return h(DSx.DropdownMenu, { key, trigger, open: this.state.menu === key, onOpenChange: v => this.setState({ menu: v ? key : null }), align: "start", width: 260, label },
+        items.map((it, k) => it === "sep" ? h(DSx.DropdownMenuSeparator, { key: "s" + k }) : h(DSx.DropdownMenuItem, { key: it.label, checked: it.checked, keepOpen: true, onSelect: it.go }, it.label)),
+        footer ? h(DSx.DropdownMenuSeparator, { key: "fs" }) : null,
+        footer ? h(DSx.DropdownMenuLabel, { key: "f" }, h("span", { style: { display: "block", fontSize: "var(--text-sm)", fontWeight: 400, color: "var(--muted-foreground)", textWrap: "pretty" } }, footer)) : null);
+    };
+    const triggerBtn = (text, invalid, labelText) => h("button", { type: "button", className: "no-pick" + (invalid ? " no-pick--invalid" : ""), "aria-label": labelText + ": " + text }, h("span", { style: { minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, text), this.ic("chevron-down", 18, { flex: "none", color: "var(--muted-foreground)" }));
+    const ruleCards = w.rules.map((r, i) => {
+      const set = patch => setW(ww => ({ rules: ww.rules.map((x, j) => j === i ? Object.assign({}, x, patch) : x) }));
+      const lab = (text, el, extra) => h("div", { style: Object.assign({ display: "grid", gap: "4px", minWidth: 0 }, extra) }, h("span", { className: "no-field-label" }, text), el);
+      const n_ = n;
+      const all = w.towers.slice(0, n_).map((_, ti) => ti);
+      const allOn = all.every(ti => r.towers.includes(ti));
+      const shape = towerShape(w, w.extend ? [0] : r.towers);
+      const mine = pairs.filter(p => p.a === i || p.b === i);
+      const towerSel = n_ > 1 && !w.extend ? lab("Torres", pickMenu("rt-" + i, "Torres da regra " + (i + 1),
+        triggerBtn(allOn ? "Todas as torres" : r.towers.length ? listText(r.towers.map(ti => w.towers[ti].name)) : "Nenhuma torre", !r.towers.length, "Torres"),
+        [{ label: "Todas as torres", checked: allOn, go: () => set({ towers: allOn ? [] : all }) }, "sep"].concat(w.towers.slice(0, n_).map((t, ti) => ({ label: t.name, checked: r.towers.includes(ti), go: () => set({ towers: r.towers.includes(ti) ? r.towers.filter(x => x !== ti) : r.towers.concat([ti]).sort() }) }))),
+        "Uma torre criada depois não entra nesta regra.")) : null;
+      const finKeys = r.finals === "*" ? null : r.finals;
+      const finText = !finKeys ? "Todos os finais" : finKeys.length ? listText(finKeys.map(k => finalLabel(k, w.numbering))) : "Nenhum final";
+      const finalsEl = lab("Finais", pickMenu("rf-" + i, "Finais da regra " + (i + 1), triggerBtn(finText, mine.length > 0 || (finKeys && !finKeys.length), "Finais"),
+        [{ label: "Todos os finais", checked: !finKeys, go: () => set({ finals: finKeys ? "*" : [] }) }, "sep"].concat(shape.finals.map(k => ({ label: finalLabel(k, w.numbering), checked: !!finKeys && finKeys.includes(k), go: () => { const cur = finKeys || []; set({ finals: cur.includes(k) ? cur.filter(x => x !== k) : cur.concat([k]).sort((x, y) => x - y) }); } }))),
+        shape.finals.length ? null : "Preencha as faixas no passo 1 para escolher os finais."));
+      const floorSel = (k, labelText, emptyText) => h("select", { className: "es-select", value: r[k], "aria-label": labelText + ", regra " + (i + 1), onChange: ev => set({ [k]: ev.target.value }) },
+        h("option", { value: "" }, emptyText), shape.floors.map(f => h("option", { key: f, value: String(f) }, ordinal(f))));
+      const floorsEl = h("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-2)", minWidth: 0 } },
+        lab("Do andar", floorSel("from", "Do andar", "Primeiro")), lab("Até o andar", floorSel("to", "Até o andar", "Último")));
+      const typeSel = lab("Tipologia", h("select", { className: "es-select", value: r.type, "aria-label": "Tipologia da regra " + (i + 1), onChange: ev => set({ type: ev.target.value }) }, w.types.unit.map(t => h("option", { key: t.id, value: t.id }, t.name))));
+      let hits = 0; plan.towers.forEach(t => t.rows.forEach(row => row.units.forEach(u => { const fl = num(row.label); const k = w.numbering === "letter" ? letters.indexOf(u.name.slice(-1)) + 1 : num(u.name.slice(-2)); if ((w.extend || r.towers.includes(t.ti)) && (!finKeys || finKeys.includes(k)) && (!(num(r.from) >= 1) || fl >= num(r.from)) && (!(num(r.to) >= 1) || fl <= num(r.to))) hits++; })));
+      const clashLines = mine.map(p => { const other = p.a === i ? p.b : p.a; return (p.finals.length === 1 ? "O final " : "Os finais ") + finalsText(p.finals.sort((x, y) => x - y), w.numbering) + " da " + p.tower + ", " + floorSpan(p.lo, p.hi) + ", já " + (p.finals.length === 1 ? "tem" : "têm") + " a " + typeName(w.rules[other].type) + " pela regra " + (other + 1) + "."; });
+      return h("div", { key: i, id: "w-rule-" + i, className: this.state.highlight === "w-rule-" + i ? "no-highlight" : undefined, style: { display: "grid", gap: "var(--space-3)", padding: "var(--space-4)", borderRadius: "var(--radius-lg)", background: "var(--background)", boxShadow: mine.length ? "inset 0 0 0 1px var(--destructive), var(--ring-hairline)" : "var(--ring-hairline)", scrollMarginTop: "100px" } },
+        h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-2)" } },
+          h("span", { style: { display: "flex", gap: "var(--space-2)", alignItems: "baseline", flexWrap: "wrap" } }, h("span", { style: { fontWeight: 600 } }, "Regra " + (i + 1) + " · " + typeName(r.type)), h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, plural(hits, "unidade", "unidades"))),
+          h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Tirar a regra " + (i + 1), onClick: () => setW(ww => ({ rules: ww.rules.filter((_, j) => j !== i) })) }, this.ic("x", 18))),
+        h("div", { style: { display: "grid", gridTemplateColumns: desk ? (towerSel ? "repeat(3, minmax(0,1fr))" : "repeat(2, minmax(0,1fr))") : "minmax(0,1fr)", gap: "var(--space-3)", alignItems: "start" } }, typeSel, towerSel, finalsEl, h("div", { style: { gridColumn: desk ? "span 2" : "auto", minWidth: 0 } }, floorsEl)),
+        clashLines.map((t, k) => h("div", { key: k, className: "no-err", role: "alert" }, this.ic("circle-alert", 16, { marginTop: "2px", flex: "none" }), t)),
+        w.errors["rulefinals" + i] ? h("div", { className: "no-err" }, this.ic("circle-alert", 16, { marginTop: "2px", flex: "none" }), w.errors["rulefinals" + i]) : null);
+    });
+    const conflictAlert = hasConflict ? h(DS.Alert, { tone: "danger", role: "alert", title: pairs.length === 1 ? "Duas regras dão tipologia às mesmas unidades" : "Há regras dando tipologia às mesmas unidades" },
+      pairs.map((p, k) => h("span", { key: k, style: { display: "block" } }, "Regra " + (p.a + 1) + " (" + typeName(w.rules[p.a].type) + ") e regra " + (p.b + 1) + " (" + typeName(w.rules[p.b].type) + "): " + (p.first === p.last ? p.first : p.first + " a " + p.last) + ", na " + p.tower + ".")),
+      h("span", { style: { display: "block", marginTop: "var(--space-1)" } }, "Cada unidade fica com uma tipologia só. Tire o final ou os andares repetidos de uma das regras para salvar.")) : null;
+    const step3 = card("w-sec-2", w.extend ? 2 : 3, "Tipologias", "A lista de cômodos de cada tipo, num catálogo para unidades e outro para áreas comuns. Uma tipologia de área comum só vale para área comum.",
+      h("div", { style: { display: "grid", gap: "var(--space-6)" } },
+        catalog("unit", "Unidades", null),
+        catalog("area", "Áreas comuns", "Escolhidas no Hall em cada andar, no hall de entrada e em cada área comum."),
+        h("div", { id: "w-rules", style: { display: "grid", gap: "var(--space-3)", scrollMarginTop: "24px" } },
+          sub("Onde se aplica", "Cada regra dá uma tipologia às unidades dos finais e andares escolhidos. Final que a torre não tem fica de fora, sem erro."),
+          conflictAlert, ...ruleCards,
+          h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { justifySelf: "start", color: "var(--primary)", marginLeft: "-8px" }, onClick: () => setW(ww => ({ rules: ww.rules.concat([{ towers: [0], finals: "*", from: "", to: "", type: ww.types.unit[0] ? ww.types.unit[0].id : "" }]) })) }, "Regra"),
+          this.muted("Unidade sem regra fica sem tipologia, e os cômodos dela se cadastram nela."))));
+
+    
+    const discRow = d => h("div", { key: d, className: "es-row", style: { minHeight: "52px" } },
+      h("span", { style: { flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: "var(--space-2)", flexWrap: "wrap" } }, h("span", { style: { display: "grid", gap: "2px" } }, h("span", { style: { fontWeight: 500 } }, d), h("span", { className: "es-row__meta" }, w.discScope && w.discScope[d] === false ? "Só onde for ligada" : "Na obra toda")), DEFAULT_DISC.includes(d) ? h(DS.Badge, { tone: "neutral" }, "Padrão") : null),
+      DEFAULT_DISC.includes(d) ? null : h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Tirar a disciplina " + d, onClick: () => setW(ww => ({ discs: ww.discs.filter(x => x !== d), disc: ww.disc.map(b => Object.assign({}, b, { list: b.list.filter(x => x !== d) })) })) }, this.ic("x", 18)));
+    const step4 = card("w-sec-3", w.extend ? 3 : 4, "Disciplinas", "Unidades e áreas comuns novas começam com as disciplinas que valem na obra toda. Andares e torres começam só com Hidráulica e Elétrica. Geral não entra na lista.",
+      h("div", { style: { display: "grid", gap: "var(--space-4)" } },
+        this.listCard(w.discs.map(discRow).concat([h("div", { key: "add", className: "es-row", style: { paddingLeft: "var(--space-2)" } }, h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { color: "var(--primary)" }, onClick: () => this.setState({ dialog: { kind: "newDisc", ctx: "wizard", value: "", error: null } }) }, "Nova disciplina"))])),
+        h("div", { style: { display: "grid", gap: "var(--space-2)" } }, sub("Ajustes por local", "Marque locais na prévia ou escolha as unidades e áreas comuns de um andar ou de uma torre."),
+          w.disc.length ? this.listCard(w.disc.map((b, i) => h("div", { key: i, className: "es-row" },
+            h("div", { style: { flex: 1, minWidth: 0, display: "grid", gap: "2px", padding: "var(--space-2) 0" } }, h("span", { style: { fontWeight: 500 } }, b.label), h("span", { className: "es-row__meta" }, b.list.length ? "Só " + listText(b.list) : "Sem disciplina específica")),
+            h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Tirar o ajuste de " + b.label, onClick: () => setW(ww => ({ disc: ww.disc.filter((_, j) => j !== i) })) }, this.ic("x", 18))))) : this.muted("Nenhum ajuste. Cada local começa com suas disciplinas padrão.")),
+        h(DS.Button, { variant: "outline", iconStart: this.ic("sliders-horizontal", 18), style: { justifySelf: desk ? "start" : "stretch" }, onClick: () => this.setState({ dialog: { kind: "batch", ctx: "wizard", scope: w.marked.length ? "marked" : "floor", tower: 0, floor: "Térreo", list: w.discs.filter(d => !w.discScope || w.discScope[d] !== false), conflicts: null, draft: "" } }) }, "Ajustar disciplinas"),
+        h("div", { className: "no-aside-note" }, this.ic("pencil", 16, { flex: "none", marginTop: "2px" }), h("span", null, "Depois de criar, ligue ou desligue disciplinas em cada local ou em lote. A escolha de onde uma disciplina vale fica definida na criação. Cor e planta própria se ajustam na configuração."))));
+
+    // Preview and the reservation it spends.
+    const left = this.state.left;
+    const over = plan.spend > left;
+    const blockAlerts = [];
+    if (over) blockAlerts.push(h(DS.Alert, { key: "over", tone: "danger", title: "Faltam " + plural(plan.spend - left, "unidade", "unidades") + " na reserva", style: { textWrap: "pretty" } }, "Esta estrutura usa " + plan.spend + " e a obra ainda tem " + left + ". ", this.isAdmin() ? this.reserveLink() : "Peça mais ao admin da construtora."));
+    if (hasConflict) blockAlerts.push(h(DS.Alert, { key: "conf", tone: "danger", title: "Regras em conflito" }, "Duas regras dão tipologia às mesmas unidades. ", h("a", { href: "#", className: "es-link", onClick: ev => { this.noop(ev); this.goStep("w-rules"); if (!this.isDesk()) this.setW({ step: w.extend ? 1 : 2 }); } }, "Ver regras")));
+    const errAlert = w.error ? h(DS.Alert, { key: "e", tone: "danger", role: "alert", title: w.extend ? "Não foi possível adicionar os andares" : "Não foi possível criar a estrutura" }, "Nada foi salvo. Confira a conexão.") : null;
+    if (errAlert && !desk) blockAlerts.unshift(errAlert);
+    const blocked = over || hasConflict;
+    const createLabel = w.sending ? (w.extend ? "Adicionando andares…" : "Criando estrutura…") : w.error ? "Tentar de novo" : (w.extend ? "Adicionar " + plural(plan.floors, "andar", "andares") : "Criar estrutura");
+    const submit = () => {
+      const errors = validateWizard(w);
+      if (Object.keys(errors).length) { setW({ errors, step: 0 }); if (this.isDesk()) this.scrollTo("w-sec-0"); this.revealFirstError(true); return; }
+      if (blocked || plan.invalid || this.frozen()) return;
+      setW({ sending: true, error: null });
+      clearTimeout(this.t2);
+      this.t2 = setTimeout(() => {
+        if (this.prop("createResult") === "fail") return setW({ sending: false, error: "fail" });
+        if (this.prop("createResult") === "no-units") return this.setState(s => ({ left: Math.max(0, plan.spend - 12), wizard: Object.assign({}, s.wizard, { sending: false }) }));
+        if (w.extend) {
+          const data = this.state.data;
+          this.enter("tower", data.towers[0].id, { wizard: wizardFresh(), left: left - plan.spend });
+          return this.toastFor(plural(plan.floors, "andar adicionado", "andares adicionados") + " à " + w.towers[0].name + ".");
+        }
+        this.dropDraft();
+        this.enter("home", null, { data: makeData("built"), wizard: wizardFresh(), left: left - plan.spend });
+        this.toastFor("Estrutura criada: " + plural(plan.count, "torre", "torres") + " e " + plural(plan.units, "unidade", "unidades") + ".", "success", "types", 12000);
+      }, 1100);
+    };
+    const createBtn = h(DS.Button, { size: "lg", block: true, loading: w.sending, disabled: blocked && !w.sending, "aria-describedby": blocked ? "w-block" : undefined, iconStart: w.sending ? null : this.ic(w.error ? "refresh-cw" : "check", 20), onClick: submit }, createLabel);
+
+    const pz = desk ? { block: 26, gap: 3, label: 40, area: 52, unitFont: "11px", areaFont: "11px", labelFont: "var(--text-2xs)", radius: "5px" } : { block: 44, gap: 4, label: 44, unitMin: 52, area: 76, unitFont: "13px", areaFont: "var(--text-xs)", labelFont: "13px", radius: "var(--radius-md)" };
+    const marking = w.marking;
+    const cellClick = key => () => {
+      if (marking) return setW(ww => ({ marked: ww.marked.includes(key) ? ww.marked.filter(k => k !== key) : ww.marked.concat([key]) }));
+      this.openInspect(key);
+    };
+    const cellCls = (base, key, extra) => base + (w.marked.includes(key) && marking ? " no-cell--marked" : "") + (this.state.inspect === key ? " no-cell--open" : "") + (extra || "");
+    const previewTowers = plan.towers.map((t, i) => {
+      const maxU = Math.max(1, ...t.rows.map(x => x.units.length));
+      const cols = pz.label + "px repeat(" + maxU + ", " + (desk ? "minmax(0,1fr)" : "minmax(" + pz.unitMin + "px, 1fr)") + ") " + pz.area + "px";
+      const minW = desk ? 0 : pz.label + maxU * pz.unitMin + pz.area + (maxU + 1) * pz.gap;
+      const areaBtn = (a, extra) => h("button", { key: a.key, type: "button", className: cellCls("no-cell no-cell--area", a.key), "aria-pressed": marking ? w.marked.includes(a.key) : undefined, "aria-label": a.name + ", " + (a.floor || "") + ", " + t.name, title: a.name, onClick: cellClick(a.key), style: Object.assign({ height: pz.block + "px", borderRadius: pz.radius, fontSize: pz.areaFont, padding: desk ? "0 2px" : "0 4px", display: "block", lineHeight: (pz.block - 2) + "px", textAlign: "center" }, extra) }, a.name);
+      const rows = h("div", { style: { display: "grid", gap: pz.gap + "px", minWidth: minW ? minW + "px" : 0 } }, t.rows.map((r, j) =>
+        h("div", { key: j, style: { display: "grid", gridTemplateColumns: cols, gap: pz.gap + "px", alignItems: "start" } },
+          h("span", { style: { fontSize: pz.labelFont, lineHeight: pz.block + "px", color: "var(--muted-foreground)", fontFamily: r.label === "Térreo" ? "var(--font-sans)" : "var(--font-mono)", position: desk ? "static" : "sticky", left: 0, zIndex: 1, background: desk ? "transparent" : "var(--background)", boxShadow: desk ? "none" : pz.gap + "px 0 0 var(--background)", whiteSpace: "nowrap" } }, r.label),
+          r.units.map(u => h("button", { key: u.key, type: "button", className: cellCls("no-cell" + (r.isNew ? " no-cell--new" : ""), u.key, u.conflict ? " no-cell--conflict" : ""), "aria-pressed": marking ? w.marked.includes(u.key) : undefined, "aria-label": "Unidade " + u.name + ", " + t.name, onClick: cellClick(u.key), style: { height: pz.block + "px", borderRadius: pz.radius, fontSize: pz.unitFont, fontWeight: desk ? 400 : 500 } }, u.name)),
+          r.units.length ? h("span", { style: { gridColumn: (maxU + 2) + " / span 1", display: "grid", gap: pz.gap + "px", minWidth: 0 } }, r.areas.map(a => areaBtn(a))) :
+            h("span", { style: { gridColumn: "2 / -1", display: "flex", gap: pz.gap + "px", minWidth: 0 } }, r.areas.map(a => areaBtn(a, { flex: "1 1 0", minWidth: 0 }))))));
+      return h("div", { key: i, style: { display: "grid", gap: "var(--space-2)", minWidth: 0 } },
+        h("span", { style: { fontSize: "var(--text-sm)", fontWeight: 600 } }, t.name),
+        t.empty ? this.muted("Preencha as faixas para ver os andares.") :
+        t.invalid ? this.muted("Complete as faixas desta torre para ver os andares.") :
+          desk ? rows : h("div", { role: "group", "aria-label": "Prévia da " + t.name, tabIndex: minW > 358 ? 0 : undefined, style: { overflowX: "auto", overscrollBehaviorX: "contain", minWidth: 0 } }, rows));
+    });
+    const obraAreaRow = plan.obraAreas.length ? h("div", { key: "oa", style: { display: "grid", gap: "var(--space-2)" } }, h("span", { style: { fontSize: "var(--text-sm)", fontWeight: 600 } }, "Da obra"),
+      h("div", { style: { display: "flex", flexWrap: "wrap", gap: pz.gap + "px" } }, plan.obraAreas.map(a => h("button", { key: a.key, type: "button", className: cellCls("no-cell no-cell--area", a.key), "aria-pressed": marking ? w.marked.includes(a.key) : undefined, onClick: cellClick(a.key), style: { height: pz.block + "px", borderRadius: pz.radius, fontSize: pz.areaFont, padding: "0 var(--space-3)" } }, a.name)))) : null;
+    const towersBlock = h("div", { key: "t", "data-preview-box": true, style: { display: "grid", alignContent: "start", gap: "var(--space-4)", flex: desk ? "1 1 auto" : "none", minHeight: desk ? "140px" : 0, overflowY: desk ? "auto" : "visible", paddingRight: desk ? "4px" : 0 }, className: desk ? "no-scroll" : undefined }, previewTowers, obraAreaRow);
+    const typeLine = Object.entries(plan.typeCount).map(([id, k]) => (this.typeOf("unit", id, w.types) || { name: "?" }).name + ": " + k).join(" · ") + (plan.untyped ? " · Sem tipologia: " + plan.untyped : "");
+    const spendParts = [[plan.units, "unidade", "unidades"], [plan.floorHalls, "hall de andar", "halls de andar"], [plan.entranceHalls, "hall de entrada", "halls de entrada"], [plan.otherAreas, "outra área comum", "outras áreas comuns"]].filter(([k]) => k > 0).map(([k, one, many]) => plural(k, one, many));
+    const reserveBlock = h("div", { key: "r", style: { display: "grid", gap: "2px", padding: "var(--space-3) var(--space-4)", borderRadius: "var(--radius-lg)", background: "var(--muted)" } },
+      plan.invalid ? h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, "Complete as faixas para ver quanto da reserva esta estrutura usa.") : [
+        h("span", { key: "a", style: { fontSize: "var(--text-sm)", fontWeight: 600, textWrap: "pretty" } }, "Esta estrutura usa " + plan.spend + " de " + RESERVED + " reservadas." + (over ? "" : " Depois de " + (w.extend ? "adicionar" : "criar") + ", sobram " + (left - plan.spend) + ".")),
+        h("span", { key: "b", style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)", textWrap: "pretty" } }, spendParts.join(" + "))]);
+    const markBar = h("div", { key: "mk", style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-2)", minHeight: "36px" } },
+      h("span", { style: { fontSize: "var(--text-sm)", color: marking ? "var(--foreground)" : "var(--muted-foreground)", fontWeight: marking ? 500 : 400, minWidth: 0 } }, marking ? (w.marked.length ? plural(w.marked.length, "marcado", "marcados") : "Toque para marcar.") : "Toque para conferir."),
+      h("div", { style: { display: "flex", gap: "var(--space-2)", flex: "none" } },
+        marking && w.marked.length ? h(DS.Button, { size: "sm", iconStart: this.ic("sliders-horizontal", 16), onClick: () => this.setState({ dialog: { kind: "batch", ctx: "wizard", scope: "marked", tower: 0, floor: "Térreo", list: w.discs.filter(d => !w.discScope || w.discScope[d] !== false), conflicts: null, draft: "" } }) }, "Disciplinas") : null,
+        h(DS.Button, { size: "sm", variant: marking ? "ghost" : "outline", onClick: () => setW(ww => ({ marking: !ww.marking, marked: ww.marking ? [] : ww.marked })) }, marking ? "Cancelar" : "Marcar locais")));
+    const previewInner = [
+      h("div", { key: "c", style: { display: "grid", gap: "var(--space-1)" } },
+        h("span", { style: { fontSize: "var(--text-base)", fontWeight: 600 } }, w.extend ? w.towers[0].name + " ganha " + plural(plan.floors, "andar", "andares") + " e " + plural(plan.units, "unidade", "unidades") : [plural(plan.count, "torre", "torres"), plural(plan.floors, "andar", "andares"), plural(plan.units, "unidade", "unidades")].join(" · ")),
+        h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, plural(plan.areas, "área comum", "áreas comuns") + (typeLine ? " · " + typeLine : ""))),
+      reserveBlock,
+      plan.untyped ? h(DS.Alert, { key: "u", tone: "info" }, plural(plan.untyped, "unidade fica", "unidades ficam") + " sem tipologia. Os cômodos delas se cadastram em cada uma.") : null,
+      desk ? null : markBar,
+      desk ? null : towersBlock,
+      desk && w.error ? errAlert : null,
+      desk && blockAlerts.length ? h("div", { key: "o", id: "w-block", style: { display: "grid", gap: "var(--space-2)" } }, blockAlerts) : null,
+      desk ? h("div", { key: "b" }, createBtn) : null,
+      this.muted("Nada é salvo antes de " + (w.extend ? "adicionar." : "criar.") + " Depois, tudo se ajusta na fachada e na configuração." + (desk ? "" : " O rascunho fica guardado até lá, mesmo se a página for atualizada."), { key: "n" }),
+      desk ? h("div", { key: "tw", className: "no-aside__grow", style: { flex: "1 1 auto", minHeight: 0, display: "flex", flexDirection: "column", gap: "var(--space-3)", borderTop: "1px solid var(--border)", paddingTop: "var(--space-4)" } }, markBar, towersBlock) : null,
+    ];
+    const restored = w.restored ? h(DS.Alert, { tone: "info", title: "Rascunho restaurado" }, "O que você montou continua aqui até criar a estrutura ou descartar. ",
+      h("a", { href: "#", className: "es-link", onClick: ev => { this.noop(ev); this.setState({ dialog: { kind: "leave", stay: true } }); } }, "Descartar rascunho")) : null;
+    const insp = this.state.inspect ? this.inspector(plan, this.state.inspect, desk) : null;
+    if (desk) {
+      return h("div", { style: { display: "grid", gap: "var(--space-5)" } }, restored,
+        h("div", { style: { display: "grid", gridTemplateColumns: "minmax(0,1fr) 360px", gap: "var(--space-8)", alignItems: "start" } },
+          h("div", { style: { display: "grid", gap: "var(--space-5)", minWidth: 0 } }, step1, step2, step3, step4),
+          h("aside", { id: "w-sec-4", "data-pin": "a", "aria-label": insp ? "Conferência" : "Prévia", className: "no-aside", style: { position: "sticky", top: "24px", display: "flex", flexDirection: "column", gap: insp ? 0 : "var(--space-4)", maxHeight: this.props.framed ? "752px" : "calc(100dvh - 48px)", padding: insp ? 0 : "var(--space-5)", borderRadius: "var(--radius-xl)", background: "var(--card)", boxShadow: "var(--ring-hairline)", overflow: insp ? "hidden" : "visible" } },
+            insp || [h("h2", { key: "h", style: { margin: 0, fontSize: "var(--text-lg)", fontWeight: 600 } }, "Prévia"), ...previewInner])));
+    }
+    const steps = w.extend ? [step1, step3, step4, null] : [step1, step2, step3, step4, null];
+    const titles = this.wizardSteps(w);
+    const last = steps.length - 1;
+    const cur = Math.min(w.step, last);
+    const progress = h("div", { style: { display: "grid", gap: "var(--space-2)" } },
+      h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, "Passo " + (cur + 1) + " de " + steps.length),
+      h("div", { style: { display: "flex", gap: "4px" } }, steps.map((_, i) => h("span", { key: i, style: { flex: 1, height: "4px", borderRadius: "999px", background: i <= cur ? "var(--primary)" : "var(--border)" } }))));
+    const content = cur === last ? h("section", { id: "w-sec-4", style: { display: "grid", gap: "var(--space-4)" } },
+      h("div", { style: { display: "flex", alignItems: "center", gap: "var(--space-2)" } }, h("span", { className: "es-step" }, steps.length), h("h2", { style: { margin: 0, fontSize: "var(--text-lg)", fontWeight: 600 } }, "Prévia")), ...previewInner) : steps[cur];
+    const barButtons = h("div", { style: { display: "flex", gap: "var(--space-2)" } },
+      cur > 0 ? h(DS.Button, { size: "lg", variant: "outline", disabled: w.sending, style: { flex: "1 1 0" }, onClick: () => { setW({ step: cur - 1 }); const sc = this.scrollRef.current; if (sc) sc.scrollTop = 0; } }, "Voltar") : null,
+      cur < last ? h(DS.Button, { size: "lg", style: { flex: "2 1 0" }, onClick: () => { if (cur === 0) { const errors = validateWizard(w); if (Object.keys(errors).length) { setW({ errors }); return this.revealFirstError(true); } } setW({ step: cur + 1 }); const sc = this.scrollRef.current; if (sc) sc.scrollTop = 0; } }, "Continuar · " + titles[cur + 1]) : h("div", { style: { flex: "2 1 0" } }, createBtn));
+    this.wizardBar = cur === last && blockAlerts.length ? h("div", { style: { display: "grid", gap: "var(--space-3)" } }, h("div", { id: "w-block", style: { display: "grid", gap: "var(--space-2)" } }, blockAlerts), barButtons) : barButtons;
+    this.wizardOverlay = insp;
+    return h("div", { style: { display: "grid", gap: "var(--space-5)" } }, restored, progress, content);
+  }
+
+  // Read-only check of one previewed location. Each field says where it is changed, and the link goes to that exact card.
+  inspector(plan, key, desk) {
+    const DS = this.DS(), h = React.createElement;
+    const w = this.state.wizard;
+    let found = null;
+    plan.towers.forEach(t => t.rows.forEach(r => { r.units.forEach(u => { if (u.key === key) found = { kind: "unit", item: u, tower: t.name, ti: t.ti, floor: u.floor }; }); r.areas.forEach(a => { if (a.key === key) found = { kind: a.kind, item: a, tower: t.name, ti: t.ti, floor: a.floor }; }); }));
+    plan.obraAreas.forEach(a => { if (a.key === key) found = { kind: "area", item: a, tower: null, floor: null }; });
+    if (!found) return null;
+    const it = found.item;
+    const isUnit = found.kind === "unit";
+    const type = this.typeOf(isUnit ? "unit" : "area", it.type, w.types);
+    const path = [found.tower && plan.towers.length > 1 || w.extend ? found.tower : null, found.floor, isUnit ? it.name : null].filter(Boolean);
+    const disc = discFor(w, key);
+    const stepName = sec => 1 + (w.extend ? { "w-sec-0": 0, "w-sec-2": 1, "w-sec-3": 2 } : { "w-sec-0": 0, "w-sec-1": 1, "w-sec-2": 2, "w-sec-3": 3 })[sec];
+    const tw = w.towers[found.ti] || w.towers[0];
+    const rangeIdx = isUnit ? tw.ranges.findIndex(rg => it.fl >= num(rg.from) && it.fl <= num(rg.to)) : -1;
+    const pathLink = found.kind === "area" && !found.tower ? ["w-sec-1", null, "em Áreas comuns"] : rangeIdx >= 0 ? ["w-sec-0", "w-range-" + found.ti + "-" + rangeIdx, "na faixa " + (rangeIdx + 1) + " da " + tw.name] : ["w-sec-0", "w-tower-" + (found.ti || 0), "na " + tw.name];
+    const typeLink = isUnit ? (it.rule >= 0 ? ["w-sec-2", "w-rule-" + it.rule, "na regra " + (it.rule + 1)] : ["w-sec-2", "w-rules", "em Onde se aplica"]) : found.kind === "area" && !found.tower ? ["w-sec-1", null, "em Áreas comuns"] : ["w-sec-0", "w-tower-" + (found.ti || 0), "na " + tw.name];
+    const roomsLink = type ? ["w-sec-2", "wt-" + type.id, "na " + (/^tipologia /i.test(type.name) ? "" : "tipologia ") + type.name] : null;
+    const kv = (k, v, link) => h("div", { className: "no-kv" },
+      h("span", { className: "no-kv__k" }, k),
+      h("div", { className: "no-kv__v" }, v),
+      link ? h("button", { type: "button", className: "no-steplink", onClick: () => this.goStep(link[0], link[1]) }, this.ic("pencil", 14), "Mudar " + link[2] + (desk ? "" : " · passo " + stepName(link[0]))) : null);
+    const title = isUnit ? "Unidade " + it.name : it.name;
+    const body = h("div", { style: { display: "grid" } },
+      kv("Caminho", path.length ? path.join(" › ") + (isUnit ? "" : " › " + it.name) : "Da obra › " + it.name, pathLink),
+      kv("Tipologia", type ? type.name : "Sem tipologia.", typeLink),
+      kv("Cômodos", type && type.rooms.length ? this.roomList(type.rooms) : "Sem cômodo.", roomsLink),
+      kv("Disciplinas", disc.length ? listText(disc) + ". Geral vale sempre." : "Sem disciplina específica.", ["w-sec-3", null, "em Disciplinas"]),
+      kv("Reserva", isUnit ? "Usa 1 da reserva." : "Usa 1 da reserva. É área comum: não tem número de apartamento nem status de venda.", null));
+    const close = h(DS.Button, { variant: "ghost", size: "icon", "aria-label": "Fechar a conferência", onClick: () => this.closeInspect() }, this.ic("x", 20));
+    const head = (size) => h("div", { style: { display: "grid", gap: "2px" } }, h(size === "lg" ? "h2" : "h3", { style: { margin: 0, fontSize: size === "lg" ? "var(--text-2xl)" : "var(--text-xl)", fontWeight: 600, letterSpacing: "var(--tracking-tight)", fontFamily: isUnit ? "var(--font-mono)" : "inherit" } }, it.name), h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, (isUnit ? "Unidade" : "Área comum") + " · só leitura, nada aqui é salvo"));
+    if (desk) return h("div", { key: "insp", role: "region", "aria-label": "Conferência de " + title, style: { display: "flex", flexDirection: "column", minHeight: 0, flex: "1 1 auto" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-2)", minHeight: "56px", padding: "0 var(--space-2) 0 var(--space-3)", borderBottom: "1px solid var(--border)" } },
+        h("button", { type: "button", className: "es-back", style: { marginLeft: 0 }, onClick: () => this.closeInspect() }, this.ic("chevron-left", 20), "Prévia"), close),
+      h("div", { className: "no-scroll", style: { overflow: "auto", minHeight: 0, display: "grid", alignContent: "start", gap: "var(--space-3)", padding: "var(--space-4) var(--space-5) var(--space-5)" } }, head("md"), body));
+    return h("div", { key: "insp", role: "dialog", "aria-label": "Conferência de " + title, style: { display: "flex", flexDirection: "column", height: "100%" } },
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--space-2)", minHeight: "56px", padding: "0 var(--space-2) 0 var(--page-pad)", borderBottom: "1px solid var(--border)" } },
+        h("button", { type: "button", className: "es-back", onClick: () => this.closeInspect() }, this.ic("chevron-left", 20), "Prévia"), close),
+      h("div", { style: { flex: 1, overflow: "auto", display: "grid", alignContent: "start", gap: "var(--space-4)", padding: "var(--space-5) var(--page-pad) var(--space-8)" } }, head("lg"), body));
+  }
+
+
+  configBody(desk, canEdit) {
+    const DS = this.DS(), h = React.createElement;
+    const st = this.state, d = st.data, c = counts(d);
+    const delivered = st.delivered, edit = canEdit && !delivered;
+    const card = (id, title, children) => h("section", { id, "aria-labelledby": id + "-t", className: st.highlight === id ? "no-highlight" : undefined, style: { scrollMarginTop: "88px", display: "grid", gap: "var(--space-4)", padding: "var(--space-5)", borderRadius: "var(--radius-xl)", background: "var(--card)", boxShadow: "var(--ring-hairline)", minWidth: 0 } },
+      h("h3", { id: id + "-t", style: { margin: 0, fontSize: "var(--text-lg)", fontWeight: 600, letterSpacing: "var(--tracking-tight)" } }, title), children);
+    const lock = txt => h("div", { key: "lock", style: { display: "flex", alignItems: "flex-start", gap: "var(--space-2)", fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, this.ic("lock", 16, { marginTop: "2px", flex: "none" }), txt);
+    const used = RESERVED - st.left;
+    const dados = card("dados-da-obra", "Dados da obra", h("div", { style: { display: "grid", gap: "var(--space-4)" } },
+      h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-3)", flexWrap: "wrap" } },
+        h("div", { style: { display: "grid", gap: "2px" } }, h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, "Nome da obra"), h("span", { style: { fontWeight: 500 } }, OBRA)),
+        !delivered && this.role() !== "assistant" ? h(DS.Button, { variant: "outline", iconStart: this.ic("pencil", 18) }, "Renomear") : null),
+      h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "var(--space-3)", flexWrap: "wrap", borderTop: "1px solid var(--border)", paddingTop: "var(--space-4)" } },
+        h("div", { style: { display: "grid", gap: "2px" } }, h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, "Unidades"), h("span", { style: { fontWeight: 500 } }, delivered ? "Usou " + used + " unidades." : "Usa " + used + " de " + RESERVED + " reservadas")),
+        this.isAdmin() && !delivered ? h(DS.Button, { variant: "outline", iconStart: this.ic("sliders-horizontal", 18) }, "Alterar reserva") : null),
+      delivered ? lock("A obra foi entregue: o nome e a reserva não podem mais ser alterados.") : null));
+    const estrutura = card("estrutura", "Estrutura", c.towers ? [
+      h("span", { key: "c", style: { fontWeight: 500 } }, countLine(c)),
+      h("div", { key: "b", style: { display: "flex", gap: "var(--space-2)", flexWrap: "wrap" } },
+        h(DS.Button, { variant: "outline", style: { flex: desk ? "none" : "1 1 0" }, iconEnd: this.ic("chevron-right", 18), onClick: this.go("home", null) }, "Abrir estrutura"),
+        edit ? h(DS.Button, { variant: "ghost", style: { flex: desk ? "none" : "1 1 0" }, iconStart: this.ic("list-plus", 18), onClick: () => this.openWizard(false) }, "Assistente") : null),
+      this.muted("A estrutura se edita onde se navega: torre, andar e unidade têm “Adicionar” e um menu em cada item.", { key: "p" }),
+    ] : [this.muted("A obra ainda não tem estrutura.", { key: "p" }), edit ? h(DS.Button, { key: "m", size: desk ? "md" : "lg", block: !desk, iconStart: this.ic("list-plus", 18), style: { justifySelf: "start" }, onClick: () => this.openWizard(false) }, "Montar estrutura") : null]);
+
+    const q = norm(st.typeQuery);
+    const usage = (cat, id) => { let k = 0; d.towers.forEach(t => { t.areas.forEach(a => { if (cat === "area" && a.type === id) k++; }); t.floors.forEach(f => { if (cat === "unit") f.units.forEach(u => { if (u.type === id) k++; }); else f.areas.forEach(a => { if (a.type === id) k++; }); }); }); if (cat === "area") d.areas.forEach(a => { if (a.type === id) k++; }); return k; };
+    const te = st.typeEdit;
+    const typeRow = (cat, t) => {
+      const n = usage(cat, t.id);
+      const unitWord = cat === "unit" ? ["unidade", "unidades"] : ["área comum", "áreas comuns"];
+      if (te && te.id === t.id && te.cat === cat) {
+        const fresh = r => !t.rooms.includes(r);
+        return h("div", { key: t.id, className: "es-row", style: { display: "grid", gap: "var(--space-3)", padding: "var(--space-4) var(--space-5)" } },
+          h("span", { style: { fontWeight: 600 } }, t.name),
+          this.roomList(te.rooms, i => this.setState({ typeEdit: Object.assign({}, te, { rooms: te.rooms.filter((_, j) => j !== i) }) }), fresh),
+          this.roomCombo({ key: "cfg-" + t.id, existing: te.rooms, types: d.types, label: "Novo cômodo da " + t.name, desk, onAdd: name => this.setState(s => ({ typeEdit: Object.assign({}, s.typeEdit, { rooms: s.typeEdit.rooms.concat([name]) }) })) }),
+          n ? h(DS.Alert, { tone: "info" }, "Salvar muda " + (cat === "unit" ? "as " : "as ") + plural(n, unitWord[0], unitWord[1]) + " da " + t.name + ". Um local com alterações mantém o que foi mudado nele. Cômodo com pins não sai de onde está.") : null,
+          te.error ? h(DS.Alert, { tone: "danger", role: "alert", title: "Não foi possível salvar" }, te.error) : null,
+          h("div", { style: { display: "flex", gap: "var(--space-2)" } },
+            h(DS.Button, { style: { flex: desk ? "none" : "1 1 0" }, loading: te.saving, iconStart: te.error && !te.saving ? this.ic("refresh-cw", 18) : null, onClick: () => { if (this.frozen()) return; this.setData(dd => { dd.types[cat].find(x => x.id === t.id).rooms = te.rooms; }); this.setState({ typeEdit: null, combo: null }); this.toastFor(t.name + " salva." + (n ? " " + plural(n, unitWord[0] + " atualizada", unitWord[1] + " atualizadas") + "." : "")); } }, te.saving ? "Salvando…" : te.error ? "Tentar de novo" : "Salvar"),
+            h(DS.Button, { variant: "outline", disabled: te.saving, style: { flex: desk ? "none" : "1 1 0" }, onClick: () => this.setState({ typeEdit: null, combo: null }) }, "Cancelar")));
+      }
+      const open = !!st.typeOpen[t.id];
+      const meta = h("span", { className: "es-row__meta", style: { display: "flex", gap: "var(--space-2)", alignItems: "center", flexWrap: "wrap" } }, plural(t.rooms.length, "cômodo", "cômodos") + " · ", n ? plural(n, unitWord[0], unitWord[1]) : h(DS.Badge, { tone: "outline" }, "Sem uso"));
+      return h("div", { key: t.id, style: { borderTop: "1px solid var(--border)" } },
+        h("div", { className: "es-row", style: { borderTop: 0 } },
+          h("button", { type: "button", className: "es-row__link", "aria-expanded": open, onClick: () => this.setState(s => ({ typeOpen: Object.assign({}, s.typeOpen, { [t.id]: !open }) })) },
+            h("span", { style: { display: "flex", alignItems: "center", gap: "var(--space-2)" } }, h("span", { className: "es-row__name" }, t.name), h("span", { style: { display: "inline-flex", color: "var(--muted-foreground)", transform: open ? "rotate(180deg)" : "none", transition: "transform var(--duration-fast, 120ms)" } }, this.ic("chevron-down", 18))), meta),
+          edit ? this.menuEl("type-" + t.id, [
+            { label: "Editar cômodos", icon: "pencil", go: () => this.setState({ typeEdit: { cat, id: t.id, rooms: t.rooms.slice(), saving: false }, combo: null, menu: null }) },
+            { label: "Copiar", icon: "copy", go: () => this.setState({ menu: null, dialog: { kind: "copy", ctx: "config", cat, from: t.id, value: t.name + " (cópia)", error: null } }) },
+            { label: "Renomear", icon: "pencil" }, "sep",
+            { label: n ? "Excluir (só sem uso)" : "Excluir tipologia", icon: "trash-2", danger: true },
+          ], this.dotsButton("Ações da " + t.name), "Ações da " + t.name) : null),
+        open ? h("div", { style: { padding: "0 var(--space-5) var(--space-4)", maxWidth: "26rem" } }, this.roomList(t.rooms)) : null);
+    };
+    const group = (cat, title, empty) => {
+      const all = d.types[cat];
+      const list = q ? all.filter(t => norm(t.name).includes(q)) : all;
+      const rows = list.map(t => typeRow(cat, t));
+      if (!rows.length) rows.push(h("p", { key: "none", style: { margin: 0, padding: "var(--space-3) var(--space-5)", fontSize: "var(--text-sm)", color: "var(--muted-foreground)", borderTop: "1px solid var(--border)" } }, q ? "Nenhuma tipologia com esse nome." : empty));
+      if (edit && !q) rows.push(h("div", { key: "add", className: "es-row", style: { paddingLeft: "var(--space-3)" } }, h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { color: "var(--primary)" }, onClick: () => this.setState({ dialog: { kind: "newType", ctx: "config", cat, value: "", error: null } }) }, cat === "unit" ? "Nova tipologia" : "Nova tipologia de área comum")));
+      return h("div", { key: cat, style: { display: "grid", margin: "0 calc(var(--space-5) * -1)" } },
+        h("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: "var(--space-2)", padding: "var(--space-3) var(--space-5) var(--space-2)" } },
+          h("h4", { style: { margin: 0, fontSize: "var(--text-base)", fontWeight: 600 } }, title), h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, plural(all.length, "tipologia", "tipologias"))),
+        rows);
+    };
+    const total = d.types.unit.length + d.types.area.length;
+    const tipologias = card("tipologias", "Tipologias", [
+      this.muted(total ? "Cada unidade e cada área comum acompanha a sua tipologia. O que for mudado num local continua só nele." : "Nenhuma tipologia. Elas nascem no assistente, junto com a estrutura, ou aqui.", { key: "lead" }),
+      total > 6 ? h(DS.SearchInput, { key: "s", value: st.typeQuery, placeholder: "Buscar tipologia", "aria-label": "Buscar tipologia", onChange: ev => this.setState({ typeQuery: ev.target.value }), onClear: () => this.setState({ typeQuery: "" }) }) : null,
+      group("unit", "Unidades", "Nenhuma tipologia de unidade."),
+      group("area", "Áreas comuns", "Nenhuma tipologia de área comum."),
+      delivered ? lock("A obra foi entregue: as tipologias não podem mais ser alteradas.") : null,
+    ]);
+    const futures = [["equipe", "Equipe", "#11"], ["disciplinas", "Disciplinas", "#8"], ["empresas-executoras", "Empresas executoras", "#9"]].map(([id, t, ep]) =>
+      h("section", { key: id, id, style: { scrollMarginTop: "88px", display: "grid", gap: "var(--space-1)", padding: "var(--space-4)", border: "1px dashed var(--input)", borderRadius: "var(--radius-xl)" } },
+        h("span", { role: "heading", "aria-level": 3, style: { fontWeight: 600 } }, t), h("span", { style: { fontSize: "var(--text-sm)", color: "var(--muted-foreground)" } }, "Conteúdo e forma decididos no refinamento do " + ep + ".")));
+    const nav = [["dados-da-obra", "Dados da obra", "building"], ["estrutura", "Estrutura", "layers"], ["tipologias", "Tipologias", "layout-grid"], ["equipe", "Equipe", "user"], ["disciplinas", "Disciplinas", "sliders-horizontal"], ["empresas-executoras", "Empresas executoras", "hard-hat"]];
+    const navEl = h("nav", { "aria-label": "Seções da configuração", style: { position: "sticky", top: "24px", display: "grid", gap: "2px" } }, nav.map(([id, label, icon]) => {
+      const cur = st.cfgSection === id;
+      return h("a", { key: id, href: "#" + id, className: "es-nav", "aria-current": cur ? "true" : undefined, style: { color: cur ? "var(--accent-foreground)" : "var(--muted-foreground)", background: cur ? "var(--accent)" : "transparent" }, onClick: ev => { ev.preventDefault(); this.setState({ cfgSection: id }); this.scrollTo(id); } }, this.ic(icon, 18), label);
+    }));
+    const col = h("div", { style: { display: "grid", gap: "var(--space-4)", maxWidth: "48rem", minWidth: 0 } }, dados, estrutura, tipologias, ...futures);
+    return h("div", { style: { display: "grid", gap: "var(--space-5)" } },
+      h("h2", { style: { margin: 0, fontSize: "var(--text-xl)", fontWeight: 600 } }, "Configuração"),
+      desk ? h("div", { style: { display: "grid", gridTemplateColumns: "200px minmax(0,1fr)", gap: "var(--space-8)", alignItems: "start" } }, navEl, col) : col);
+  }
+
+  dialogParts(desk) {
+    const DS = this.DS(), h = React.createElement;
+    const st = this.state, dg = st.dialog;
+    if (!dg || !DS.Button) return null;
+    const close = () => this.setState({ dialog: null });
+    const setD = patch => this.setState({ dialog: Object.assign({}, dg, patch) });
+    const w = st.wizard;
+    const types = dg.ctx === "wizard" ? w.types : st.data.types;
+    const nameTaken = v => this.allTypeNames(types).some(x => norm(x) === norm(v));
+    let title = "", body = null, action = null, role = "dialog", max = "30rem";
+    if (dg.kind === "copy") {
+      const src = this.typeOf(dg.cat, dg.from, types) || { name: "", rooms: [] };
+      title = "Copiar " + src.name;
+      body = [h(DS.Field, { key: "f", label: "Nome da cópia", htmlFor: "copy-name", error: dg.error, hint: dg.error ? undefined : "Único na obra, entre as tipologias de unidade e de área comum." },
+        h(DS.Input, { id: "copy-name", value: dg.value, invalid: !!dg.error, autoComplete: "off", autoFocus: this.live(), onChange: ev => setD({ value: ev.target.value, error: null }) })),
+        h("div", { key: "r", style: { display: "grid", gap: "var(--space-2)" } }, h("span", { style: { fontWeight: 500 } }, "Leva " + plural(src.rooms.length, "cômodo", "cômodos")), this.roomList(src.rooms)),
+        this.muted("Depois de copiar, as duas mudam separadas. As disciplinas ficam em cada local, não na tipologia.", { key: "n" })];
+      action = { label: "Copiar", icon: "copy", go: () => {
+        const v = dg.value.trim().replace(/\s+/g, " ");
+        if (!v) return setD({ error: "Informe o nome." });
+        if (nameTaken(v)) return setD({ error: "Esse nome já existe nesta obra." });
+        if (this.frozen()) return;
+        const t = { id: "t" + Date.now(), name: v, rooms: src.rooms.slice() };
+        if (dg.ctx === "wizard") { this.setW(ww => ({ types: Object.assign({}, ww.types, { [dg.cat]: ww.types[dg.cat].concat([t]) }) })); this.setState({ dialog: null, highlight: "wt-" + t.id }); this.scrollTo("wt-" + t.id, 120); }
+        else { this.setData(dd => { dd.types[dg.cat].push(t); }); this.setState(s => ({ dialog: null, typeOpen: Object.assign({}, s.typeOpen, { [t.id]: true }) })); this.toastFor(v + " criada com " + plural(t.rooms.length, "cômodo", "cômodos") + "."); }
+      } };
+    } else if (dg.kind === "newType") {
+      title = dg.cat === "unit" ? "Nova tipologia" : "Nova tipologia de área comum";
+      body = [h(DS.Field, { key: "f", label: "Nome", htmlFor: "type-name", error: dg.error, hint: dg.error ? undefined : dg.cat === "unit" ? "Ex.: Tipologia D, Garden." : "Ex.: Hall, Corredor, Garagem." },
+        h(DS.Input, { id: "type-name", value: dg.value, invalid: !!dg.error, autoComplete: "off", autoFocus: this.live(), onChange: ev => setD({ value: ev.target.value, error: null }) })),
+        this.muted("Os cômodos entram depois, no cartão da tipologia.", { key: "n" })];
+      action = { label: "Criar", icon: "plus", disabled: typeof dg.applies !== "boolean", go: () => {
+        const v = dg.value.trim().replace(/\s+/g, " ");
+        if (!v) return setD({ error: "Informe o nome." });
+        if (nameTaken(v)) return setD({ error: "Esse nome já existe nesta obra." });
+        const t = { id: "t" + Date.now(), name: v, rooms: [] };
+        if (dg.ctx === "wizard") { this.setW(ww => ({ types: Object.assign({}, ww.types, { [dg.cat]: ww.types[dg.cat].concat([t]) }) })); if (dg.onCreate) dg.onCreate(t.id); }
+        else this.setData(dd => { dd.types[dg.cat].push(t); });
+        this.setState({ dialog: null, highlight: "wt-" + t.id });
+      } };
+    } else if (dg.kind === "leave") {
+      role = "alertdialog";
+      title = "Descartar o que você montou?";
+      body = [h("p", { key: "p", style: { margin: 0, textWrap: "pretty" } }, "Nada foi salvo ainda. As torres, as tipologias e as regras deste rascunho são apagadas.")];
+      action = { label: "Descartar", icon: "trash-2", variant: "destructive", go: () => {
+        if (this.frozen()) return;
+        this.dropDraft();
+        if (dg.stay) this.setState({ dialog: null, wizard: wizardFresh() });
+        else this.enter("configuration", null, { dialog: null, wizard: wizardFresh(), cfgSection: "estrutura" });
+      } };
+      return this.dialogOut(title, role, body, { label: "Continuar montando" }, action, max);
+    } else if (dg.kind === "newDisc") {
+      title = "Nova disciplina";
+      const DL = dg.ctx === "wizard" ? w.discs : st.data.discs;
+      body = [h(DS.Field, { key: "f", label: "Nome", htmlFor: "disc-name", error: dg.error, hint: dg.error ? undefined : "Ex.: Pintura, Gesso, Impermeabilização." },
+        h(DS.Input, { id: "disc-name", value: dg.value, invalid: !!dg.error, autoComplete: "off", autoFocus: this.live(), onChange: ev => setD({ value: ev.target.value, error: null }) })),
+        h("fieldset", { key: "scope", style: { border: 0, padding: 0, margin: 0, minWidth: 0, display: "grid", gap: "var(--space-2)" } },
+          h("legend", { className: "no-field-label", style: { marginBottom: "var(--space-2)" } }, "Onde se aplica"),
+          ...[[true, "Na obra toda", "Ligada em unidades e áreas comuns, inclusive nas novas."], [false, "Só onde for ligada", "Desligada até você ligar em cada local ou em lote."]].map(([value, label, desc]) => h("label", { key: label, style: { display: "flex", alignItems: "flex-start", gap: "var(--space-3)", padding: "var(--space-3)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", cursor: "pointer", minHeight: "var(--tap-min)", background: dg.applies === value ? "var(--accent)" : "var(--card)" } },
+            h("input", { type: "radio", name: "disc-applies", checked: dg.applies === value, onChange: () => setD({ applies: value }), style: { width: "20px", height: "20px", margin: "2px 0 0", flex: "none", accentColor: "var(--primary)" } }),
+            h("span", { style: { display: "grid", gap: "var(--space-1)", minWidth: 0 } }, h("span", { style: { fontWeight: 500 } }, label), h("span", { className: "es-row__meta" }, desc))))),
+        this.muted("Essa escolha não muda depois. Andares e torres começam só com Hidráulica e Elétrica.", { key: "fixed" }),
+        this.muted("Cor e planta própria se ajustam na configuração da obra, em Disciplinas.", { key: "n" })];
+      action = { label: "Criar", icon: "plus", disabled: typeof dg.applies !== "boolean", go: () => {
+        const v = dg.value.trim().replace(/\s+/g, " ");
+        const err = this.discNameError(v, DL);
+        if (err) return setD({ error: err });
+        if (this.frozen()) return;
+        this.createDisc(dg.ctx, v, dg.applies);
+        this.setState({ dialog: dg.returnDialog ? Object.assign({}, dg.returnDialog, { list: dg.returnDialog.list.concat([v]), conflicts: null }) : null });
+      } };
+    } else if (dg.kind === "batch") {
+      max = "34rem";
+      title = "Disciplinas em lote";
+      const DL = dg.ctx === "wizard" ? w.discs : st.data.discs;
+      const chk = d => h(DS.Checkbox, { key: d, label: d, checked: dg.list.includes(d), onChange: ev => setD({ list: ev.target.checked ? DL.filter(k => dg.list.includes(k) || k === d) : dg.list.filter(k => k !== d), conflicts: null }) });
+      let scopeOpts, scopeCtl, count, apply;
+      if (dg.ctx === "wizard") {
+        const plan = planFrom(w);
+        const towerOpts = plan.towers.map((t, i) => h("option", { key: i, value: i }, t.name));
+        const floorsOf = (plan.towers[dg.tower] || { rows: [] }).rows.map(r => r.label);
+        scopeOpts = (w.marked.length ? [{ value: "marked", label: "Marcados (" + w.marked.length + ")" }] : []).concat([{ value: "floor", label: "Um andar" }, { value: "tower", label: "Uma torre" }]);
+        scopeCtl = dg.scope === "marked" ? this.muted("Os " + plural(w.marked.length, "local marcado", "locais marcados") + " na prévia.") :
+          h("div", { style: { display: "grid", gridTemplateColumns: dg.scope === "floor" ? "1fr 1fr" : "1fr", gap: "var(--space-2)" } },
+            h("select", { className: "es-select", "aria-label": "Torre", value: dg.tower, onChange: ev => setD({ tower: parseInt(ev.target.value, 10) }) }, towerOpts),
+            dg.scope === "floor" ? h("select", { className: "es-select", "aria-label": "Andar", value: dg.floor, onChange: ev => setD({ floor: ev.target.value }) }, floorsOf.map(f => h("option", { key: f, value: f }, f === "Térreo" ? f : f + " andar"))) : null);
+        const keys = batchKeys(w, plan, dg.scope, dg.tower, dg.floor, w.marked);
+        count = keys.length;
+        const tn = (plan.towers[dg.tower] || {}).name;
+        const label = dg.scope === "marked" ? (keys.length <= 3 ? listText(keys.map(k => k.split(/[:/]/).pop())) : plural(keys.length, "local marcado", "locais marcados")) : dg.scope === "floor" ? (dg.floor === "Térreo" ? "Térreo" : dg.floor + " andar") + (plan.towers.length > 1 ? ", " + tn : "") : tn;
+        apply = () => { if (this.frozen()) return; this.setW(ww => ({ disc: ww.disc.concat([{ scope: dg.scope, label, keys, list: dg.list.slice() }]), marking: false, marked: [] })); this.setState({ dialog: null }); };
+      } else {
+        const data = st.data;
+        const tower = data.towers.find(t => t.id === dg.tower) || data.towers[0];
+        const floor = tower.floors.find(f => f.id === dg.floor) || tower.floors[0];
+        scopeOpts = [{ value: "locs", label: "Locais" }, { value: "floor", label: "Um andar" }, { value: "tower", label: "Uma torre" }];
+        const ix = index(data);
+        const floorLocs = floor.units.concat(floor.areas);
+        scopeCtl = h("div", { style: { display: "grid", gap: "var(--space-2)" } },
+          h("div", { style: { display: "grid", gridTemplateColumns: dg.scope === "tower" ? "1fr" : "1fr 1fr", gap: "var(--space-2)" } },
+            h("select", { className: "es-select", "aria-label": "Torre", value: tower.id, onChange: ev => { const t = data.towers.find(x => x.id === ev.target.value); setD({ tower: t.id, floor: t.floors[0].id, ids: [], conflicts: null }); } }, data.towers.map(t => h("option", { key: t.id, value: t.id }, t.name))),
+            dg.scope !== "tower" ? h("select", { className: "es-select", "aria-label": "Andar", value: floor.id, onChange: ev => setD({ floor: ev.target.value, ids: [], conflicts: null }) }, tower.floors.map(f => h("option", { key: f.id, value: f.id }, f.name))) : null),
+          dg.scope === "locs" ? h("div", { style: { display: "grid", padding: "var(--space-1) var(--space-3)", borderRadius: "var(--radius-lg)", boxShadow: "var(--ring-hairline)" } },
+            floorLocs.map(l => h(DS.Checkbox, { key: l.id, label: l.kind === "unit" ? l.name : l.name + " do " + floor.name, checked: dg.ids.includes(l.id), onChange: ev => setD({ ids: ev.target.checked ? dg.ids.concat([l.id]) : dg.ids.filter(x => x !== l.id), conflicts: null }) }))) : null);
+        const locs = locsIn(data, dg.scope, tower.id, floor.id, dg.ids);
+        count = locs.length;
+        apply = () => {
+          const conflicts = [];
+          locs.forEach(e => e.node.disc.forEach(d => { if (!dg.list.includes(d) && e.node.content[d]) conflicts.push((e.node.kind === "unit" ? e.node.name : locLabel(e.node, e)) + ": " + d + " tem planta ou pin."); }));
+          if (conflicts.length) return setD({ conflicts });
+          if (this.frozen()) return;
+          const ids = locs.map(e => e.node.id);
+          this.setData((dd, ix2) => ids.forEach(id => { ix2[id].node.disc = dg.list.slice(); }));
+          this.setState({ dialog: null, discErr: null });
+          this.toastFor("Disciplinas aplicadas a " + plural(ids.length, "local", "locais") + ".");
+        };
+      }
+      body = [
+        h("div", { key: "w", style: { display: "grid", gap: "var(--space-2)" } }, h("span", { style: { fontWeight: 500 } }, "Onde"),
+          h(DS.SegmentedControl, { label: "Onde aplicar", block: true, options: scopeOpts, value: dg.scope, onChange: v => setD({ scope: v, conflicts: null }) }), scopeCtl,
+          this.muted(dg.ctx === "wizard" || dg.scope !== "locs" ? "O lote muda as unidades e áreas comuns dali. A lista do próprio andar ou torre não muda." : "Marque os locais deste andar.")),
+        h("div", { key: "d", style: { display: "grid", gap: 0 } }, h("span", { style: { fontWeight: 500, marginBottom: "var(--space-1)" } }, "Disciplinas"), DL.map(chk),
+          h(DS.Button, { variant: "ghost", iconStart: this.ic("plus", 18), style: { justifySelf: "start", color: "var(--primary)", marginTop: "var(--space-2)" }, onClick: () => this.setState({ dialog: { kind: "newDisc", ctx: dg.ctx, value: "", applies: null, error: null, returnDialog: clone(dg) } }) }, "Nova disciplina"),
+          this.muted("Geral vale em todo local e não entra na lista.", { marginTop: "var(--space-2)" })),
+        dg.conflicts ? h(DS.Alert, { key: "c", tone: "danger", role: "alert", title: "Nada mudou" }, h("ul", { style: { margin: 0, paddingLeft: "18px", display: "grid", gap: "var(--space-1)" } }, dg.conflicts.map(t => h("li", { key: t }, t))), h("span", { style: { display: "block", marginTop: "var(--space-1)" } }, "Deixe essas disciplinas marcadas ou tire esses locais do lote.")) : null,
+      ];
+      action = { label: count ? "Aplicar a " + plural(count, "local", "locais") : "Aplicar", icon: "check", disabled: !count || (dg.conflicts && dg.conflicts.length > 0), go: apply };
+    }
+    return this.dialogOut(title, role, body, { label: "Cancelar" }, action, max);
+  }
+  discNameError(v, list) {
+    if (!v) return "Informe o nome.";
+    if (norm(v) === "geral") return "Geral vale em todo local e não entra na lista.";
+    const same = list.find(x => norm(x) === norm(v));
+    return same ? same + " já existe nesta obra." : null;
+  }
+  createDisc(ctx, v, everywhere) {
+    if (ctx === "wizard") return this.setW(ww => ({ discs: ww.discs.concat([v]), discScope: Object.assign({}, ww.discScope, { [v]: everywhere }) }));
+    this.setData(dd => {
+      dd.discs.push(v);
+      dd.discScope = Object.assign({}, dd.discScope, { [v]: everywhere });
+      if (everywhere) Object.values(index(dd)).forEach(e => { if (["unit", "area"].includes(e.node.kind)) e.node.disc.push(v); });
+    });
+  }
+  dialogOut(title, role, body, cancel, action, max) {
+    const DS = this.DS(), h = React.createElement;
+    return { title, role, max, body: h(React.Fragment, null, ...[].concat(body).filter(Boolean)),
+      footer: h(React.Fragment, null,
+        h(DS.Button, { key: "c", variant: "outline", onClick: () => this.setState({ dialog: this.state.dialog.returnDialog || null }) }, cancel.label),
+        h(DS.Button, { key: "a", variant: action.variant || "default", disabled: action.disabled, iconStart: action.icon ? this.ic(action.icon, 18) : null, onClick: action.go }, action.label)) };
+  }
+
+  renderVals() {
+    const DS = this.DS(), h = React.createElement;
+    const st = this.state;
+    const desk = this.isDesk();
+    const dark = this.isDark();
+    const role = this.role();
+    const delivered = st.delivered;
+    const canEdit = !delivered;
+    const ix = index(st.data);
+    const scr = st.screen;
+    const isLoc = ["tower", "floor", "unit", "area"].includes(scr);
+    const e = isLoc ? ix[st.loc] : null;
+    const user = USERS[role] || USERS.manager;
+    const chev = DS.Icon ? h(DS.Icon, { name: "chevron-down", size: 16, style: { color: "var(--muted-foreground)" } }) : null;
+    const menuTrigger = DS.Button ? h(DS.Button, { variant: "ghost", size: desk ? "md" : "icon", "aria-label": "Conta de " + user.name, style: desk ? { paddingInline: "var(--space-1) var(--space-2)", gap: "var(--space-2)", fontSize: "var(--text-sm)" } : null },
+      h(DS.Avatar, { name: user.name, size: "md" }), desk ? h("span", null, user.name) : null, desk ? chev : null) : h("span");
+    let backLabel = "Obras", goBack = this.goObras, title = OBRA, titleFont = "var(--font-sans)", meta = null, pageMenu = null, deskActions = null;
+    const statusBadge = DS.Badge ? (delivered ? h(DS.Badge, { tone: "success", icon: this.ic("circle-check", 14) }, "Entregue") : h(DS.Badge, { tone: "primary", dot: true }, "Em andamento")) : null;
+    const roleLabel = { manager: "Gerente de obra", assistant: "Assistente de obra" }[role];
+    const wizardish = scr === "wizard" || scr === "extend";
+    if (scr === "home") {
+      meta = h(React.Fragment, null, statusBadge, roleLabel ? h("span", null, roleLabel) : null);
+      deskActions = desk && DS.Button ? h(DS.Button, { variant: "outline", iconStart: this.ic("settings", 20), onClick: this.go("configuration", null, { cfgSection: "dados-da-obra" }) }, "Configuração da obra") : null;
+      pageMenu = !desk && DS.Button ? h(DS.Button, { variant: "outline", size: "icon", "aria-label": "Configuração da obra", onClick: this.go("configuration", null, { cfgSection: "dados-da-obra" }) }, this.ic("settings", 20)) : null;
+    } else if (scr === "configuration") {
+      backLabel = "Início da obra"; goBack = this.go("home");
+      meta = h(React.Fragment, null, statusBadge, roleLabel ? h("span", null, roleLabel) : null);
+    } else if (wizardish) {
+      const w = st.wizard;
+      const leave = target => ev => { this.noop(ev); if (this.frozen()) return; if (w.dirty && !w.extend) return this.setState({ dialog: { kind: "leave" } }); this.enter(target, target === "tower" ? st.data.towers[0].id : null); };
+      if (scr === "extend") { backLabel = "Torre A"; goBack = leave("tower"); title = "Adicionar andares à Torre A"; meta = delivered ? null : h("span", null, "A Torre A tem hoje o térreo e do 2º ao 17º andar, com 25 unidades."); }
+      else { backLabel = OBRA; goBack = leave("configuration"); title = "Montar estrutura"; meta = delivered ? null : h("span", null, OBRA + " · nada é salvo antes de criar"); }
+    } else if (e) {
+      const n = e.node, par = e.parent;
+      backLabel = par ? par.name : OBRA;
+      goBack = par ? this.go(par.kind, par.id) : this.go("home");
+      title = n.name;
+      titleFont = n.kind === "unit" ? "var(--font-mono)" : "var(--font-sans)";
+      const where = [];
+      if (e.tower && n.kind !== "tower") where.push(e.tower.name);
+      if (e.floor && n.kind !== "floor") where.push(e.floor.name);
+      if (n.kind === "tower") meta = h("span", null, ["Torre", plural(n.floors.length, "andar", "andares"), plural(n.floors.reduce((k, f) => k + f.units.length, 0), "unidade", "unidades")].join(" · "));
+      else if (n.kind === "floor") meta = h("span", null, ["Andar", ...where, plural(n.units.length, "unidade", "unidades")].join(" · "));
+      else if (n.kind === "unit") meta = h("span", null, ["Unidade", ...where].join(" · "));
+      else meta = h("span", null, ["Área comum", ...(where.length ? where : ["da obra"])].join(" · "));
+      if (canEdit && DS.Button) {
+        pageMenu = this.menuEl("page", this.menuFor(n), this.dotsButton("Ações de " + n.name, true), "Ações de " + n.name);
+        if (desk && n.kind === "tower") deskActions = h(React.Fragment, null, h(DS.Button, { variant: "outline", iconStart: this.ic("list-plus", 18), onClick: () => this.openWizard(true) }, "Adicionar andares"), pageMenu);
+        else if (desk) deskActions = pageMenu;
+        if (desk) pageMenu = null;
+      }
+    }
+
+    let body = null;
+    this.wizardBar = null; this.wizardOverlay = null;
+    if (DS.Button) {
+      if (scr === "new") body = this.newBody(desk);
+      else if (scr === "home") body = this.homeBody(desk, canEdit);
+      else if (wizardish && delivered) body = this.stateBlock("lock", "A obra foi entregue", "A estrutura não pode mais ser alterada. Dá para conferir tudo na fachada e na configuração.", h(DS.Button, { size: "lg", block: !desk, onClick: this.go("home") }, "Voltar para a obra"));
+      else if (wizardish) body = this.wizardBody(desk);
+      else if (scr === "configuration") body = this.configBody(desk, canEdit);
+      else if (e && e.node.kind === "tower") body = this.towerBody(e.node, desk, canEdit);
+      else if (e && e.node.kind === "floor") body = this.floorBody(e.node, desk, canEdit);
+      else if (e) body = this.locBody(e, desk, canEdit);
+    }
+    const dp = DS.Button ? this.dialogParts(desk) : null;
+    const tt = st.toast;
+    return {
+      rootRef: this.rootRef, scrollRef: this.scrollRef,
+      themeClass: (dark ? "dark" : "") + (desk ? "" : " no-m"),
+      rootH: this.props.framed ? "100%" : "100dvh",
+      scrollbarWidth: desk ? "auto" : "none",
+      headerPos: "relative",
+      headerH: desk ? "64px" : "56px",
+      pad: desk ? "var(--page-pad-desktop)" : "var(--page-pad)",
+      logoTone: dark ? "white" : "gradient",
+      logoSize: desk ? 32 : 28,
+      user, isAdmin: role === "admin", menuTrigger,
+      accountOpen: st.menu === "account", signingOut: false,
+      onMenuOpenChange: v => this.setState({ menu: v ? "account" : null }),
+      themeOptions: DS.Icon ? [{ value: "light", icon: h(DS.Icon, { name: "sun", size: 18 }), ariaLabel: "Tema claro" }, { value: "dark", icon: h(DS.Icon, { name: "moon", size: 18 }), ariaLabel: "Tema escuro" }] : [],
+      themeValue: dark ? "dark" : "light",
+      onTheme: v => this.setState({ dark: v === "dark" }),
+      logoutIcon: DS.Icon ? h(DS.Icon, { name: "log-out", size: 20 }) : null,
+      signOut: this.signOut, goObras: this.goObras,
+      showBand: scr !== "new",
+      bandPad: desk ? "var(--space-4) var(--page-pad-desktop) var(--space-6)" : "var(--space-1) var(--page-pad) var(--space-5)",
+      backLabel, goBack,
+      mobileAction: pageMenu,
+      bandLoading: false, bandReady: true,
+      headSkW: desk ? 280 : "50%", headSkH: desk ? 36 : 28,
+      titleSize: desk ? "var(--text-3xl)" : "var(--text-2xl)", titleFont,
+      title, meta, deskActions,
+      lockLine: delivered && scr !== "configuration" && scr !== "new" ? DELIVERED_LOCK : null,
+      mainMax: "var(--content-max-wide)",
+      mainPad: scr === "new" ? (desk ? "var(--space-8) var(--page-pad-desktop) var(--space-12)" : "var(--space-2) var(--page-pad) var(--space-10)") : desk ? "var(--space-8) var(--page-pad-desktop) var(--space-12)" : "var(--space-5) var(--page-pad) var(--space-8)",
+      mainGap: desk ? "var(--space-5)" : "var(--space-4)",
+      body,
+      bottomBar: wizardish && !desk && !delivered ? this.wizardBar : null,
+      overlay: !desk && wizardish ? this.wizardOverlay : null,
+      dialogTitle: dp ? dp.title : "", dialogRole: dp ? dp.role : "dialog", dialogBody: dp ? dp.body : null, dialogFooter: dp ? dp.footer : null,
+      dialogOpen: !!dp, dialogMax: desk && dp ? dp.max : "none",
+      closeDialog: () => this.setState({ dialog: null }),
+      toast: tt && DS.Button ? (tt.action === "types" ? h("span", { style: { display: "grid", gap: "2px" } }, tt.text, h("a", { href: "#", className: "es-link es-link--primary", style: { justifySelf: "start", marginBlock: "-10px" }, onClick: ev => { this.noop(ev); this.enter("configuration", null, { cfgSection: "tipologias", highlight: "tipologias", toast: null }); this.scrollTo("tipologias"); } }, "Ver tipologias")) : tt.text) : null,
+      toastTone: tt ? tt.tone : "default",
+      toastAction: null,
+      toastPos: desk ? "bottom-right" : "bottom-center",
+      toastOffset: wizardish && !desk ? 88 : 0,
+      dismissToast: () => this.setState({ toast: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

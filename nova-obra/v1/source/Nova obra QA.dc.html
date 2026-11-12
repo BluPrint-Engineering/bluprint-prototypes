@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel="stylesheet" href="styles.css">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  
+  
+  <style>html,body{margin:0}a{color:var(--primary)}a:hover{color:color-mix(in oklch,var(--primary),#000 15%)}</style>
+</helmet>
+<div style="padding:64px; background:var(--secondary); color:var(--foreground); font-family:var(--font-sans); display:grid; gap:72px; width:max-content">
+  <header style="display:grid; gap:8px; max-width:760px">
+    <h1 style="margin:0; font-size:var(--text-3xl); font-weight:600; letter-spacing:var(--tracking-tight)">Nova obra (#46) · protótipo · QA</h1>
+    <p style="margin:0; font-size:var(--text-base); color:var(--muted-foreground); text-wrap:pretty">Cada linha é um estado congelado de <a href="#">Nova obra</a>, em mobile 390 × 844 e desktop 1280 × 800, claro e escuro. Refinamento aprovado em 10/11/2026 (resumo.md). O que não está aqui continua como nas specs de Obra (#46) e Estrutura (#6).</p>
+  </header>
+  <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+    <section style="display:grid; gap:48px">
+      <h2 style="margin:0; font-size:var(--text-2xl); font-weight:600; letter-spacing:var(--tracking-tight)">{{ g.title }}</h2>
+      <sc-for list="{{ g.rows }}" as="row" hint-placeholder-count="3">
+        <div data-screen-label="{{ row.id }}" style="display:grid; gap:12px">
+          <div style="display:flex; align-items:baseline; gap:12px">
+            <span style="font-family:var(--font-mono); font-size:var(--text-sm); color:var(--muted-foreground)">{{ row.id }}</span>
+            <span style="font-size:var(--text-lg); font-weight:600">{{ row.title }}</span>
+            <span style="font-size:var(--text-sm); color:var(--muted-foreground)">{{ row.note }}</span>
+          </div>
+          <sc-if value="{{ row.placeholder }}" hint-placeholder-val="{{ true }}">
+            <div style="width:3436px; height:844px; border-radius:24px; background:var(--muted); display:grid; place-items:center; color:var(--muted-foreground); font-size:var(--text-sm)">Carregando {{ row.id }}…</div>
+          </sc-if>
+          <sc-if value="{{ row.shown }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; gap:32px; align-items:flex-start">
+              <div style="display:grid; gap:8px"><span style="font-size:var(--text-sm); color:var(--muted-foreground)">Mobile · claro</span>
+                <div style="width:390px; height:844px; border-radius:24px; overflow:hidden; box-shadow:var(--ring-hairline),var(--shadow-md); background:#fff"><dc-import style="display:block; width:100%; height:100%" name="Nova obra" screen="{{ row.screen }}" state="{{ row.state }}" role="{{ row.role }}" theme="light" viewport="mobile" framed="{{ true }}" hint-size="390px,844px"></dc-import></div></div>
+              <div style="display:grid; gap:8px"><span style="font-size:var(--text-sm); color:var(--muted-foreground)">Mobile · escuro</span>
+                <div style="width:390px; height:844px; border-radius:24px; overflow:hidden; box-shadow:var(--ring-hairline),var(--shadow-md); background:#081830"><dc-import style="display:block; width:100%; height:100%" name="Nova obra" screen="{{ row.screen }}" state="{{ row.state }}" role="{{ row.role }}" theme="dark" viewport="mobile" framed="{{ true }}" hint-size="390px,844px"></dc-import></div></div>
+              <div style="display:grid; gap:8px"><span style="font-size:var(--text-sm); color:var(--muted-foreground)">Desktop · claro</span>
+                <div style="width:1280px; height:800px; border-radius:12px; overflow:hidden; box-shadow:var(--ring-hairline),var(--shadow-md); background:#fff"><dc-import style="display:block; width:100%; height:100%" name="Nova obra" screen="{{ row.screen }}" state="{{ row.state }}" role="{{ row.role }}" theme="light" viewport="desktop" framed="{{ true }}" hint-size="1280px,800px"></dc-import></div></div>
+              <div style="display:grid; gap:8px"><span style="font-size:var(--text-sm); color:var(--muted-foreground)">Desktop · escuro</span>
+                <div style="width:1280px; height:800px; border-radius:12px; overflow:hidden; box-shadow:var(--ring-hairline),var(--shadow-md); background:#081830"><dc-import style="display:block; width:100%; height:100%" name="Nova obra" screen="{{ row.screen }}" state="{{ row.state }}" role="{{ row.role }}" theme="dark" viewport="desktop" framed="{{ true }}" hint-size="1280px,800px"></dc-import></div></div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </section>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const GROUPS = [
+  ["Nova obra · /projects/new · sem mudança", [
+    ["N1", "Vazio", "new", "n-empty", "admin", "Igual ao #46 (N1): nome e reserva, sem montar o prédio"],
+    ["N2", "Preenchido", "new", "n-filled", "admin", "Criar abre a configuração, como hoje. Gerente e assistente não chegam aqui"],
+  ]],
+  ["Montar estrutura · /projects/:id/structure/new", [
+    ["W1", "Vazio", "wizard", "w-fresh", "admin", "Uma faixa vazia: Ex.: 01, 02 e a ajuda de vírgula e espaço. Hall em cada andar desmarcado"],
+    ["W2", "Faixas preenchidas", "wizard", "w-filled", "admin", "Pedido 1: Torre A do 2º ao 10º com 01, 02 e do 11º ao 17º com 01. Torre B: 01, 04 preenche 01 a 04"],
+    ["W2b", "Numeração em letras", "wizard", "w-letters", "admin", "Ex.: A, B. A, D preenche A, B, C e D"],
+    ["W3", "Áreas comuns com tipologia", "wizard", "w-areas", "admin", "Cada área comum criada usa 1 da reserva"],
+    ["W4", "Dois catálogos de tipologia", "wizard", "w-types", "admin", "Unidades e Áreas comuns, antes de salvar (pedido 7)"],
+    ["W4b", "Sugestão de cômodo", "wizard", "w-suggest", "admin", "“sa” oferece Sala, Sacada e Salão, já usado na obra; nada entra antes de escolher"],
+    ["W4d", "Sugestão com cômodo que já está", "wizard", "w-suggest-in", "admin", "Sala e Sacada já estão na Tipologia A: aparecem marcadas e não entram de novo"],
+    ["W4c", "Copiar tipologia", "wizard", "w-copy", "admin", "Nome sugerido e editável; leva os cômodos, não as disciplinas"],
+    ["W5", "Regras com várias torres", "wizard", "w-rules", "admin", "Torre A e Torre B numa regra; Todos os finais"],
+    ["W5b", "Conflito de regras", "wizard", "w-conflict", "admin", "Regras 2 e 4 dão tipologia à 202 a 1002 da Torre B: o card diz qual final e andares, e não salva"],
+    ["W5c", "Escolher finais", "wizard", "w-finals", "admin", "Lista só os finais que as torres da regra têm: nada digitado"],
+    ["W5d", "Escolher torres", "wizard", "w-towers", "admin", "Todas as torres ou algumas; torre criada depois não entra"],
+    ["W6", "Disciplinas em lote", "wizard", "w-disc", "admin", "Um andar, uma torre ou locais marcados; dá para criar uma disciplina ali"],
+    ["W6b", "Nova disciplina · nome em uso", "wizard", "w-newdisc", "admin", "Hidráulica e Elétrica são padrão; as outras se criam aqui ou depois"],
+    ["W7", "Prévia e reserva", "wizard", "w-preview", "admin", "Esta estrutura usa 81 de 400 reservadas; a prévia acompanha a rolagem"],
+    ["W7b", "Marcando locais na prévia", "wizard", "w-mark", "admin", "Três áreas comuns marcadas para o lote"],
+    ["W8", "Conferência da 201", "wizard", "w-inspect", "admin", "Só leitura; cada dado diz onde muda e leva até lá"],
+    ["W8b", "Conferência de um Hall", "wizard", "w-inspect-hall", "admin", "Área comum: usa 1, sem número nem status de venda"],
+    ["W9", "Inválido", "wizard", "w-invalid", "admin", "Faixas que repetem o 10º andar e faixa sem final"],
+    ["W10", "Reserva insuficiente", "wizard", "w-over", "manager", "Gerente: botão impedido, diz quantas faltam, nada se perde"],
+    ["W10b", "Reserva insuficiente · admin", "wizard", "w-over", "admin", "O admin muda a reserva ali"],
+    ["W11", "Salvando", "wizard", "w-sending", "admin", ""],
+    ["W12", "Falha com tentar de novo", "wizard", "w-failed", "admin", "Rascunho mantido; o novo envio não cria a estrutura duas vezes"],
+    ["W13", "Rascunho restaurado", "wizard", "w-restored", "assistant", "Depois de atualizar a página"],
+    ["W14", "Sair com rascunho", "wizard", "w-leave", "admin", "Descartar o que você montou?"],
+    ["W15", "Obra entregue", "wizard", "w-delivered", "manager", "Sem ação de editar"],
+    ["W16", "Estrutura criada", "home", "w-created", "admin", "Volta à fachada; o aviso leva às tipologias"],
+  ]],
+  ["Acrescentar andares · /projects/:id/structure/new?tower=", [
+    ["A1", "Vazio", "extend", "a-fresh", "manager", "Hall em cada andar repete a escolha da torre"],
+    ["A2", "Preenchido", "extend", "a-filled", "manager", "18º e 19º com o final 01, e a reserva antes de salvar"],
+    ["A3", "Hall desmarcado nesta adição", "extend", "a-nohall", "manager", "Só nesta adição; a torre continua igual"],
+    ["A4", "Inválido", "extend", "a-invalid", "manager", "A faixa cruza andares que a torre já tem"],
+    ["A5", "Reserva insuficiente", "extend", "a-over", "assistant", "Assistente: pede ao admin"],
+    ["A6", "Salvando", "extend", "a-sending", "manager", ""],
+    ["A7", "Falha com tentar de novo", "extend", "a-failed", "manager", ""],
+    ["A8", "Andares adicionados", "tower", "a-created", "manager", "Volta à torre com o aviso"],
+    ["A9", "Obra entregue", "tower", "a-delivered", "manager", "Sem Adicionar andares"],
+  ]],
+  ["Configuração · Tipologias", [
+    ["C1", "Dois grupos", "configuration", "c-types", "admin", "Vindo de “Ver tipologias”: contagens e o que está sem uso"],
+    ["C2", "Cômodos abertos", "configuration", "c-open", "manager", ""],
+    ["C3", "Copiar", "configuration", "c-copy", "assistant", "Assistente copia como todos"],
+    ["C3b", "Copiar · nome em uso", "configuration", "c-copy-taken", "assistant", "Ignora maiúsculas e espaços repetidos"],
+    ["C4", "Editando com sugestão", "configuration", "c-edit", "manager", "“lav” sugere Lavabo; Lavanderia aparece marcada, já está na tipologia"],
+    ["C4b", "Cômodo repetido", "configuration", "c-dup", "manager", "Acento e maiúscula não enganam: Suíte já está"],
+    ["C5", "Busca", "configuration", "c-search", "manager", "Aparece quando a lista não cabe"],
+    ["C6", "Salvando", "configuration", "c-saving", "manager", ""],
+    ["C7", "Falha com tentar de novo", "configuration", "c-failed", "manager", ""],
+    ["C8", "Vazio", "configuration", "c-empty", "admin", "Obra recém-criada"],
+    ["C9", "Obra entregue", "configuration", "c-delivered", "manager", "Só leitura"],
+  ]],
+  ["Local · unidade e área comum", [
+    ["L1", "Unidade 201", "unit", "l-unit", "manager", "Disciplinas aplicáveis no local"],
+    ["L2", "201 sem Pintura", "unit", "l-paint-off", "manager", "A obra continua com Pintura; pin novo aqui não oferece"],
+    ["L3", "Conflito de disciplina", "unit", "l-conflict", "assistant", "Hidráulica tem planta e pins na 201"],
+    ["L4", "Sem disciplina específica", "unit", "l-none", "manager", "Nenhum pin novo até ligar uma"],
+    ["L5", "Sugestão de cômodo", "area", "l-suggest", "manager", "Garagem, sem tipologia: “sa” oferece Sala, Sacada e Salão, já usado na obra"],
+    ["L6", "Lote a partir do local", "unit", "l-batch", "manager", "O 2º andar inteiro"],
+    ["L6b", "Lote com conflito", "unit", "l-batch-conflict", "manager", "Nada muda e a tela nomeia os locais"],
+    ["L7", "Hall com tipologia", "area", "l-area", "manager", "Área comum segue a tipologia de área comum"],
+    ["L8", "Adicionando área comum", "floor", "l-add-area", "assistant", "Usa 1 da reserva na hora"],
+    ["L8b", "Reserva acabou", "floor", "l-add-area-none", "assistant", "Área comum também para"],
+    ["L9", "Falha ao mudar", "unit", "l-failed", "manager", ""],
+    ["L10", "Obra entregue", "unit", "l-delivered", "manager", "Disciplinas só para ler"],
+  ]],
+];
+GROUPS[1][1].push(["W6c", "Nova disciplina · escolha pendente", "wizard", "w-newdisc-choice", "manager", "Dois campos: nome e onde se aplica. Criar só após escolher."]);
+GROUPS[1][1].push(["W6d", "Nova disciplina · na obra toda", "wizard", "w-newdisc-all", "manager", "Ligada nas unidades e áreas comuns existentes e novas. Andares e torres mantêm suas listas."]);
+GROUPS[1][1].push(["W6e", "Nova disciplina · só onde for ligada", "wizard", "w-newdisc-local", "manager", "Nasce desligada. A escolha fica definida na criação."]);
+GROUPS[1][1].push(["W6f", "Catálogo e ajustes", "wizard", "w-disc-list", "manager", "Pintura na obra toda; Impermeabilização só onde for ligada. Andar e torre começam com as duas básicas."]);
+GROUPS[4][1].push(["L11", "Disciplinas do andar", "floor", "l-floor", "manager", "Lista própria: Hidráulica e Elétrica. A 201 continua com suas quatro disciplinas."]);
+GROUPS[4][1].push(["L11b", "Andar sem disciplina específica", "floor", "l-floor-empty", "manager", "As unidades e áreas comuns continuam com suas disciplinas."]);
+GROUPS[4][1].push(["L11c", "Andar com planta", "floor", "l-floor-conflict", "manager", "A trava vale para conteúdo do próprio andar."]);
+GROUPS[4][1].push(["L12", "Disciplinas da torre", "tower", "l-tower", "manager", "Lista própria: Hidráulica e Elétrica. Independente dos andares, unidades e áreas comuns."]);
+GROUPS[4][1].push(["L13", "Nova disciplina no Local", "unit", "l-newdisc", "manager", "Nome e onde se aplica. Sem cor nem planta própria aqui."]);
+GROUPS[4][1].push(["L13b", "Local · na obra toda", "unit", "l-newdisc-all", "manager", "Gesso ligada nas unidades e áreas comuns existentes e novas; torres e andares não mudam."]);
+GROUPS[4][1].push(["L13c", "Local · só onde for ligada", "unit", "l-newdisc-local", "manager", "Piscina desligada até ligar em cada local ou em lote."]);
+GROUPS[4][1].push(["L13d", "Local · nome em uso", "unit", "l-newdisc-duplicate", "manager", "Mantém nome e escolha ao recusar a duplicata."]);
+GROUPS[4][1].push(["L14", "Unidade nova · 203", "unit", "l-new-location", "manager", "Começa com Hidráulica, Elétrica e Pintura. Impermeabilização, só onde for ligada, começa desligada."]);
+GROUPS[4][1].push(["L15", "Andar depois do lote", "floor", "l-after-batch", "manager", "201, 202 e Hall só com Elétrica. O próprio andar continua com Hidráulica e Elétrica."]);
+GROUPS[4][1].push(["L16", "Andar · obra entregue", "floor", "l-floor-delivered", "manager", "Lista só para ler, sem criar ou aplicar."]);
+GROUPS[4][1].push(["L17", "Torre · obra entregue", "tower", "l-tower-delivered", "manager", "Lista só para ler, sem criar ou aplicar."]);
+GROUPS.forEach(g => {g[1] = g[1].filter(r => ["L1", "L10", "L11", "L11b", "L11c", "L12", "L13", "L13b", "L13c", "L13d", "L14", "L15", "L16", "L17", "L2", "L3", "L4", "L5", "L6", "L6b", "L7", "L8", "L8b", "L9", "W6", "W6b", "W6c", "W6d", "W6e", "W6f", "W8", "W8b"].includes(r[0]));});
+const ORDER = GROUPS.flatMap(g => g[1].map(r => r[0]));
+
+class Component extends DCLogic {
+  state = { seen: 0 };
+  componentDidMount() {
+    this.scan = setInterval(() => {
+      if (this.state.seen >= ORDER.length) return clearInterval(this.scan);
+      this.setState(s => ({ seen: s.seen + 1 }));
+    }, 400);
+  }
+  componentWillUnmount() { clearInterval(this.scan); }
+  renderVals() {
+    const seen = this.state.seen;
+    return {
+      groups: GROUPS.map(([title, rows]) => ({
+        title,
+        rows: rows.map(([id, t, screen, state, role, note]) => {
+          const shown = ORDER.indexOf(id) < seen;
+          return { id, title: t, screen, state, role, note: note || "", shown, placeholder: !shown };
+        }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>
